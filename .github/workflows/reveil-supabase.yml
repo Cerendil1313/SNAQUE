@@ -1,0 +1,23 @@
+# Réveil de la base Supabase de SNAQUE.
+# Un projet Supabase gratuit se met en pause après 7 jours sans activité.
+# Ce petit robot lit une ligne du classement chaque jour, ce qui garde la base éveillée.
+# Il n'utilise que la clé publique, la même que dans index.html.
+name: Réveil Supabase
+
+on:
+  schedule:
+    - cron: '23 4 * * *'   # tous les jours vers 4 h 23 (heure UTC)
+  workflow_dispatch:        # bouton « Run workflow » pour le lancer à la main
+
+jobs:
+  reveil:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Lire une ligne du classement
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" --retry 3 --retry-delay 20 \
+            "https://lglcqyieykdjhtvedsto.supabase.co/rest/v1/pepin_scores?select=score&limit=1" \
+            -H "apikey: sb_publishable_sLrr5HP0pl28iTeo7l1itA_VDQ7Qy7Y")
+          echo "Réponse de la base : $code"
+          test "$code" = "200"
