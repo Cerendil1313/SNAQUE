@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-<title>Pépin — le serpent du verger</title>
-<meta name="description" content="Pépin : un Snake survolté où chaque pomme a son pépin. Turbo, ronces, vipères, Brunchito, Lingo… et un classement en ligne.">
-<meta property="og:title" content="Pépin — le serpent du verger">
+<title>SNAQUE — chaque pomme a son pépin</title>
+<meta name="description" content="SNAQUE : un Snake survolté où chaque pomme a son pépin. Turbo, ronces, SNARNAQUES, BRUNCHITO, LINGO, le mode Mort aux SNARNAQUES… et un classement en ligne.">
+<meta property="og:title" content="SNAQUE — chaque pomme a son pépin">
 <meta property="og:description" content="Un Snake survolté où chaque pomme a son pépin. Viens battre mon score.">
 <meta name="theme-color" content="#FFC857">
 <meta name="mobile-web-app-capable" content="yes">
@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Caprasimo&family=Yellowtail&display=swap">
 <style>
 /* ==========================================================================
-   PÉPIN — habillage « étiquette de cagette » : autocollants crème cernés
+   SNAQUE — habillage « étiquette de cagette » : autocollants crème cernés
    d'encre prune, aplats francs, grand soleil rayonnant derrière le plateau.
    ========================================================================== */
 :root{font-synthesis:none;
@@ -148,17 +148,39 @@ body.wide .toast:not(.out){animation-name:toastinL}
 body:not(.wide) .toast{max-height:calc(var(--lane) - 5px);box-shadow:0 3px 0 var(--ink);font-size:13px;padding:3px 12px 4px 6px}
 body:not(.wide) .toast small{font-size:11.5px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 body:not(.wide) .toast canvas{width:28px;height:28px}
-#banner{position:absolute;inset:0;z-index:15;display:grid;place-items:center;pointer-events:none;overflow:hidden;border-radius:18px;line-height:1}
-.bn{--d:1500ms;--c1:#FFD34D;--c2:#FFB627;position:relative;display:grid;justify-items:center;width:100%}
-.bn-burst{position:absolute;left:50%;top:50%;width:170%;aspect-ratio:1;margin:-85% 0 0 -85%;border-radius:50%;
+/* Rubans d'annonce : ils traversent le plateau sans figer le jeu, et pâlissent quand la tête passe dessous. */
+#banner{position:absolute;inset:0;z-index:15;pointer-events:none;overflow:hidden;border-radius:18px;line-height:1}
+.rib{--d:1700ms;--c1:#FFD34D;--c2:#FFB627;position:absolute;left:0;right:0;display:grid;justify-items:center;align-content:center;transition:opacity .18s}
+.rib.dim{opacity:.14}
+.rib-band{position:absolute;left:-8%;right:-8%;top:16%;bottom:16%;background:repeating-linear-gradient(-45deg,var(--c1) 0 16px,var(--c2) 16px 32px);opacity:.8;border-top:3.5px solid var(--ink);border-bottom:3.5px solid var(--ink);transform-origin:0 50%;animation:ribband var(--d) both}
+.rib-word{position:relative;font-family:var(--display);white-space:nowrap;line-height:1;animation:ribword var(--d) both}
+.rib-sub{position:relative;margin-top:3px;font-family:var(--script);font-size:clamp(15px,4.4vw,24px);line-height:1.1;color:var(--cream);background:var(--ink);padding:1px 14px 4px;border-radius:999px;white-space:nowrap;animation:ribsub var(--d) both}
+.rib.lingo{--c1:#43305A;--c2:#2A1B3D}.rib.lingo .rib-word{color:var(--gold)}.rib.lingo .rib-sub{background:var(--red)}
+.rib.brunchito{--c1:#D9A05B;--c2:#B9783A}.rib.brunchito .rib-sub{background:#6F3F18}
+.rib.hunt{--c1:#3A2C4A;--c2:#241830}.rib.hunt .rib-word{color:#FF5468}.rib.hunt .rib-sub{background:#FF4257}
+@keyframes ribband{0%{transform:rotate(-3deg) scaleX(0)}13%{transform:rotate(-3deg) scaleX(1)}86%{transform:rotate(-3deg) scaleX(1);opacity:.8}100%{transform:rotate(-3deg) scaleX(1) translateX(18%);opacity:0}}
+@keyframes ribword{0%{transform:translateX(-130%) rotate(-3deg) skewX(-16deg);opacity:0}15%{transform:translateX(5%) rotate(-3deg) skewX(5deg);opacity:1}23%,84%{transform:translateX(0) rotate(-3deg) skewX(0);opacity:1}100%{transform:translateX(130%) rotate(-3deg) skewX(-16deg);opacity:0}}
+@keyframes ribsub{0%,15%{transform:rotate(-3deg) scale(0);opacity:0}26%{transform:rotate(-3deg) scale(1.12);opacity:1}32%,84%{transform:rotate(-3deg) scale(1);opacity:1}100%{transform:rotate(-3deg) translateY(8px);opacity:0}}
+
+/* Boucle : un anneau des six décors tourne, le mot claque au centre, le verger repart au Matin. */
+#loopfx{--rs:300px;position:absolute;inset:0;z-index:16;pointer-events:none;overflow:hidden;border-radius:18px}
+#loopfx>*{position:absolute;left:50%;top:50%;translate:-50% -50%}
+#loopfx .lf-glow{width:calc(var(--rs) * 2.2);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95) 0,rgba(223,244,255,.7) 28%,rgba(223,244,255,0) 62%)}
+#loopfx .lf-ring{width:var(--rs);height:var(--rs);overflow:visible}
+#loopfx .lf-ring circle{fill:none}
+#loopfx .lf-word{font-family:var(--display);font-size:calc(var(--rs) * .2);line-height:1;color:var(--cream);--o:5px;white-space:nowrap}
+#loopfx .lf-sub{top:calc(50% + var(--rs) * .27);font-family:var(--script);font-size:clamp(16px,calc(var(--rs) * .075),28px);color:var(--cream);background:var(--ink);padding:2px 18px 5px;border-radius:999px;white-space:nowrap}
+#loopfx.go .lf-glow{animation:lfglow var(--d) both}
+#loopfx.go .lf-ring{animation:lfring var(--d) cubic-bezier(.3,.9,.4,1) both}
+#loopfx.go .lf-arc{animation:lfarc var(--d) both}
+#loopfx.go .lf-word{animation:lfword var(--d) both}
+#loopfx.go .lf-sub{animation:lfsub var(--d) both}
+@keyframes lfglow{0%{transform:scale(.2);opacity:0}10%{transform:scale(1);opacity:1}45%{opacity:.75}55%{opacity:.35}90%{opacity:.25}100%{transform:scale(1.4);opacity:0}}
+@keyframes lfring{0%{transform:scale(0) rotate(-220deg)}16%{transform:scale(1.08) rotate(8deg)}24%{transform:scale(1) rotate(0)}82%{transform:scale(1) rotate(360deg);opacity:1}100%{transform:scale(.25) rotate(520deg);opacity:0}}
+@keyframes lfarc{0%,14%{stroke-dasharray:0 490}40%,100%{stroke-dasharray:var(--len) 490}}
+@keyframes lfword{0%,18%{transform:scale(3.4) rotate(-10deg);opacity:0}28%{transform:scale(.92) rotate(-4deg);opacity:1}34%{transform:scale(1.06) rotate(-4deg)}40%,84%{transform:scale(1) rotate(-4deg);opacity:1}100%{transform:scale(.5) translateY(-60px) rotate(-4deg);opacity:0}}
+@keyframes lfsub{0%,48%{transform:rotate(-3deg) scale(0);opacity:0}56%{transform:rotate(-3deg) scale(1.12);opacity:1}62%,86%{transform:rotate(-3deg) scale(1);opacity:1}100%{transform:rotate(-3deg) translateY(20px);opacity:0}}
   background:repeating-conic-gradient(var(--c1) 0 11.25deg,var(--c2) 11.25deg 22.5deg);border:5px solid var(--ink);animation:burst var(--d) both}
-.bn-word{position:relative;font-family:var(--display);font-size:clamp(44px,15vw,108px);--o:5px;white-space:nowrap;animation:slam var(--d) both}
-.bn-sub{position:relative;margin-top:2px;font-family:var(--script);font-size:clamp(20px,6vw,36px);color:var(--cream);background:var(--ink);padding:3px 22px 6px;border-radius:999px;transform:rotate(-3deg);animation:subin var(--d) both}
-.bn.manche .bn-burst{display:none}
-.bn.manche .bn-word{font-size:clamp(40px,13vw,92px)}
-.bn.lingo{--c1:#43305A;--c2:#2A1B3D}.bn.lingo .bn-word{color:var(--gold);animation-name:slamshake}
-.bn.lingo .bn-sub{background:var(--red)}
-.bn.brunchito{--c1:#D9A05B;--c2:#B9783A}.bn.brunchito .bn-sub{background:#6F3F18}
 #hint{position:absolute;left:0;right:0;bottom:calc(var(--gutter) + 16px);z-index:12;display:flex;justify-content:center;pointer-events:none;line-height:1.2;transition:opacity .2s}
 #hint span{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--cream);font-weight:700;font-size:14px;padding:9px 17px;border-radius:999px;animation:hintbob 1.3s ease-in-out infinite}
 #hint svg{width:22px;height:22px;animation:swipe 1.3s ease-in-out infinite}
@@ -215,10 +237,16 @@ body[data-state="menu"] #pad{visibility:hidden}
 #menu.leave{animation:menuout .28s ease-in both}
 .corner{position:absolute;top:max(12px,env(safe-area-inset-top));right:12px;display:flex;gap:8px;z-index:2}
 .logo{display:flex;flex-direction:column;align-items:center;transform:rotate(-3deg);pointer-events:none!important;margin-top:clamp(8px,5vh,44px)}
-.logo-word{display:flex;font-family:var(--display);font-weight:400;font-size:clamp(68px,22vw,132px);line-height:.95;--o:5px}
+.logo-word{display:flex;font-family:var(--display);font-weight:400;font-size:clamp(52px,16.5vw,118px);line-height:.95;--o:5px;white-space:nowrap}
 .logo-word>span{display:inline-block;position:relative;animation:letter .75s cubic-bezier(.2,1.8,.4,1) both;animation-delay:calc(var(--i)*75ms + 80ms)}
 /* La feuille fait l'accent aigu du É : pointe en bas à gauche, elle monte vers la droite. */
-.logo-word .leaf{position:absolute;left:30%;top:-.1em;width:.3em;height:.16em;background:var(--leaf);border:3.5px solid var(--ink);border-radius:100% 0 100% 0;transform:rotate(-8deg);box-shadow:0 2px 0 var(--ink);animation:leafwag 2.6s ease-in-out infinite;transform-origin:0 100%}
+/* La queue du Q de SNAQUE est une langue de serpent qui frétille. */
+.logo-word .q{z-index:2}
+.logo-word .tongue{position:absolute;left:60%;top:79%;width:.34em;height:.075em;background:#E8344E;border:3px solid var(--ink);border-radius:999px;transform-origin:0 50%;transform:rotate(40deg);animation:tongue 2.2s ease-in-out infinite}
+.logo-word .tongue::before,.logo-word .tongue::after{content:"";position:absolute;right:-.1em;top:50%;width:.14em;height:.06em;margin-top:-.03em;background:#E8344E;border:2.5px solid var(--ink);border-radius:999px;transform-origin:0 50%}
+.logo-word .tongue::before{transform:rotate(-38deg)}
+.logo-word .tongue::after{transform:rotate(38deg)}
+@keyframes tongue{0%,58%,100%{transform:rotate(40deg) scaleX(1)}64%{transform:rotate(32deg) scaleX(1.25)}70%{transform:rotate(46deg) scaleX(.85)}76%{transform:rotate(34deg) scaleX(1.2)}82%{transform:rotate(40deg) scaleX(1)}}
 .ribbon{position:relative;z-index:0;margin-top:2px;font-family:var(--script);font-size:clamp(18px,5.6vw,30px);line-height:1.15;color:var(--cream);background:var(--red);border:3px solid var(--ink);padding:1px 22px 5px;box-shadow:0 4px 0 var(--ink);transform:rotate(1.5deg);animation:ribbonin .6s cubic-bezier(.2,1.5,.4,1) .5s both;white-space:nowrap}
 .ribbon::before,.ribbon::after{content:"";position:absolute;top:7px;width:20px;height:100%;background:var(--red-d);z-index:-1}
 .ribbon::before{left:-15px;clip-path:polygon(0 0,100% 0,100% 100%,0 100%,42% 50%)}
@@ -342,7 +370,7 @@ body:not(.touch) .touch-only{display:none}
 @keyframes rise{from{transform:translateY(40px);opacity:0}}
 @keyframes menuout{to{transform:translateY(30px) scale(.96);opacity:0}}
 @keyframes letter{0%{transform:translateY(-70px) rotate(-14deg) scale(.6);opacity:0}100%{transform:none;opacity:1}}
-@keyframes leafwag{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(-20deg)}}
+@keyframes leafwag{0%,100%{transform:rotate(-28deg)}50%{transform:rotate(-40deg)}}
 @keyframes ribbonin{from{transform:rotate(-8deg) scale(.4);opacity:0}}
 @keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.22)}100%{transform:scale(1)}}
 @keyframes combobump{0%{transform:scale(.7) rotate(-14deg)}100%{transform:none}}
@@ -367,7 +395,7 @@ body:not(.touch) .touch-only{display:none}
 
 /* ---------- Petits écrans, paysage, confort ---------- */
 @media (max-height:640px){
-  .logo-word{font-size:clamp(54px,17vw,96px)}
+  .logo-word{font-size:clamp(44px,13.5vw,90px)}
   .btn.big{font-size:25px;padding:12px 20px 14px}
   .menu-card{gap:8px}
   .podium{padding:6px 12px 7px}
@@ -380,10 +408,44 @@ body.land .menu-card{width:min(330px,46%);gap:7px}
 body.land .btn.big{font-size:22px;padding:10px 18px 12px}
 body.land .podium{display:none}
 @media (prefers-reduced-motion:reduce){
-  #rays,.logo-word .leaf,#hint span,#hint svg,.combo[data-m="5"]{animation:none}
+  #rays,.logo-word .tongue,#hint span,#hint svg,.combo[data-m="5"]{animation:none}
   .panel,.screen,.menu-card,.logo-word>span,.ribbon{animation-duration:.01s;animation-delay:0s}
 }
 body.calm #rays{animation:none}
+/* ---------- 1.2 : accueil à quatre boutons, mode SNARNAQUES, statistiques, version ---------- */
+#btnSn{font-size:18px}
+@media (max-width:430px){#btnSn small{display:none}#btnSn{font-size:16.5px;padding-left:12px;padding-right:12px}}
+.menu-row.four{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.menu-row.four .btn.small{flex-direction:column;gap:3px;padding:7px 2px 6px;font-size:clamp(10px,3.2vw,12px);line-height:1.05;letter-spacing:-.01em;white-space:nowrap}
+.menu-row.four .btn.small svg.ic{width:20px;height:20px}
+body.mode-sn #combo,body.mode-sn #clover{display:none}
+.apples-chip .ic-sn{display:none}
+body.mode-sn .apples-chip .ic-apple{display:none}
+body.mode-sn .apples-chip .ic-sn{display:block}
+.lb-modes{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:4px 0 8px}
+.lb-modes button{font-family:var(--display);font-size:14.5px;line-height:1.05;padding:9px 6px 10px;border:3px solid var(--ink);border-radius:16px;background:transparent;box-shadow:0 3px 0 var(--ink)}
+.lb-modes button[aria-selected="true"]{background:var(--gold)}
+.lb-modes button:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.skin.diamond{background:conic-gradient(from 30deg,#FFFFFF,#CFEFFF,#E9DBFF,#FFFFFF,#C9F5EE,#FFFFFF);box-shadow:0 4px 0 var(--ink),0 0 14px rgba(159,230,255,.9)}
+.skin.diamond::before{background:radial-gradient(circle at 35% 30%,#FFFFFF 0 30%,#DDF3FF 60%,#BFD9F5)}
+#ver{position:fixed;left:max(8px,env(safe-area-inset-left));bottom:max(4px,env(safe-area-inset-bottom));z-index:11;font:800 10.5px/1 var(--ui);letter-spacing:.06em;color:var(--on-sky);opacity:.6;pointer-events:none}
+@media (max-width:420px){#ver .nm{display:none}#ver{font-size:10px;bottom:max(3px,env(safe-area-inset-bottom))}}
+.panel.wide{width:min(560px,100%)}
+.st-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:6px}
+.st-grid div{text-align:center;padding:8px 4px 7px;border-radius:14px;background:rgba(42,27,61,.07);font-weight:700;font-size:11.5px;line-height:1.2}
+.st-grid b{display:block;font-family:var(--display);font-weight:400;font-size:21px;line-height:1.1}
+.st-grid div.hot{background:var(--gold)}
+.st-spark{display:block;width:100%;height:auto;margin-top:4px;border-radius:14px;background:rgba(42,27,61,.06)}
+.st-note{text-align:center;font-size:11.5px;font-weight:600;opacity:.62;margin-top:4px}
+.st-apples{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px}
+.st-apples div{display:flex;align-items:center;gap:6px;padding:4px 8px 4px 4px;border-radius:999px;background:rgba(42,27,61,.07);font-weight:800;font-size:13px}
+.st-apples canvas{width:28px;height:28px;flex:none}
+.st-apples small{display:block;font-weight:700;font-size:10.5px;opacity:.6}
+.st-bars{list-style:none;display:flex;flex-direction:column;gap:5px}
+.st-bars li{display:grid;grid-template-columns:minmax(0,9.5em) minmax(0,1fr) 2.8em;align-items:center;gap:8px;font-size:12.5px;font-weight:700}
+.st-bars i{display:block;height:12px;border-radius:999px;background:var(--red);border:2px solid var(--ink);min-width:6px}
+.st-bars em{font-style:normal;text-align:right;font-weight:800}
+.st-empty{text-align:center;font-weight:700;opacity:.65;padding:18px 0}
 </style>
 </head>
 <body data-state="menu">
@@ -394,7 +456,7 @@ body.calm #rays{animation:none}
     <div class="hud-left"><span id="score" class="ol">0</span></div>
     <div class="combo" id="combo" data-m="1" title="Combo : mange vite la pomme suivante pour multiplier tes points"><b id="comboX">×1</b></div>
     <div class="hud-right">
-      <div class="apples-chip" id="applesChip" title="Pommes mangées"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8c-2-2.6-8-2-8 3.8C4 16.500 7 21 9.800 21c1 0 1.300-.6 2.200-.6s1.200.6 2.200.6C17 21 20 16.500 20 11.800 20 6 14 5.400 12 8z" fill="#EF3E36" stroke="#2A1B3D" stroke-width="2.200" stroke-linejoin="round"/><path d="M12 8c0-2 .8-3.600 2.600-4.600" fill="none" stroke="#2A1B3D" stroke-width="2.200" stroke-linecap="round"/></svg><span id="apples">0</span></div>
+      <div class="apples-chip" id="applesChip" title="Pommes mangées"><svg class="ic-apple" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8c-2-2.6-8-2-8 3.8C4 16.500 7 21 9.800 21c1 0 1.300-.6 2.200-.6s1.200.6 2.200.6C17 21 20 16.500 20 11.800 20 6 14 5.400 12 8z" fill="#EF3E36" stroke="#2A1B3D" stroke-width="2.200" stroke-linejoin="round"/><path d="M12 8c0-2 .8-3.600 2.600-4.600" fill="none" stroke="#2A1B3D" stroke-width="2.200" stroke-linecap="round"/></svg><svg class="ic-sn" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12.5" rx="9.2" ry="7.6" fill="#33263F" stroke="#2A1B3D" stroke-width="2"/><ellipse cx="8.4" cy="11.2" rx="2.3" ry="1.5" fill="#FF4257"/><ellipse cx="15.6" cy="11.2" rx="2.3" ry="1.5" fill="#FF4257"/><path d="M9.2 16.1h5.6" stroke="#FFF4D6" stroke-width="1.6" stroke-linecap="round"/></svg><span id="apples">0</span></div>
       <div class="clover off" id="clover" title="Trèfle : il te sauve une fois"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 13.500V21" fill="none" stroke="#2A1B3D" stroke-width="2.400" stroke-linecap="round"/><g fill="#4FB83C" stroke="#2A1B3D" stroke-width="2" stroke-linejoin="round"><circle cx="8" cy="7.500" r="4"/><circle cx="16" cy="7.500" r="4"/><circle cx="8" cy="14.500" r="4"/><circle cx="16" cy="14.500" r="4"/></g><circle cx="12" cy="11" r="2.600" fill="#4FB83C"/></svg></div>
       <button class="iconbtn" id="btnPause" aria-label="Pause"><svg class="ic" viewBox="0 0 24 24"><use href="#i-pause"/></svg></button>
     </div>
@@ -409,6 +471,12 @@ body.calm #rays{animation:none}
     <ul id="effects" aria-label="Effets en cours"></ul>
     <div id="toasts" aria-live="polite"></div>
     <div id="banner" aria-live="assertive"></div>
+    <div id="loopfx" hidden aria-live="assertive">
+      <div class="lf-glow"></div>
+      <svg class="lf-ring" id="loopRing" viewBox="0 0 200 200" aria-hidden="true"></svg>
+      <div class="lf-word ol" id="loopWord">Boucle 2</div>
+      <div class="lf-sub" id="loopSub">Matin 2</div>
+    </div>
     <div id="hint"><span>
       <svg class="t" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11V5.500a1.800 1.800 0 0 1 3.600 0V10l5 1.200c1.300.3 2 1.400 1.800 2.700l-.8 4.300c-.3 1.600-1.600 2.800-3.300 2.800h-3.600c-1.200 0-2.200-.6-2.900-1.500L5 14.200c-.7-1 .5-2.300 1.600-1.600L9 14.200z"/></svg>
       <b class="t">Glisse dans une direction pour partir</b>
@@ -436,15 +504,16 @@ body.calm #rays{animation:none}
     <div class="corner">
       <button class="iconbtn" id="btnMute" aria-label="Couper ou remettre le son"><svg class="ic" viewBox="0 0 24 24"><use href="#i-sound"/></svg></button>
     </div>
-    <h1 class="logo" aria-label="Pépin, le serpent du verger">
-      <span class="logo-word ol" aria-hidden="true"><span style="--i:0">P</span><span style="--i:1">E<i class="leaf"></i></span><span style="--i:2">P</span><span style="--i:3">I</span><span style="--i:4">N</span></span>
+    <h1 class="logo" aria-label="SNAQUE, chaque pomme a son pépin">
+      <span class="logo-word ol" aria-hidden="true"><span style="--i:0">S</span><span style="--i:1">N</span><span style="--i:2">A</span><span class="q" style="--i:3">Q<i class="tongue"></i></span><span style="--i:4">U</span><span style="--i:5">E</span></span>
       <span class="ribbon" aria-hidden="true">Chaque pomme a son pépin</span>
     </h1>
     <div class="menu-card">
       <button class="btn primary big" id="btnPlay"><svg class="ic fill" viewBox="0 0 24 24"><use href="#i-play"/></svg>Jouer</button>
-      <button class="btn gold" id="btnDaily"><svg class="ic" viewBox="0 0 24 24"><use href="#i-cal"/></svg>Défi du jour<small id="dailyInfo">même verger pour tous</small></button>
-      <div class="menu-row">
+      <button class="btn gold" id="btnSn"><svg class="ic" viewBox="0 0 24 24"><use href="#i-target"/></svg>Mort aux SNARNAQUES<small id="snInfo">nouveau mode</small></button>
+      <div class="menu-row four">
         <button class="btn small" id="btnLb"><svg class="ic" viewBox="0 0 24 24"><use href="#i-trophy"/></svg>Classement</button>
+        <button class="btn small" id="btnStats"><svg class="ic" viewBox="0 0 24 24"><use href="#i-chart"/></svg>Stats</button>
         <button class="btn small" id="btnCodex"><svg class="ic" viewBox="0 0 24 24"><use href="#i-apple"/></svg>Pommes</button>
         <button class="btn small" id="btnProfile"><svg class="ic" viewBox="0 0 24 24"><use href="#i-user"/></svg>Profil</button>
       </div>
@@ -509,10 +578,13 @@ body.calm #rays{animation:none}
       <button class="iconbtn close" data-close="lb" aria-label="Fermer"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
       <h2>Classement</h2>
       <p class="sub" id="lbSub">Les meilleurs serpents du verger</p>
-      <div class="lb-tabs" role="tablist">
+      <div class="lb-modes" role="tablist" aria-label="Mode de jeu">
+        <button role="tab" data-mode="classic" aria-selected="true">Classique</button>
+        <button role="tab" data-mode="sn" aria-selected="false">Mort aux SNARNAQUES</button>
+      </div>
+      <div class="lb-tabs" role="tablist" aria-label="Période">
         <button role="tab" data-tab="all" aria-selected="true">Toujours</button>
         <button role="tab" data-tab="week" aria-selected="false">Cette semaine</button>
-        <button role="tab" data-tab="day" aria-selected="false">Défi du jour</button>
       </div>
       <ol class="lb-list" id="lbList"></ol>
       <p class="lb-empty" id="lbEmpty" hidden></p>
@@ -536,9 +608,21 @@ body.calm #rays{animation:none}
       <ul class="tips">
         <li><b>Combo :</b> mange la pomme suivante avant que l'anneau se vide pour multiplier tes points, jusqu'à ×5.</li>
         <li><b>Sursis :</b> face à un obstacle, le serpent attend un battement avant le choc. Profites-en pour tourner.</li>
-        <li><b>Manches :</b> toutes les 10 pommes, le décor change, 4 rochers tombent, un vipéreau passe… et tu gagnes un trèfle.</li>
+        <li><b>Manches :</b> toutes les 10 pommes, le décor change, 4 rochers tombent, un SNARIQUIQUI passe… et tu gagnes un trèfle (qui remet le combo à zéro quand il te sauve).</li>
+        <li><b>Boucles :</b> arrivé en Hiver, le verger y reste. Tous les 5 000 points, la pomme blanche apparaît : +100, et une nouvelle boucle repart du Matin, à la vitesse du début.</li>
+        <li><b>Zone sûre :</b> aucun obstacle ni ennemi n'apparaît à moins de 7 cases de ta tête, ni droit devant elle.</li>
         <li><b>Mèches :</b> chaque effet brûle autour du plateau. Quand la mèche est consumée, l'effet s'arrête.</li>
       </ul>
+    </div>
+  </section>
+
+  <!-- Statistiques -->
+  <section id="stats" class="screen" hidden>
+    <div class="panel wide">
+      <button class="iconbtn close" data-close="stats" aria-label="Fermer"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
+      <h2>Statistiques</h2>
+      <p class="sub" id="statsSub">Ton compte, toutes parties confondues</p>
+      <div id="statsBody"></div>
     </div>
   </section>
 
@@ -569,6 +653,8 @@ body.calm #rays{animation:none}
   </section>
 </div>
 
+<div id="ver" aria-hidden="true"><span class="nm">SNAQUE </span><span id="verN">v1.2</span></div>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8.500 5v14M15.500 5v14"/></symbol>
@@ -583,15 +669,17 @@ body.calm #rays{animation:none}
     <symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9.500v5h3.500l4.500 4v-13l-4.500 4zM16 9.500l5 5M21 9.500l-5 5"/></symbol>
     <symbol id="i-replay" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 0 2.300-5.200M5 4.500v4.300h4.300"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.500 6.500l11 11M17.500 6.500l-11 11"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="3"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4.5 20h15M7 16.5v-5M12 16.5V6M17 16.5v-8"/></symbol>
     <symbol id="i-crown" viewBox="0 0 24 24"><path d="M4 18.500h16M4.500 15.500l-1-8.500 5 4 3.500-6 3.500 6 5-4-1 8.500z"/></symbol>
   </defs>
 </svg>
 
-<noscript><p style="position:fixed;inset:0;display:grid;place-items:center;font:700 18px sans-serif;z-index:99">Pépin a besoin de JavaScript pour fonctionner.</p></noscript>
+<noscript><p style="position:fixed;inset:0;display:grid;place-items:center;font:700 18px sans-serif;z-index:99">SNAQUE a besoin de JavaScript pour fonctionner.</p></noscript>
 
 <script>
 /* =====================================================================
-   PÉPIN — le serpent du verger
+   SNAQUE — version 1.2
    ---------------------------------------------------------------------
    CLASSEMENT EN LIGNE : colle ici l'adresse de ta base et sa clé publique.
 
@@ -606,19 +694,30 @@ body.calm #rays{animation:none}
 
    Laisse les deux vides : le classement reste alors sur l'appareil du joueur.
    ===================================================================== */
-const DB_URL = 'https://dernier-fil-default-rtdb.europe-west1.firebasedatabase.app/';
+const DB_URL = '';
 const DB_KEY = '';
 
 (() => {
 'use strict';
 
 /* ---------- Constantes de jeu ---------- */
+const VERSION = '1.2';
 const COLS = 17, ROWS = 15;
 const T = {
   TURBO: 4000, BRAMBLE: 10000, BRAMBLE_LIFE: 10000, INV: 10000, QUAKE: 4000, SNAIL: 5000,
   HUNTER: 10000, MINI: 5000, MINER: 10000, DRAGON: 10000, QUIZ: 8000, CLOVER: 3000,
-  SHED: 1000, ROCK_FALL: 900, SPAWN: 950
+  SHED: 1000, ROCK_FALL: 900, SPAWN: 950,
+  LOOP: 2900, SN_NEXT: 1200
 };
+/* Points de la 1.2. */
+const PTS = {
+  trap: { viper: 150, mini: 200, dragon: 200 },
+  smash: { ronce: 5, rocher: 10, escargot: 10, brunchito: 40, viper: 50, mini: 10, dragon: 50 },
+  lingoGone: 50, brunchitoGone: 50, white: 100, loopEvery: 5000,
+  quizMin: 10, quizMax: 100
+};
+/* Noms affichés des ennemis. */
+const NAMES = { viper: 'SNARNAQUE', mini: 'SNARIQUIQUI', dragon: 'LINGO', miner: 'BRUNCHITO' };
 const INK = '#2A1B3D', CREAM = '#FFF4D6';
 const TAU = Math.PI * 2;
 
@@ -633,9 +732,12 @@ const APPLES = {
   violet: { name: 'Pomme-ronce',       tag: 'Ronces',     c: '#9B4DFF', d: '#6A27C4', w: 8,  at: 9,  desc: 'Pendant 10 s, des ronces poussent derrière ta queue.' },
   beige:  { name: 'Pomme de terre',    tag: 'Séisme',     c: '#E3C48E', d: '#B8945A', w: 6,  at: 11, desc: 'Tremblement de terre de 4 s. Deux rochers s’effondrent.' },
   pink:   { name: 'Pomme de Newton',   tag: 'Calcul',     c: '#FF6FAE', d: '#D4437F', w: 7,  at: 12, desc: 'Calcul mental : 8 s pour trouver la bonne réponse, sinon c’est perdu.' },
-  black:  { name: 'Pomme de discorde', tag: 'Vipère',     c: '#3A2C4A', d: '#1B1226', w: 7,  at: 13, desc: 'Une vipère noire te coupe la route pendant 10 s.' }
+  black:  { name: 'Pomme de discorde', tag: 'SNARNAQUE',  c: '#3A2C4A', d: '#1B1226', w: 7,  at: 13, desc: 'Un SNARNAQUE te coupe la route pendant 10 s. Piège-le contre un mur ou ton corps.' },
+  /* Hors tirage : elle arrive tous les 5 000 points. */
+  white:  { name: 'Pomme Blanche-Neige', tag: 'Boucle',   c: '#F4F8FF', d: '#B4C6DE', w: 0,  at: 0,  desc: 'Tous les 5 000 points. +100, et le verger repart pour une nouvelle boucle : vitesse du début, même taille.' }
 };
 const ORDER = ['red', 'gold', 'orange', 'green', 'blue', 'brown', 'violet', 'beige', 'pink', 'black'];
+const CODEX_ORDER = ORDER.concat(['white']);
 const NASTY = { blue: 1, violet: 1, black: 1, pink: 1, beige: 1 };
 
 /* Peaux du serpent, débloquées par le record personnel. */
@@ -645,7 +747,9 @@ const SKINS = [
   { id: 2, name: 'Tigre',    need: 800,  body: '#FF9A1F', dark: '#2A1B3D', light: '#FFD79A', pat: 'stripes' },
   { id: 3, name: 'Minuit',   need: 1500, body: '#4C3FD1', dark: '#2B2390', light: '#FFE27A', pat: 'stars' },
   { id: 4, name: 'Arlequin', need: 2500, body: '#FF5DA2', dark: '#3D7BFF', light: '#FFE04D', pat: 'diamonds' },
-  { id: 5, name: 'Or pur',   need: 4000, body: '#FFC91F', dark: '#C98A00', light: '#FFF6C2', pat: 'stars' }
+  { id: 5, name: 'Or pur',   need: 5000, body: '#FFC91F', dark: '#C98A00', light: '#FFF6C2', pat: 'stars' },
+  /* Le plus beau : blanc, translucide, brillant comme un diamant, avec de petites ailes. */
+  { id: 6, name: 'Diamant',  need: 10000, body: '#FBFDFF', dark: '#A9C6E8', light: '#FFFFFF', pat: 'diamond', glow: '#9FE6FF', rim: '#D9F6FF', wings: true }
 ];
 const VIPER  = { body: '#33263F', dark: '#1B1226', light: '#FF4257', pat: 'zigzag' };
 const DRAGON = { body: '#2B1F38', dark: '#150E1F', light: '#FFC91F', pat: 'zigzag' };
@@ -653,7 +757,7 @@ const DRAGON = { body: '#2B1F38', dark: '#150E1F', light: '#FFC91F', pat: 'zigza
 /* Titres selon le score. */
 const RANKS = [
   [0, 'Asticot'], [100, 'Vermisseau'], [300, 'Orvet'], [600, 'Couleuvre'], [1000, 'Vipère'],
-  [1600, 'Cobra'], [2400, 'Python'], [3500, 'Anaconda'], [5000, 'Hydre'], [8000, 'Léviathan']
+  [1600, 'Cobra'], [2400, 'Python'], [3500, 'Anaconda'], [5000, 'Hydre'], [8000, 'Léviathan'], [10000, 'Shai-Hulud']
 ];
 function rankOf(score) { let r = RANKS[0]; for (const x of RANKS) if (score >= x[0]) r = x; return r[1]; }
 function nextRank(score) { for (const x of RANKS) if (score < x[0]) return x; return null; }
@@ -661,7 +765,7 @@ function nextRank(score) { for (const x of RANKS) if (score < x[0]) return x; re
 /* Décors : un par manche, puis on recommence. */
 const THEMES = [
   { id: 'matin',      name: 'Matin',      sky: '#FFC857', on: INK,   a: '#A9DC6B', b: '#99CF5C', tuft: '#74B544', flower: '#FFF4D6', amb: 'pollen' },
-  { id: 'midi',       name: 'Plein midi', sky: '#4CC2FF', on: INK,   a: '#CDE66A', b: '#BDDA5A', tuft: '#98BD3C', flower: '#FF8FB8', amb: 'butterfly' },
+  { id: 'midi',       name: 'Midi',       sky: '#4CC2FF', on: INK,   a: '#CDE66A', b: '#BDDA5A', tuft: '#98BD3C', flower: '#FF8FB8', amb: 'butterfly' },
   { id: 'crepuscule', name: 'Crépuscule', sky: '#FF7B54', on: INK,   a: '#DDBC60', b: '#CFAD52', tuft: '#AC8B3C', flower: '#FF6B5E', amb: 'petal' },
   { id: 'nuit',       name: 'Nuit',       sky: '#2C2F80', on: CREAM, a: '#2F6876', b: '#295D6B', tuft: '#3F8C92', flower: '#8DF2E5', amb: 'firefly', dark: true },
   { id: 'orage',      name: 'Orage',      sky: '#5B5F8A', on: CREAM, a: '#8FB39C', b: '#82A68F', tuft: '#62886F', flower: '#DDE7F2', amb: 'rain', dark: true },
@@ -675,14 +779,18 @@ const DEATHS = {
   rocher: ['Un rocher, ça ne se mange pas.', 'Le rocher a gagné.'],
   ronce: ['Piqué par tes propres ronces.', 'Ça pique, les ronces.'],
   escargot: ['Battu par un escargot. Un escargot.', 'L’escargot était plus rapide.'],
-  vipere: ['La vipère t’a coupé la route.', 'La vipère a eu le dernier mot.'],
-  mini: ['Même le vipéreau t’a eu.', 'Petit, mais teigneux.'],
-  lingo: ['Lingo t’a rôti.', 'On ne fonce pas dans un dragon.'],
-  brunchito: ['Tu as foncé dans Brunchito.', 'Brunchito ne bouge pas, lui.'],
-  pioche: ['Un coup de pioche signé Brunchito.', 'Brunchito t’a planté.'],
+  vipere: ['Le SNARNAQUE t’a coupé la route.', 'Le SNARNAQUE a eu le dernier mot.'],
+  mini: ['Même le SNARIQUIQUI t’a eu.', 'Petit, mais teigneux, le SNARIQUIQUI.'],
+  lingo: ['LINGO t’a rôti.', 'On ne fonce pas dans le Roi des SNARNAQUES.'],
+  brunchito: ['Tu as foncé dans BRUNCHITO.', 'La Brunch ne bouge pas, elle.'],
+  pioche: ['Un coup de pioche signé BRUNCHITO.', 'La Brunch t’a planté.'],
   quiz: ['Erreur de calcul. Newton est déçu.', 'Raté. Retour en CE2.'],
   temps: ['Trop lent. Newton s’est endormi.', 'La mèche a été plus rapide que toi.'],
-  plein: ['Verger nettoyé : il ne reste plus une case !']
+  plein: ['Verger nettoyé : il ne reste plus une case !'],
+  /* Mort aux SNARNAQUES */
+  sn_vipere: ['Le chasseur est devenu la proie.', 'Ce SNARNAQUE-là était plus malin.', 'Le SNARNAQUE a gagné ce duel.'],
+  sn_mur: ['Dans le décor ! Le SNARNAQUE se moque de toi.', 'Trop occupé à chasser, tu as oublié le mur.'],
+  sn_queue: ['Pris à ton propre piège.', 'Tu t’es enroulé tout seul.']
 };
 
 /* ---------- Outils ---------- */
@@ -752,7 +860,7 @@ function parisWeek() {
 
 /* ---------- Sauvegarde du joueur ---------- */
 const Save = {
-  best: store.get('best', { classic: 0, daily: 0, dailyDay: '' }),
+  best: store.get('best', { classic: 0, sn: 0 }),
   pseudo: store.get('pseudo', ''),
   seen: store.get('seen', {}),
   stats: store.get('stats', { games: 0, apples: 0, combo: 1, manche: 1 }),
@@ -763,8 +871,23 @@ const Save = {
 if (typeof Save.bestRun !== 'object' || !Save.bestRun) Save.bestRun = {};
 if (typeof Save.stats !== 'object' || !Save.stats) Save.stats = { games: 0, apples: 0, combo: 1, manche: 1 };
 if (typeof Save.seen !== 'object' || !Save.seen) Save.seen = {};
-if (typeof Save.best !== 'object' || !Save.best) Save.best = { classic: 0, daily: 0, dailyDay: '' };
-function dailyBest() { return Save.best.dailyDay === parisDay() ? (Save.best.daily || 0) : 0; }
+if (typeof Save.best !== 'object' || !Save.best) Save.best = { classic: 0, sn: 0 };
+/* Statistiques du compte (toutes parties confondues). Reprend les chiffres de la 1.1 au premier lancement. */
+Save.st = (() => {
+  const d = store.get('st2', null), o = Save.stats;
+  const st = Object.assign({
+    games: { classic: o.games || 0, sn: 0 }, time: 0, apples: o.apples || 0, kinds: {},
+    best: { classic: Save.best.classic || 0, sn: 0 }, sum: { classic: 0, sn: 0 }, counted: { classic: 0, sn: 0 },
+    combo: o.combo || 1, combo5: 0, manche: o.manche || 1, loop: 1, deaths: {},
+    traps: { viper: 0, mini: 0, dragon: 0 }, smash: 0, quizOk: 0, quizAll: 0, quizFast: 0, clover: 0, white: 0,
+    kills: 0, killsBest: 0, last: [], days: 0, lastDay: '', since: parisDay()
+  }, d && typeof d === 'object' ? d : {});
+  ['games', 'best', 'sum', 'counted', 'traps'].forEach(k => { if (!st[k] || typeof st[k] !== 'object') st[k] = {}; });
+  if (!st.kinds || typeof st.kinds !== 'object') st.kinds = {};
+  if (!st.deaths || typeof st.deaths !== 'object') st.deaths = {};
+  if (!Array.isArray(st.last)) st.last = [];
+  return st;
+})();
 function skinNow() { const s = SKINS[Save.skin] || SKINS[0]; return (Save.best.classic || 0) >= s.need ? s : SKINS[0]; }
 function buzz(ms) { if (!Save.set.haptic) return; try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* pas de vibreur */ } }
 
@@ -876,7 +999,21 @@ const Sfx = (() => {
     start() { tone(392, 0.08, { type: 'triangle', v: 0.14 }); tone(587, 0.14, { type: 'triangle', v: 0.14, at: 0.07 }); },
     wrap() { tone(900, 0.12, { to: 1500, v: 0.08 }); },
     snail() { tone(300, 0.08, { to: 420, v: 0.09 }); },
-    whoosh() { noise(0.3, { f: 600, to: 2400, v: 0.12, a: 0.1 }); }
+    whoosh() { noise(0.3, { f: 600, to: 2400, v: 0.12, a: 0.1 }); },
+    /* Boucle : arpège cristallin qui monte, souffle de neige, cloche tenue. */
+    loop() {
+      seq([523, 659, 784, 1047, 1319, 1568, 2093], 0.2, 0.075, { type: 'sine', v: 0.12 });
+      noise(1.1, { f: 2500, to: 9000, v: 0.05, a: 0.35 });
+      tone(1047, 1.4, { type: 'triangle', v: 0.09, at: 0.55, vib: 5 });
+      tone(1568, 1.2, { type: 'sine', v: 0.06, at: 0.62 });
+    },
+    /* SNARNAQUE piégé. */
+    kill() {
+      tone(260, 0.12, { to: 900, type: 'square', v: 0.07 });
+      seq([784, 988, 1319, 1568], 0.12, 0.055, { type: 'triangle', v: 0.13 });
+      noise(0.25, { f: 1800, to: 500, v: 0.12 });
+    },
+    ribbon() { noise(0.22, { f: 900, to: 3200, v: 0.07, a: 0.06 }); }
   };
 
   function play(name, a) {
@@ -938,6 +1075,7 @@ function part(p) {
 /* o : color (ou tableau), sp [min,max] en cases/s, size [min,max] en cases, life [min,max] en ms,
        type, g (gravité), drag, ang + spread (cône), ink (cerné d'encre), top (au-dessus du cadre) */
 function burst(x, y, n, o) {
+  if (o.delay) { const d = o.delay; setTimeout(() => burst(x, y, n, Object.assign({}, o, { delay: 0 })), d); return; }
   n = Math.max(1, Math.round(n * QUALITY * (Save.set.calm ? 0.5 : 1)));
   for (let i = 0; i < n; i++) {
     const a = o.ang === undefined ? rnd(TAU) : o.ang + rnd(-1, 1) * (o.spread === undefined ? Math.PI : o.spread);
@@ -1019,7 +1157,7 @@ const Effects = { list: [], seen: new Map(), sig: '' };
 function computeEffects() {
   const list = [];
   const add = (id, label, color, left, total) => { if (left > 0) list.push({ id, label, color, left, total }); };
-  const active = G.state === 'play' || G.state === 'quiz' || G.state === 'banner' || G.state === 'paused';
+  const active = G.state === 'play' || G.state === 'quiz' || G.state === 'banner' || G.state === 'paused' || G.state === 'loop';
   if (active) {
     if (G.state === 'quiz' && G.quiz) add('quiz', 'Calcul mental', '#FF6FAE', G.quiz.left, T.QUIZ);
     add('turbo', 'Turbo', '#FFC91F', G.turbo, T.TURBO);
@@ -1027,10 +1165,11 @@ function computeEffects() {
     add('inv', G.invClover ? 'Trèfle' : 'Invincible', G.invClover ? '#4FB83C' : '#D9823B', G.inv, G.invMax || T.INV);
     add('quake', 'Séisme', '#C9A565', G.quake, T.QUAKE);
     add('snails', 'Escargots', '#E08A3C', G.snailLeft, T.SNAIL);
-    if (G.miner) add('miner', 'Brunchito', '#8A5A2B', Math.max(1, G.miner.left), G.miner.total);
+    if (G.miner) add('miner', 'BRUNCHITO', '#8A5A2B', Math.max(1, G.miner.left), G.miner.total);
     for (const h of G.hunters) {
       if (h.state === 'leave') continue;
-      add('h' + h.id, h.kind === 'dragon' ? 'Lingo' : h.kind === 'mini' ? 'Vipéreau' : 'Vipère',
+      if (h.endless) continue;
+      add('h' + h.id, NAMES[h.kind] || 'SNARNAQUE',
         h.kind === 'dragon' ? '#FF9D2E' : h.kind === 'mini' ? '#FF8FA0' : '#FF4257', h.left, h.total);
     }
   }
@@ -1082,31 +1221,56 @@ let R = { kind: Math.random, pos: Math.random, misc: Math.random };
 function setState(s) {
   G.state = s;
   document.body.dataset.state = s;
-  document.body.classList.toggle('playing', s === 'play' || s === 'ready' || s === 'banner' || s === 'quiz' || s === 'dying');
+  document.body.classList.toggle('playing', s === 'play' || s === 'ready' || s === 'banner' || s === 'quiz' || s === 'dying' || s === 'loop');
 }
 function comboWindow(m) { return 7000 - 400 * (m - 1); }
-function baseStep() { return Math.max(92, 140 - G.apples * 0.8); }
+/* Vitesse : en classique elle repart de zéro à chaque boucle ; dans Mort aux SNARNAQUES, +2 % par SNARNAQUE piégé. */
+function baseStep() {
+  if (G.mode === 'sn') return 140 / (1 + 0.02 * G.kills);
+  return Math.max(92, 140 - (G.apples - G.loopApples) * 0.8);
+}
 function interval() { return G.turbo > 0 ? baseStep() / 1.4 : baseStep(); }
 
-function newRun(mode) {
-  if (mode === 'daily') {
-    const seed = hashStr('pepin-' + parisDay());
-    R = { kind: mulberry32(seed ^ 0x9E3779B9), pos: mulberry32(seed ^ 0x85EBCA6B), misc: mulberry32(seed ^ 0xC2B2AE35) };
-  } else {
-    R = { kind: Math.random, pos: Math.random, misc: Math.random };
+/* Les obstacles et les ennemis n'apparaissent jamais près de la tête :
+   au moins 7 pas de distance, et jamais sur la ligne droite devant elle. */
+const SAFE_R = 7;
+function safeSpot(x, y) {
+  const h = G.snake[0], ax = x - h.x, ay = y - h.y;
+  if (Math.abs(ax) + Math.abs(ay) < SAFE_R) return false;
+  const dirs = [G.dir].concat(G.queue);
+  for (const d of dirs) {
+    if (d.x && ay === 0 && ax * d.x > 0) return false;
+    if (d.y && ax === 0 && ay * d.y > 0) return false;
   }
-  const r = Math.floor(ROWS / 2);
+  return true;
+}
+/* Décor de la manche : en classique on avance jusqu'à l'Hiver et on y reste jusqu'à la pomme blanche. */
+function themeIdx() {
+  if (G.mode === 'sn') return (G.wave - 1) % THEMES.length;
+  return Math.min(THEMES.length - 1, G.manche - G.loopStart);
+}
+function themeLabel() { return THEMES[themeIdx()].name + (G.mode === 'classic' && G.loop > 1 ? ' ' + G.loop : ''); }
+
+function newRun(mode) {
+  mode = mode === 'sn' ? 'sn' : 'classic';
+  R = { kind: Math.random, pos: Math.random, misc: Math.random };
+  const r = Math.floor(ROWS / 2), sn = mode === 'sn';
+  /* Mort aux SNARNAQUES : un serpent de 10 cases sur un plateau vide. */
+  const body = sn ? Array.from({ length: 10 }, (_, i) => ({ x: 10 - i, y: r })) : [{ x: 4, y: r }, { x: 3, y: r }, { x: 2, y: r }, { x: 1, y: r }];
   Object.assign(G, {
     mode, day: parisDay(), clock: 0,
-    snake: [{ x: 4, y: r }, { x: 3, y: r }, { x: 2, y: r }, { x: 1, y: r }],
+    snake: body,
     dir: DIRS.right, queue: [], acc: 0, grow: 0, grace: false, bonkAt: -1e9,
     score: 0, shown: 0, apples: 0, mult: 1, comboLeft: 0, comboWin: comboWindow(1), bestMult: 1,
     manche: 1, turbo: 0, bramble: 0, inv: 0, invMax: T.INV, invClover: false, quake: 0, snailLeft: 0,
     brambles: [], rocks: [], snails: [], hunters: [], miner: null, minerVisits: 0, lingoVisits: 0, clover: 0,
     quiz: null, events: [], banner: null, sheds: [], bulges: [], lastKinds: [], spawned: {},
     cause: null, dead: null, seq: 0, chompAt: -1e9, flipAt: -1e9, growTotal: 0,
-    passed: {}, pbDone: false, startedAt: 0,
-    apple: { x: 12, y: r, kind: 'red', born: NOW }
+    passed: {}, pbDone: false, startedAt: 0, playMs: 0,
+    loop: 1, loopApples: 0, loopStart: 1, mancheIn: 0, loopFx: null,
+    kills: 0, wave: 1, snNext: 0,
+    run: { kinds: {}, traps: { viper: 0, mini: 0, dragon: 0 }, smash: 0, quizOk: 0, quizAll: 0, quizFast: 0, clover: 0, white: 0, combo5: 0 },
+    apple: sn ? null : { x: 12, y: r, kind: 'red', born: NOW }
   });
   G.prev = cp(G.snake);
   setState('ready');
@@ -1153,7 +1317,9 @@ function step() {
     smash(head);
   }
   const eating = !!G.apple && head.x === G.apple.x && head.y === G.apple.y;
-  const body = (eating || G.grow > 0) ? G.snake : G.snake.slice(0, -1);
+  /* La pomme blanche ne fait pas grandir. */
+  const growing = eating && G.apple.kind !== 'white';
+  const body = (growing || G.grow > 0) ? G.snake : G.snake.slice(0, -1);
   const cause = inv ? null : hitAt(head, body);
   if (cause) {
     /* Sursis : le serpent attend un battement devant l'obstacle avant le choc. */
@@ -1164,23 +1330,22 @@ function step() {
   G.grace = false;
   G.prev = cp(G.snake);
   G.snake.unshift(head);
-  if (!eating && G.grow > 0) {
+  const keepTail = () => G.prev.push({ x: G.prev[G.prev.length - 1].x, y: G.prev[G.prev.length - 1].y });
+  if (growing) { keepTail(); eat(); return; }
+  if (G.grow > 0) {
     G.grow--;
-    G.prev.push({ x: G.prev[G.prev.length - 1].x, y: G.prev[G.prev.length - 1].y });
+    keepTail();
     if (G.grow === 0) fxGrowDone();
+    if (eating) eat();
     return;
   }
-  if (!eating) {
-    const freed = G.snake.pop();
-    if (G.bramble > 0 && !G.snake.some(p => same(p, freed))) {
-      const b = { x: freed.x, y: freed.y, ttl: T.BRAMBLE_LIFE, born: NOW, seed: Math.floor(Math.random() * 1e6) };
-      G.brambles.push(b);
-      fxBramble(b);
-    }
-    return;
+  const freed = G.snake.pop();
+  if (G.bramble > 0 && !G.snake.some(p => same(p, freed))) {
+    const b = { x: freed.x, y: freed.y, ttl: T.BRAMBLE_LIFE, born: NOW, seed: Math.floor(Math.random() * 1e6) };
+    G.brambles.push(b);
+    fxBramble(b);
   }
-  G.prev.push({ x: G.prev[G.prev.length - 1].x, y: G.prev[G.prev.length - 1].y });
-  eat();
+  if (eating) eat();
 }
 
 /* Un choc mortel : le trèfle, s'il y en a un, sauve la partie. */
@@ -1190,7 +1355,10 @@ function fatal(cause) {
     G.inv = Math.max(G.inv, T.CLOVER);
     if (G.inv <= T.CLOVER) { G.invMax = T.CLOVER; G.invClover = true; }
     G.grace = false;
+    G.run.clover++;
     fxCloverSave(cause);
+    /* Le trèfle sauve la partie, mais le combo repart de zéro. */
+    if (G.mult > 1 || G.comboLeft > 0) { G.mult = 1; G.comboLeft = 0; G.comboWin = comboWindow(1); fxComboDown(true); }
     return false;
   }
   die(cause);
@@ -1214,9 +1382,25 @@ function addScore(pts, x, y, color, label) {
 function eat() {
   const a = G.apple, kind = a.kind, head = G.snake[0];
   G.apples++;
+  G.run.kinds[kind] = (G.run.kinds[kind] || 0) + 1;
+  if (kind === 'white') {
+    /* Pomme blanche : +100 et une nouvelle boucle commence. */
+    G.apple = null;
+    G.chompAt = NOW;
+    G.bulges.push({ s: 0, a: 0.34 });
+    G.run.white++;
+    fxEat(a, PTS.white, false);
+    addScore(PTS.white, head.x, head.y, '#DFF4FF', 'Blanche-Neige +' + PTS.white);
+    if (G.snails.length) { fxSnailsLeave(G.snails); G.snails = []; G.snailLeft = 0; }
+    if (G.apples >= 6 && (G.apples - 6) % 20 === 0) G.events.push('brunchito');
+    if (G.apples >= 15 && (G.apples - 15) % 20 === 0) G.events.push('lingo');
+    startLoop();
+    return;
+  }
   const up = G.comboLeft > 0 && G.mult < 5;
   if (G.comboLeft > 0) G.mult = Math.min(5, G.mult + 1);
   G.bestMult = Math.max(G.bestMult, G.mult);
+  if (up && G.mult === 5) G.run.combo5++;
   G.comboWin = comboWindow(G.mult);
   G.comboLeft = G.comboWin;
   const pts = 10 * G.mult;
@@ -1241,7 +1425,7 @@ function eat() {
   }
   fxApplePower(kind);
 
-  if (G.apples % 10 === 0) G.events.push('manche');
+  if (++G.mancheIn >= 10) { G.mancheIn = 0; G.events.push('manche'); }
   if (G.apples >= 6 && (G.apples - 6) % 20 === 0) G.events.push('brunchito');
   if (G.apples >= 15 && (G.apples - 15) % 20 === 0) G.events.push('lingo');
   spawnApple();
@@ -1249,6 +1433,10 @@ function eat() {
 
 /* ---------- Pommes : apparition et tirage ---------- */
 function spawnApple() {
+  if (G.mode === 'sn') { G.apple = null; return; }
+  /* Tous les 5 000 points, la pomme suivante est la pomme blanche. */
+  const white = G.score >= PTS.loopEvery * G.loop;
+  let snails = !white && G.apples >= 5 && R.misc() < 1 / 7;
   const taken = occSet(false), head = G.snake[0];
   const wall = new Set();
   for (const r of G.rocks) wall.add(KEY(r.x, r.y));
@@ -1263,21 +1451,24 @@ function spawnApple() {
     if (exits >= 2 && Math.abs(x - head.x) + Math.abs(y - head.y) >= 2) good.push({ x, y });
   }
   if (!free.length) { G.apple = null; G.events = []; die('plein'); return; }
-  const list = good.length ? good : free;
+  let list = good.length ? good : free;
+  if (snails) {
+    /* Une pomme gardée par des escargots apparaît loin de la tête, pour que les escargots respectent la zone de 7 cases. */
+    const far = list.filter(c => safeSpot(c.x, c.y) && Math.abs(c.x - head.x) + Math.abs(c.y - head.y) >= SAFE_R + 1);
+    if (far.length) list = far; else snails = false;
+  }
   const p = list[Math.floor(R.pos() * list.length)];
-  G.apple = { x: p.x, y: p.y, kind: pickKind(), born: NOW };
+  G.apple = { x: p.x, y: p.y, kind: white ? 'white' : pickKind(), born: NOW };
   fxAppleSpawn(G.apple);
-  if (G.apples >= 5 && R.misc() < 1 / 7) surroundWithSnails(taken);
+  if (snails) surroundWithSnails(taken);
 }
 
 function pickKind() {
   if (G.force && G.force.length) return G.force.shift();
   const n = G.apples;
   /* Découverte guidée : la première fois qu'une pomme devient possible, elle vient à coup sûr. */
-  if (G.mode !== 'daily') {
-    const intro = ORDER.find(k => APPLES[k].at > 0 && n >= APPLES[k].at && !G.spawned[k] && !Save.seen[k]);
-    if (intro) { G.spawned[intro] = 1; return intro; }
-  }
+  const intro = ORDER.find(k => APPLES[k].at > 0 && n >= APPLES[k].at && !G.spawned[k] && !Save.seen[k]);
+  if (intro) { G.spawned[intro] = 1; return intro; }
   const len = G.snake.length, last = G.lastKinds[G.lastKinds.length - 1];
   const nastyRun = G.lastKinds.slice(-2).filter(k => NASTY[k]).length;
   const obst = G.rocks.length + G.brambles.length;
@@ -1308,7 +1499,7 @@ function surroundWithSnails(taken) {
     if (!dx && !dy) continue;
     const x = a.x + dx, y = a.y + dy;
     if (!inB(x, y) || taken.has(KEY(x, y))) continue;
-    if (Math.abs(x - h.x) + Math.abs(y - h.y) <= 1) continue;
+    if (!safeSpot(x, y)) continue;
     ringCells.push({ x, y, dx, dy, phase: R.misc() * 6, born: NOW + ringCells.length * 55 });
   }
   if (ringCells.length < 3) return;
@@ -1360,21 +1551,21 @@ function startQuake() {
 function smash(c) {
   const at = o => o.x === c.x && o.y === c.y;
   let pts = 0, what = null, i;
-  if ((i = G.brambles.findIndex(at)) >= 0) { G.brambles.splice(i, 1); pts += 5; what = 'ronce'; }
-  if ((i = G.rocks.findIndex(r => at(r) && r.state === 'solid')) >= 0) { G.rocks.splice(i, 1); pts += 10; what = 'rocher'; }
-  if ((i = G.snails.findIndex(at)) >= 0) { G.snails.splice(i, 1); pts += 10; what = 'escargot'; }
+  if ((i = G.brambles.findIndex(at)) >= 0) { G.brambles.splice(i, 1); pts += PTS.smash.ronce; what = 'ronce'; }
+  if ((i = G.rocks.findIndex(r => at(r) && r.state === 'solid')) >= 0) { G.rocks.splice(i, 1); pts += PTS.smash.rocher; what = 'rocher'; }
+  if ((i = G.snails.findIndex(at)) >= 0) { G.snails.splice(i, 1); pts += PTS.smash.escargot; what = 'escargot'; }
   for (const h of G.hunters.slice()) {
-    if (h.state === 'hunt' && h.cells.some(at)) { pts += h.kind === 'dragon' ? 100 : h.kind === 'mini' ? 30 : 50; what = h.kind; hunterDie(h, 'smash'); }
+    if (h.state === 'hunt' && h.cells.some(at)) { pts += PTS.smash[h.kind] || 0; what = h.kind; hunterDie(h, 'smash'); }
   }
   const m = G.miner;
-  if (m && m.phase !== 'under' && at(m)) { pts += 40; what = 'brunchito'; minerBonk(); }
-  if (what) { fxSmash(what, c); addScore(pts, c.x, c.y, '#FFE27A'); }
+  if (m && m.phase !== 'under' && at(m)) { pts += PTS.smash.brunchito; what = 'brunchito'; minerBonk(); }
+  if (what) { G.run.smash++; fxSmash(what, c); addScore(pts, c.x, c.y, '#FFE27A'); }
 }
 
 /* ---------- Vipères, vipéreaux et Lingo ---------- */
-function spawnHunter(kind) {
+function spawnHunter(kind, endless) {
   const dragon = kind === 'dragon', mini = kind === 'mini';
-  if (kind === 'viper') {
+  if (kind === 'viper' && !endless) {
     const ex = G.hunters.find(h => h.kind === 'viper' && h.state !== 'leave');
     if (ex) { ex.left = ex.total; fxHunterRefresh(ex); return; }
   }
@@ -1383,24 +1574,30 @@ function spawnHunter(kind) {
   if (dragon) G.lingoVisits++;
   const head = G.snake[0];
   const taken = dragon ? new Set(G.snake.map(p => KEY(p.x, p.y))) : occSet(true);
-  const spots = [];
+  const spots = [], backup = [];
   for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) {
-    if (Math.abs(x - head.x) + Math.abs(y - head.y) < 7) continue;
     for (const d of DIR4) {
+      /* Il sort tête en avant, jamais face à un mur tout proche. */
+      if (!inB(x + d.x, y + d.y)) continue;
       const cells = [];
       for (let i = 0; i < len; i++) {
         const cx = x - d.x * i, cy = y - d.y * i;
         if (!inB(cx, cy) || taken.has(KEY(cx, cy))) break;
         cells.push({ x: cx, y: cy });
       }
-      if (cells.length === len) spots.push({ cells, dir: d });
+      if (cells.length !== len) continue;
+      /* Tout son corps doit être hors de la zone de 7 cases autour de la tête. */
+      if (cells.every(c => safeSpot(c.x, c.y))) spots.push({ cells, dir: d });
+      else if (endless) backup.push({ cells, dir: d, far: Math.min(...cells.map(c => Math.abs(c.x - head.x) + Math.abs(c.y - head.y))) });
     }
   }
-  if (!spots.length) return;
-  const s = spots[Math.floor(R.misc() * spots.length)];
-  const h = { id: ++G.seq, kind, cells: s.cells, prev: cp(s.cells), dir: s.dir, acc: 0, left: life, total: life, state: 'spawn', t: 0 };
+  let s = spots.length ? spots[Math.floor(R.misc() * spots.length)] : null;
+  if (!s && backup.length) { backup.sort((a, b) => b.far - a.far); s = backup[0]; }
+  if (!s) return null;
+  const h = { id: ++G.seq, kind, cells: s.cells, prev: cp(s.cells), dir: s.dir, acc: 0, left: endless ? Infinity : life, total: endless ? Infinity : life, state: 'spawn', t: 0, endless: !!endless };
   G.hunters.push(h);
   fxHunterSpawn(h);
+  return h;
 }
 
 function updateHunters(dt) {
@@ -1416,12 +1613,14 @@ function updateHunters(dt) {
       if (h.t >= 520) G.hunters = G.hunters.filter(o => o !== h);
       continue;
     }
-    h.left -= dt;
-    if (h.left <= 0) { hunterLeave(h); continue; }
+    if (!h.endless) {
+      h.left -= dt;
+      if (h.left <= 0) { hunterLeave(h); continue; }
+    }
     h.acc += dt;
     const hi = interval() / 1.2;
     let guard = 0;
-    while (h.state === 'hunt' && G.hunters.includes(h) && h.acc >= hi && guard++ < 3) { h.acc -= hi; hunterStep(h); }
+    while (h.state === 'hunt' && G.hunters.includes(h) && h.acc >= hi && guard++ < 3) { h.acc -= hi; if (h.endless) hunterStepSmart(h); else hunterStep(h); }
   }
 }
 
@@ -1457,12 +1656,79 @@ function hunterStep(h) {
 function hunterDie(h, how) {
   G.hunters = G.hunters.filter(o => o !== h);
   fxHunterDie(h, how);
-  if (how === 'trap') addScore(h.kind === 'dragon' ? 100 : h.kind === 'mini' ? 30 : 50, h.cells[0].x, h.cells[0].y, '#FFE27A', 'Piégé ! +' + (h.kind === 'dragon' ? 100 : h.kind === 'mini' ? 30 : 50));
+  if (how !== 'trap') return;
+  if (h.endless) { snKill(h); return; }
+  const pts = PTS.trap[h.kind] || 0;
+  G.run.traps[h.kind] = (G.run.traps[h.kind] || 0) + 1;
+  addScore(pts, h.cells[0].x, h.cells[0].y, '#FFE27A', 'Piégé ! +' + pts);
 }
 function hunterLeave(h) {
   h.state = 'leave'; h.t = 0;
   fxHunterLeave(h);
-  if (h.kind === 'dragon') addScore(60, h.cells[0].x, h.cells[0].y, '#FFE27A', 'Lingo bredouille +60');
+  if (h.kind === 'dragon') addScore(PTS.lingoGone, h.cells[0].x, h.cells[0].y, '#FFE27A', 'LINGO bredouille +' + PTS.lingoGone);
+}
+
+/* ---------- Mort aux SNARNAQUES ---------- */
+/* Un SNARNAQUE plus rusé : il coupe la route du joueur mais évite les culs-de-sac. */
+function hunterStepSmart(h) {
+  const hd = h.cells[0], pl = G.snake[0], pd = G.queue.length ? G.queue[G.queue.length - 1] : G.dir;
+  const occ = new Set();
+  for (const p of G.snake) occ.add(KEY(p.x, p.y));
+  for (let i = 0; i < h.cells.length - 1; i++) occ.add(KEY(h.cells[i].x, h.cells[i].y));
+  /* Les cases où le joueur peut mettre la tête au prochain pas comptent comme fermées pour mesurer l'espace. */
+  const risky = new Set(occ);
+  for (const o of DIR4) { if (o.x === -pd.x && o.y === -pd.y) continue; const x = pl.x + o.x, y = pl.y + o.y; if (inB(x, y)) risky.add(KEY(x, y)); }
+  const room = (sx, sy) => {
+    const seen = new Set([KEY(sx, sy)]), q = [sx, sy];
+    let n = 0;
+    while (q.length && n < 48) {
+      const y = q.pop(), x = q.pop();
+      n++;
+      for (const o of DIR4) {
+        const nx = x + o.x, ny = y + o.y, k = KEY(nx, ny);
+        if (!inB(nx, ny) || seen.has(k) || risky.has(k)) continue;
+        seen.add(k); q.push(nx, ny);
+      }
+    }
+    return n;
+  };
+  const lead = clamp(Math.round((Math.abs(hd.x - pl.x) + Math.abs(hd.y - pl.y)) / 3), 1, 4);
+  const tx = clamp(pl.x + pd.x * lead, 0, COLS - 1), ty = clamp(pl.y + pd.y * lead, 0, ROWS - 1);
+  const need = h.cells.length + 3;
+  /* Par moments, ses yeux rougissent et il fonce sans réfléchir : c'est là qu'on peut le piéger. */
+  const bold = ((G.clock + h.id * 997) % 4200) < 1300;
+  h.bold = bold;
+  let best = null, bestS = Infinity;
+  for (const o of DIR4) {
+    if (o.x === -h.dir.x && o.y === -h.dir.y) continue;
+    const nx = hd.x + o.x, ny = hd.y + o.y;
+    if (!inB(nx, ny) || occ.has(KEY(nx, ny))) continue;
+    const space = room(nx, ny);
+    let exits = 0;
+    for (const e of DIR4) { const ex = nx + e.x, ey = ny + e.y; if (inB(ex, ey) && !occ.has(KEY(ex, ey)) && !(ex === hd.x && ey === hd.y)) exits++; }
+    let sc = Math.abs(nx - tx) + Math.abs(ny - ty) + R.misc() * 0.9;
+    if (space < need) sc += bold ? (space <= 2 ? 30 : 3 + (need - space) * 0.5) : 40 + (need - space) * 6;
+    if (exits <= 1 && !bold) sc += 5;
+    if (sc < bestS) { bestS = sc; best = o; }
+  }
+  if (!best) { hunterDie(h, 'trap'); return; }
+  h.prev = cp(h.cells);
+  h.cells = [{ x: hd.x + best.x, y: hd.y + best.y }].concat(h.cells.slice(0, -1));
+  h.dir = best;
+}
+function snSpawn() {
+  G.snNext = 0;
+  const h = spawnHunter('viper', true);
+  if (h) fxSnSpawn(h, G.kills + 1);
+  else G.snNext = 400;
+}
+function snKill(h) {
+  G.kills++;
+  const pts = 100 + 50 * (G.kills - 1);
+  addScore(pts, h.cells[0].x, h.cells[0].y, '#FFE27A', 'Piégé ! +' + pts);
+  fxSnKill(h, pts);
+  if (G.kills % 3 === 0) { G.wave++; fxWave(G.wave); }
+  G.snNext = T.SN_NEXT;
 }
 
 /* ---------- Brunchito le mineur ---------- */
@@ -1534,7 +1800,7 @@ function updateMiner(dt) {
       const clean = m.hits === 0;
       G.miner = null;
       fxMinerGone(clean);
-      if (clean) addScore(30, G.snake[0].x, G.snake[0].y, '#FFE27A', 'Brunchito bredouille +30');
+      if (clean) addScore(PTS.brunchitoGone, G.snake[0].x, G.snake[0].y, '#FFE27A', 'BRUNCHITO bredouille +' + PTS.brunchitoGone);
       return;
     }
     const s = minerSpot();
@@ -1553,16 +1819,14 @@ function minerBonk() {
 /* ---------- Rochers des manches ---------- */
 function addRocks(n) {
   if (G.rocks.length >= 28) return;
-  const head = G.snake[0], d = G.dir, taken = occSet(true);
+  const taken = occSet(true);
   const wall = new Set(G.rocks.map(r => KEY(r.x, r.y)));
   const open = (x, y) => inB(x, y) && !wall.has(KEY(x, y));
   const exits = (x, y) => (open(x + 1, y) ? 1 : 0) + (open(x - 1, y) ? 1 : 0) + (open(x, y + 1) ? 1 : 0) + (open(x, y - 1) ? 1 : 0);
   const cand = [];
   for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) {
     if (taken.has(KEY(x, y))) continue;
-    const ax = x - head.x, ay = y - head.y;
-    if (Math.abs(ax) + Math.abs(ay) < 4) continue;
-    if ((d.x && ay === 0 && ax * d.x > 0 && Math.abs(ax) <= 6) || (d.y && ax === 0 && ay * d.y > 0 && Math.abs(ay) <= 6)) continue;
+    if (!safeSpot(x, y)) continue;
     cand.push({ x, y });
   }
   let placed = 0;
@@ -1615,8 +1879,13 @@ function answerQuiz(i) {
   q.locked = true;
   const ok = q.choices[i] === q.answer;
   uiQuizAnswer(i, ok);
+  G.run.quizAll++;
   if (!ok) { quizFail('quiz'); return; }
-  const bonus = 20 + Math.round(30 * clamp(q.left / T.QUIZ, 0, 1));
+  G.run.quizOk++;
+  const took = T.QUIZ - q.left;
+  if (!G.run.quizFast || took < G.run.quizFast) G.run.quizFast = Math.max(1, Math.round(took));
+  /* De 10 points (au dernier moment) à 100 points (réponse immédiate). */
+  const bonus = PTS.quizMin + Math.round((PTS.quizMax - PTS.quizMin) * clamp(q.left / T.QUIZ, 0, 1));
   setTimeout(() => {
     if (G.state !== 'quiz') return;
     G.quiz = null;
@@ -1637,25 +1906,44 @@ function quizFail(cause) {
   }, 700);
 }
 
-/* ---------- Manches, Brunchito, Lingo : les grands moments ---------- */
+/* ---------- Manches, Brunchito, Lingo : les grands moments, sans jamais figer le jeu ---------- */
 function startEvent(ev) {
-  setState('banner');
-  G.banner = { type: ev, t: 0, max: ev === 'brunchito' ? 1400 : 1500 };
-  if (ev === 'manche') { G.manche++; fxManche(G.manche); }
-  else if (ev === 'brunchito') fxBrunchito();
-  else fxLingo();
-}
-function endEvent() {
-  const b = G.banner;
-  G.banner = null;
-  setState('play');
-  if (b.type === 'manche') {
-    addScore(50 * (G.manche - 1), G.snake[0].x, G.snake[0].y, '#FFE27A', 'Manche ' + G.manche + ' +' + 50 * (G.manche - 1));
+  const h = G.snake[0];
+  if (ev === 'manche') {
+    G.manche++;
+    fxManche(G.manche);
+    addScore(50 * (G.manche - 1), h.x, h.y, '#FFE27A', 'Manche ' + G.manche + ' +' + 50 * (G.manche - 1));
     addRocks(4);
     spawnHunter('mini');
     if (!G.clover) { G.clover = 1; fxCloverGain(); }
-  } else if (b.type === 'brunchito') spawnMiner();
-  else spawnHunter('dragon');
+  } else if (ev === 'brunchito') { fxBrunchito(); spawnMiner(); }
+  else if (ev === 'lingo') { fxLingo(); spawnHunter('dragon'); }
+}
+
+/* ---------- Boucles : la pomme blanche relance le verger ---------- */
+function startLoop() {
+  G.loopApples = G.apples;
+  G.mancheIn = 0;
+  G.events = G.events.filter(e => e !== 'manche');
+  G.queue = [];
+  G.loopFx = { t: 0, max: T.LOOP, flipped: false };
+  setState('loop');
+  fxLoop(G.loop + 1);
+}
+function endLoop() {
+  G.loopFx = null;
+  G.loop++;
+  setState('play');
+  G.acc = 0;
+  G.manche++;
+  G.loopStart = G.manche;
+  const h = G.snake[0];
+  addScore(50 * (G.manche - 1), h.x, h.y, '#FFE27A', 'Manche ' + G.manche + ' +' + 50 * (G.manche - 1));
+  addRocks(4);
+  spawnHunter('mini');
+  if (!G.clover) { G.clover = 1; fxCloverGain(); }
+  spawnApple();
+  fxLoopEnd(G.loop);
 }
 
 /* ---------- Horloges ---------- */
@@ -1716,25 +2004,30 @@ function updateDeath(dt) {
 function update(dt) {
   const st = G.state;
   if (st === 'play') {
-    if (G.events.length) { startEvent(G.events.shift()); return; }
+    while (G.events.length && G.state === 'play') startEvent(G.events.shift());
     G.clock += dt;
+    G.playMs += dt;
     tick(dt);
+    if (G.mode === 'sn' && G.snNext > 0) { G.snNext -= dt; if (G.snNext <= 0) snSpawn(); }
     if (G.hunters.length) updateHunters(dt);
     if (G.miner && G.state === 'play') updateMiner(dt);
     if (G.state !== 'play') return;
     G.acc += dt;
     let guard = 0;
     while (G.state === 'play' && G.acc >= interval() && guard++ < 4) { G.acc -= interval(); step(); }
-  } else if (st === 'banner') {
-    G.banner.t += dt;
-    if (G.banner.t >= G.banner.max) endEvent();
+  } else if (st === 'loop') {
+    const L = G.loopFx;
+    L.t += dt;
+    /* Au milieu de l'animation, le verger passe au Matin de la nouvelle boucle. */
+    if (!L.flipped && L.t >= L.max * 0.5) { L.flipped = true; setTheme(0, true, G.snake[0]); }
+    if (L.t >= L.max) endLoop();
   } else if (st === 'quiz') {
     const q = G.quiz;
     if (q && !q.locked) {
       q.left = Math.max(0, q.end - NOW);
       const sec = Math.ceil(q.left / 1000);
       if (sec <= 3 && sec > 0 && sec < q.lastTick) { q.lastTick = sec; Sfx.play('tick'); }
-      if (q.left <= 0) { q.locked = true; quizFail('temps'); }
+      if (q.left <= 0) { q.locked = true; G.run.quizAll++; quizFail('temps'); }
     }
   } else if (st === 'dying') {
     updateDeath(dt);
@@ -1744,10 +2037,13 @@ function update(dt) {
 /* Une direction demandée par le joueur (clavier, glissement ou flèche tactile). */
 function turn(name) {
   const st = G.state;
-  if (st !== 'play' && st !== 'ready' && st !== 'banner') return;
+  if (st !== 'play' && st !== 'ready' && st !== 'banner' && st !== 'loop') return;
   const d = DIRS[name];
   if (!d) return;
-  if (st === 'ready') { setState('play'); G.acc = 0; G.startedAt = NOW; fxStart(); }
+  if (st === 'ready') {
+    setState('play'); G.acc = 0; G.startedAt = NOW; fxStart();
+    if (G.mode === 'sn') snSpawn();
+  }
   const last = G.queue.length ? G.queue[G.queue.length - 1] : G.dir;
   if ((d.x === last.x && d.y === last.y) || (d.x === -last.x && d.y === -last.y)) return;
   if (G.queue.length < 3) G.queue.push(d);
@@ -2013,7 +2309,7 @@ function drawAppleAt(c, x, y, r, kind, tm, o) {
     c.strokeStyle = INK; c.lineWidth = Math.max(1.2, r * 0.16); c.lineCap = 'round';
     c.beginPath(); c.moveTo(0, -0.62 * r); c.quadraticCurveTo(0.03 * r, -0.96 * r, 0.2 * r, -1.14 * r); c.stroke();
     const leaf = () => { c.beginPath(); c.moveTo(0.1 * r, -0.86 * r); c.quadraticCurveTo(0.42 * r, -1.36 * r, 0.82 * r, -1.02 * r); c.quadraticCurveTo(0.44 * r, -0.7 * r, 0.1 * r, -0.86 * r); c.closePath(); };
-    sticker(c, leaf, kind === 'black' ? '#7B3FC4' : '#59C247', Math.max(1, ink * 0.75), 0);
+    sticker(c, leaf, kind === 'black' ? '#7B3FC4' : kind === 'white' ? '#9FDCF7' : '#59C247', Math.max(1, ink * 0.75), 0);
   }
 
   /* L'emblème : chaque pomme se reconnaît aussi sans la couleur. */
@@ -2046,6 +2342,23 @@ function drawAppleAt(c, x, y, r, kind, tm, o) {
       c.fillStyle = INK; c.beginPath(); c.ellipse(0, 0, 0.045 * r, 0.11 * r, 0, 0, TAU); c.fill();
       c.restore();
     });
+  } else if (kind === 'white') {
+    /* Un flocon : la pomme de la boucle. */
+    const flake = () => {
+      c.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = i * TAU / 6 + tm / 4000, ca = Math.cos(a), sa = Math.sin(a), L = 0.5 * r;
+        c.moveTo(0, 0.08 * r); c.lineTo(ca * L, sa * L + 0.08 * r);
+        const bx = ca * L * 0.6, by = sa * L * 0.6 + 0.08 * r;
+        c.moveTo(bx, by); c.lineTo(bx + Math.cos(a + 0.8) * 0.17 * r, by + Math.sin(a + 0.8) * 0.17 * r);
+        c.moveTo(bx, by); c.lineTo(bx + Math.cos(a - 0.8) * 0.17 * r, by + Math.sin(a - 0.8) * 0.17 * r);
+      }
+    };
+    flake(); c.strokeStyle = INK; c.lineWidth = r * 0.24; c.stroke();
+    flake(); c.strokeStyle = '#7FCFF5'; c.lineWidth = r * 0.11; c.stroke();
+    const tw = 0.7 + 0.3 * Math.sin(tm / 160);
+    starPath(c, 0.55 * r, -0.6 * r, 0.28 * r * tw, 4, 0.38, tm / 700);
+    c.fillStyle = '#FFFFFF'; c.fill(); c.strokeStyle = INK; c.lineWidth = Math.max(1, ink * 0.7); c.stroke();
   }
   c.restore();
 }
@@ -2131,7 +2444,14 @@ function drawTube(c, sm, sk, o) {
   const al = o.alpha === undefined ? 1 : o.alpha;
   c.globalAlpha = al;
   if (o.shadow !== false) { const lift = (o.lift || 0) * C; layer(ink, 'rgba(42,27,61,.2)', C * 0.06 + lift, C * 0.1 + lift); }
-  layer(ink + rim, o.rimColor || CREAM, 0, 0);
+  if (sk.glow) {
+    /* Diamant : un fin liseré lumineux tout autour. */
+    const pulse = REDUCED ? 1 : 0.8 + 0.2 * Math.sin(NOW / 260);
+    c.globalAlpha = al * 0.3 * pulse; layer(ink + rim + C * 0.15, sk.glow, 0, 0);
+    c.globalAlpha = al * 0.55 * pulse; layer(ink + rim + C * 0.07, sk.glow, 0, 0);
+    c.globalAlpha = al;
+  }
+  layer(ink + rim, o.rimColor || sk.rim || CREAM, 0, 0);
   layer(ink, INK, 0, 0);
   layer(0, o.body || sk.body, 0, 0);
   /* Reflet : une bande plus claire, décalée vers le haut à gauche. */
@@ -2172,11 +2492,61 @@ function drawTube(c, sm, sk, o) {
           c.fillStyle = k % 2 ? sk.light : sk.dark;
           c.fillRect(-r * 0.36, -r * 0.36, r * 0.72, r * 0.72);
           c.restore();
+        } else if (pat === 'diamond') {
+          /* Facettes taillées : un losange irisé par case, une moitié qui accroche la lumière. */
+          c.save(); c.translate(px, py); c.rotate(p.ang);
+          c.fillStyle = k % 3 === 0 ? 'rgba(150,200,255,.5)' : k % 3 === 1 ? 'rgba(210,180,255,.42)' : 'rgba(140,235,230,.42)';
+          c.beginPath(); c.moveTo(-r * 0.62, 0); c.lineTo(0, -r * 0.56); c.lineTo(r * 0.62, 0); c.lineTo(0, r * 0.56); c.closePath(); c.fill();
+          c.fillStyle = 'rgba(255,255,255,.9)';
+          c.beginPath(); c.moveTo(-r * 0.62, 0); c.lineTo(0, -r * 0.56); c.lineTo(-r * 0.08, -r * 0.04); c.closePath(); c.fill();
+          c.strokeStyle = 'rgba(120,150,200,.55)'; c.lineWidth = Math.max(0.8, C * 0.025);
+          c.beginPath(); c.moveTo(-r * 0.62, 0); c.lineTo(0, -r * 0.56); c.lineTo(r * 0.62, 0); c.lineTo(0, r * 0.56); c.closePath(); c.stroke();
+          c.restore();
+        }
+      }
+      if (pat === 'diamond' && !REDUCED) {
+        /* Un éclat de lumière parcourt le corps de la tête à la queue. */
+        const span = L + 2.4, s0 = ((NOW / 620) % span) - 1.2;
+        for (let i = i0; i <= i1; i++) {
+          const p = sm[i], d = Math.abs(p.s - s0);
+          if (d > 0.7) continue;
+          c.globalAlpha = al * 0.75 * (1 - d / 0.7);
+          c.fillStyle = '#FFFFFF';
+          c.beginPath(); c.arc(X(p.x) - C * 0.04, Y(p.y) - C * 0.05, rad[i] * 0.72, 0, TAU); c.fill();
+        }
+        c.globalAlpha = al;
+        /* Des étoiles scintillent ici et là. */
+        for (let j = 0; j < 3; j++) {
+          const slot = Math.floor(NOW / 450) + j * 7, u = ((slot * 9301 + 49297) % 233280) / 233280;
+          const ph = (NOW % 450) / 450, p = sampleAt(sm, Math.max(0.4, u * (L - 0.4)));
+          starPath(c, X(p.x) + Math.cos(slot) * rad[p.i] * 0.4, Y(p.y) + Math.sin(slot) * rad[p.i] * 0.4, C * 0.2 * Math.sin(ph * Math.PI), 4, 0.28, 0.3);
+          c.fillStyle = '#FFFFFF'; c.fill();
         }
       }
     }
   }
   c.globalAlpha = 1;
+}
+
+/* Diamant translucide : on dessine le serpent à part, puis on le pose légèrement transparent sur le plateau. */
+function glassCtx(c) {
+  let g = V.glass;
+  if (!g || g.canvas.width !== canvas.width || g.canvas.height !== canvas.height) {
+    const cv = document.createElement('canvas');
+    cv.width = canvas.width; cv.height = canvas.height;
+    g = V.glass = cv.getContext('2d');
+  }
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.clearRect(0, 0, g.canvas.width, g.canvas.height);
+  g.setTransform(c.getTransform());
+  return g;
+}
+function glassFlush(c, g, alpha) {
+  c.save();
+  c.setTransform(1, 0, 0, 1, 0, 0);
+  c.globalAlpha = alpha;
+  c.drawImage(g.canvas, 0, 0);
+  c.restore();
 }
 
 /* La tête. f : face ('idle','chomp','scared','cool','fierce','dead'), mouth 0..1, look (vecteur monde),
@@ -2579,7 +2949,8 @@ function drawApple(c) {
   if (a.kind === 'blue') { const p = (NOW % 2200) / 2200; if (p > 0.84) sx = sc * Math.cos((p - 0.84) / 0.16 * TAU); }
   if (a.kind === 'gold') { const p = 1 + 0.05 * Math.sin(NOW / 120); sx *= p; sy *= p; }
   const px = X(a.x), py = Y(a.y) + bob;
-  if (THEMES[V.theme].dark) halo(c, px, py, a.kind === 'black' ? '#FF4257' : APPLES[a.kind].c, C * 1.0);
+  if (a.kind === 'white') halo(c, px, py, '#BFEFFF', C * (1.25 + (REDUCED ? 0 : 0.12 * Math.sin(NOW / 240))));
+  else if (THEMES[V.theme].dark) halo(c, px, py, a.kind === 'black' ? '#FF4257' : APPLES[a.kind].c, C * 1.0);
   drawAppleAt(c, px, py, C * 0.335, a.kind, NOW, { rot, sx, sy });
 }
 
@@ -2663,8 +3034,9 @@ function drawMiner(c) {
 }
 
 /* ---------- Vipères, vipéreaux, Lingo ---------- */
-function drawWings(c, x, y, ang, alpha, scale) {
-  const C = V.C * scale, flap = REDUCED ? 1 : 1 + 0.32 * Math.sin(NOW / 85), ink = inkW(V.C), rim = rimW(V.C);
+function drawWings(c, x, y, ang, alpha, scale, look) {
+  look = look || { fill: '#43305A', vein: '#FFC91F', speed: 85 };
+  const C = V.C * scale, flap = REDUCED ? 1 : 1 + 0.32 * Math.sin(NOW / look.speed), ink = inkW(V.C), rim = rimW(V.C);
   c.save();
   c.globalAlpha = alpha;
   c.translate(x, y);
@@ -2680,8 +3052,8 @@ function drawWings(c, x, y, ang, alpha, scale) {
       c.quadraticCurveTo(-0.5 * C, sg * span * 0.3, -0.6 * C, sg * C * 0.2);
       c.closePath();
     };
-    sticker(c, wing, '#43305A', ink, rim);
-    c.strokeStyle = '#FFC91F'; c.lineWidth = Math.max(1, C * 0.045); c.lineCap = 'round';
+    sticker(c, wing, look.fill, ink, rim, look.rim);
+    c.strokeStyle = look.vein; c.lineWidth = Math.max(1, C * 0.045); c.lineCap = 'round';
     c.beginPath(); c.moveTo(0.3 * C, sg * C * 0.2); c.lineTo(-0.8 * C, sg * span * 0.74); c.moveTo(0.3 * C, sg * C * 0.2); c.lineTo(-0.85 * C, sg * span * 0.4); c.stroke();
   });
   c.restore();
@@ -2729,6 +3101,11 @@ function drawHunters(c, air) {
 
     if (alpha > 0.01 && scale > 0.03) {
       const sm = buildSamples(pts, 0.2);
+      /* Mort aux SNARNAQUES : quand il fonce sans réfléchir, une aura rouge le trahit. */
+      if (h.bold && h.state === 'hunt') {
+        const pr = 1 + (REDUCED ? 0 : 0.15 * Math.sin(NOW / 70));
+        halo(c, X(pts[0].x), Y(pts[0].y), '#FF2E4A', C * 1.05 * pr);
+      }
       c.save();
       if (dragon) c.translate(0, -lift * C * 0.55);
       if (dragon && sm.length > 3) { const w = sampleAt(sm, Math.min(1.35, sm.L * 0.4)); drawWings(c, X(w.x), Y(w.y), w.ang + Math.PI, alpha, scale); }
@@ -2737,7 +3114,7 @@ function drawHunters(c, air) {
       h.ang = h.ang === undefined ? target : angLerp(h.ang, target, Math.min(1, V.dt * 0.022));
       const tp = (NOW + h.id * 700) % 1800;
       drawHead(c, X(pts[0].x), Y(pts[0].y), h.ang, sk, {
-        kind: h.kind, scale: scale * (mini ? 0.8 : dragon ? 1.14 : 1), alpha,
+        kind: h.kind, scale: scale * (mini ? 0.8 : dragon ? 1.14 : 1) * (h.bold && h.state === 'hunt' ? 1.08 : 1), alpha, face: h.bold && h.state === 'hunt' ? 'fierce' : undefined,
         look: { x: G.snake[0].x - pts[0].x, y: G.snake[0].y - pts[0].y },
         tongue: tp < 300 ? Math.sin(tp / 300 * Math.PI) : 0
       });
@@ -2779,7 +3156,16 @@ function drawSheds(c) {
     }
   }
 }
+/* ---------- Le joueur ---------- */
+const ICE_WINGS = { fill: '#EAF8FF', vein: '#7FCFF5', speed: 60, rim: '#D9F6FF' };
 function drawPlayer(c) {
+  const sk = skinNow();
+  if (sk.pat !== 'diamond' || REDUCED) { drawPlayerBody(c); return; }
+  const g = glassCtx(c);
+  drawPlayerBody(g);
+  glassFlush(c, g, 0.86);
+}
+function drawPlayerBody(c) {
   const C = V.C, sn = G.snake, n = sn.length;
   if (n < 2) return;
   const dying = G.state === 'dying' || G.state === 'over';
@@ -2796,7 +3182,8 @@ function drawPlayer(c) {
   else if (G.turbo > 0) rimColor = '#FFD84D';
   else if (G.grow > 0) rimColor = Math.floor(NOW / 170) % 2 ? '#FFB066' : CREAM;
   const pop = dying && G.dead ? G.dead.pop : 0;
-  if (THEMES[V.theme].dark && !dying) halo(c, X(pts[0].x), Y(pts[0].y), sk.body, C * 1.15);
+  if (THEMES[V.theme].dark && !dying) halo(c, X(pts[0].x), Y(pts[0].y), sk.glow || sk.body, C * 1.15);
+  if (sk.wings && !dying && sm.length > 3) { const w = sampleAt(sm, Math.min(1.05, sm.L * 0.35)); drawWings(c, X(w.x), Y(w.y), w.ang + Math.PI, 1, 0.6, ICE_WINGS); }
 
   drawTube(c, sm, sk, { bulges: G.bulges, rimColor, from: pop > 0 ? pop - 0.25 : 0 });
 
@@ -2834,7 +3221,7 @@ function drawPlayer(c) {
   drawHead(c, X(pts[0].x), Y(pts[0].y), V.headAng, sk, {
     face, mouth, look: a ? { x: a.x - pts[0].x, y: a.y - pts[0].y } : null,
     blink: (NOW % 3700) < 130, tongue: tph < 320 && mouth < 0.1 ? Math.sin(tph / 320 * Math.PI) : 0,
-    scale: chomp, rimColor
+    scale: chomp, rimColor: rimColor || sk.rim
   });
 }
 
@@ -3037,8 +3424,11 @@ function drawMenuScene(c) {
     prev = p;
   }
   sm.L = s;
-  const sk = skinNow();
-  if (THEMES[V.theme].dark) halo(c, X(sm[0].x), Y(sm[0].y), sk.body, C * 1.15);
+  const sk = skinNow(), main = c;
+  if (THEMES[V.theme].dark) halo(c, X(sm[0].x), Y(sm[0].y), sk.glow || sk.body, C * 1.15);
+  const glass = sk.pat === 'diamond' && !REDUCED;
+  if (glass) c = glassCtx(main);
+  if (sk.wings) { const w = sampleAt(sm, 1.05); drawWings(c, X(w.x), Y(w.y), w.ang + Math.PI, 1, 0.6, ICE_WINGS); }
   drawTube(c, sm, sk, { bulges: Menu.bulges });
   const ang = Math.atan2(sm[0].y - sm[2].y, sm[0].x - sm[2].x);
   let near = null, nd = 1e9;
@@ -3048,8 +3438,9 @@ function drawMenuScene(c) {
     face: since < 190 ? 'chomp' : 'idle', mouth: near && nd < 2.2 ? clamp(1 - (nd - 0.55) / 1.7, 0, 1) : 0,
     look: near ? { x: near.x - sm[0].x, y: near.y - sm[0].y } : null, blink: (NOW % 3700) < 130,
     tongue: tph < 320 && nd > 2.2 ? Math.sin(tph / 320 * Math.PI) : 0,
-    scale: since < 260 ? 1 + 0.28 * Math.sin(since / 260 * Math.PI) : 1
+    scale: since < 260 ? 1 + 0.28 * Math.sin(since / 260 * Math.PI) : 1, rimColor: sk.rim
   });
+  if (glass) glassFlush(main, c, 0.86);
 }
 
 /* ---------- Particules en continu : flammes du turbo, étincelles, poussière du séisme ---------- */
@@ -3076,9 +3467,11 @@ function sceneEmit(dt) {
     }
     if (G.grow > 0 && Math.random() < 0.25) { const tl = sn[n - 1]; part({ x: tl.x + rnd(-0.2, 0.2), y: tl.y, vy: -1.4, color: '#FF8A1F', size: rnd(0.05, 0.09), max: 420, type: 'dot' }); }
     if (dangerNear() && G.inv <= 0 && Math.random() < 0.22) { const h = sn[0]; part({ x: h.x + rnd(-0.3, 0.3), y: h.y - 0.3, vx: rnd(-1, 1), vy: -2.4, g: 9, color: '#BFE9FF', size: 0.06, max: 420, type: 'dot', ink: true }); }
+    if (skinNow().pat === 'diamond' && Math.random() < 0.3) { const b = sn[Math.floor(Math.random() * n)]; part({ x: b.x + rnd(-0.35, 0.35), y: b.y + rnd(-0.35, 0.35), vy: -0.3, color: pick(['#FFFFFF', '#BFEFFF', '#E6D4FF']), size: rnd(0.05, 0.1), max: rnd(300, 550), type: 'star', vr: 6 }); }
     for (const h of G.hunters) {
       if (h.state !== 'hunt') continue;
       if (h.kind === 'dragon' && Math.random() < 0.6) { const c0 = h.cells[0]; part({ x: c0.x + rnd(-0.3, 0.3), y: c0.y + rnd(-0.3, 0.3), vx: rnd(-0.8, 0.8), vy: rnd(-1.6, -0.4), color: pick(['#FF9D2E', '#FFC91F', '#EF3E36']), size: rnd(0.04, 0.09), max: rnd(300, 600), type: 'dot' }); }
+      if (h.bold && Math.random() < 0.7) { const c0 = h.cells[0]; part({ x: c0.x + rnd(-0.3, 0.3), y: c0.y + rnd(-0.3, 0.3), vx: -h.dir.x * rnd(2, 4) + rnd(-0.6, 0.6), vy: -h.dir.y * rnd(2, 4) + rnd(-0.6, 0.6), color: pick(['#FF2E4A', '#FF9D2E', '#FFE27A']), size: rnd(0.05, 0.1), max: rnd(200, 380), type: 'dot' }); }
       else if (Math.random() < 0.25) { const tl = h.cells[h.cells.length - 1]; part({ x: tl.x, y: tl.y, vx: rnd(-0.4, 0.4), vy: rnd(-0.8, -0.2), color: '#33263F', size: rnd(0.1, 0.16), max: rnd(400, 700), type: 'smoke' }); }
     }
   }
@@ -3087,6 +3480,7 @@ function sceneEmit(dt) {
     else if (a.kind === 'gold' && Math.random() < 0.22) part({ x: a.x + rnd(-0.45, 0.45), y: a.y + rnd(-0.45, 0.45), color: '#FFF6C2', size: rnd(0.06, 0.11), max: rnd(300, 500), type: 'star', vr: 5, ink: true });
     else if (a.kind === 'brown' && Math.random() < 0.12) part({ x: a.x + rnd(-0.45, 0.45), y: a.y + rnd(-0.45, 0.45), color: '#FFFFFF', size: rnd(0.05, 0.09), max: 380, type: 'star', vr: 5 });
     else if (a.kind === 'pink' && Math.random() < 0.07) floater(a.x + rnd(-0.3, 0.3), a.y, '?', '#FFB3D4', 0.34);
+    else if (a.kind === 'white' && Math.random() < 0.4) part({ x: a.x + rnd(-0.6, 0.6), y: a.y + rnd(-0.6, 0.4), vy: rnd(-0.6, -0.1), color: pick(['#FFFFFF', '#DFF4FF', '#BFEFFF']), size: rnd(0.05, 0.1), max: rnd(400, 700), type: 'star', vr: 4 });
   }
 }
 /* Animations qui ne dépendent pas des règles : bosses avalées, mues, ambiance. */
@@ -3166,16 +3560,43 @@ function toast(html, o) {
     setTimeout(() => { el.remove(); if (!toastBox.children.length) $('arena').classList.remove('toasting'); }, 240);
   }, o.ms || 2300);
 }
-function showBanner(word, sub, cls, ms) {
-  const box = $('banner'), bw = COLS * V.C / V.dpr;
-  const fs = Math.max(30, Math.min(108, bw * 0.9 / (word.length * 0.62)));
-  box.innerHTML = '<div class="bn ' + cls + '" style="--d:' + ms + 'ms"><div class="bn-burst"></div><div class="bn-word ol" style="font-size:' + fs.toFixed(1) + 'px;--o:' + Math.max(3, fs * 0.055).toFixed(1) + 'px">' + esc(word) + '</div>' +
-    (sub ? '<div class="bn-sub">' + esc(sub) + '</div>' : '') + '</div>';
+/* Bandeau d'annonce : il traverse le plateau sans jamais figer le jeu.
+   Il se place dans la moitié opposée à la tête et s'efface quand la tête passe dessous. */
+const Rib = { q: [], cur: null, timer: 0 };
+function showBanner(word, sub, cls, ms, colors) {
+  Rib.q.push({ word, sub, cls, ms: ms || 1700, colors });
+  if (Rib.q.length > 3) Rib.q.splice(0, Rib.q.length - 3);
+  if (!Rib.cur) ribNext();
+}
+function ribNext() {
+  const it = Rib.q.shift(), box = $('banner');
+  clearTimeout(Rib.timer);
+  if (!it) { Rib.cur = null; box.innerHTML = ''; return; }
+  const cell = V.C / V.dpr, gut = V.gut / V.dpr, bw = COLS * cell;
+  const head = G.snake[0] || { y: 0 };
+  const row = G.state === 'menu' || head.y >= ROWS / 2 ? 3.6 : ROWS - 4.6;
+  const h = cell * 2.9, top = gut + row * cell - h / 2 + cell / 2;
+  const ms = Rib.q.length ? Math.min(it.ms, 1300) : it.ms;
+  const fs = Math.max(24, Math.min(cell * 1.55, 72));
+  const c1 = it.colors ? it.colors[0] : '', c2 = it.colors ? it.colors[1] : '';
+  box.innerHTML = '<div class="rib ' + (it.cls || '') + '" style="--d:' + ms + 'ms;top:' + top.toFixed(1) + 'px;height:' + h.toFixed(1) + 'px' +
+    (c1 ? ';--c1:' + c1 + ';--c2:' + c2 : '') + '"><div class="rib-band"></div><div class="rib-word ol" style="font-size:' + fs.toFixed(1) + 'px;--o:' + Math.max(2.5, fs * 0.06).toFixed(1) + 'px">' + esc(it.word) + '</div>' +
+    (it.sub ? '<div class="rib-sub">' + esc(it.sub) + '</div>' : '') + '</div>';
   /* Le mot doit tenir dans le cadre, quelle que soit la largeur réelle de la police. */
-  const wEl = box.querySelector('.bn-word'), max = bw * 0.94;
+  const wEl = box.querySelector('.rib-word'), max = bw * 0.9;
   if (wEl && wEl.offsetWidth > max) wEl.style.fontSize = (fs * max / wEl.offsetWidth).toFixed(1) + 'px';
-  clearTimeout(showBanner.timer);
-  showBanner.timer = setTimeout(() => { box.innerHTML = ''; }, ms + 80);
+  Rib.cur = { el: box.firstElementChild, r0: row - 1.6, r1: row + 1.6, end: NOW + ms };
+  Sfx.play('ribbon');
+  Rib.timer = setTimeout(ribNext, ms + 60);
+}
+function ribClear() { Rib.q.length = 0; Rib.cur = null; clearTimeout(Rib.timer); $('banner').innerHTML = ''; }
+/* Appelé à chaque image : le bandeau pâlit tant que la tête du serpent passe dessous. */
+function ribUpdate() {
+  const r = Rib.cur;
+  if (!r || !r.el) return;
+  const h = G.snake[0];
+  const under = !!h && G.state !== 'menu' && h.y >= r.r0 - 0.6 && h.y <= r.r1 + 0.6;
+  if (under !== r.dim) { r.dim = under; r.el.classList.toggle('dim', under); }
 }
 function uiBump(id, cls) {
   const el = $(id);
@@ -3199,6 +3620,10 @@ function once(key) {
 function fxStart() {
   Sfx.play('start');
   ring(G.snake[0].x, G.snake[0].y, { color: CREAM, r1: 1.5, max: 360 });
+  if (G.mode === 'sn') {
+    showBanner('Mort aux SNARNAQUES !', 'piège-le contre un mur ou ton corps', 'hunt', 2000);
+    if (once('snmode')) toast('<b>Mort aux SNARNAQUES</b><small>Fais-le se cogner contre un mur ou contre ton corps. Chaque prise : plus de points, et tout va 2 % plus vite.</small>', { cls: 'dark', ms: 5200 });
+  }
 }
 function fxAppleSpawn(a) {
   const col = APPLES[a.kind].c;
@@ -3311,7 +3736,7 @@ function fxCloverSave() {
   ring(h.x, h.y, { color: '#7BE27F', r1: 4.6, max: 640, w: 0.3 });
   ring(h.x, h.y, { color: '#FFFFFF', r1: 3, max: 520, w: 0.16, delay: 80 });
   burst(h.x, h.y, 26, { color: ['#4FB83C', '#7BE27F', '#FFFFFF'], sp: [3, 9], size: [0.08, 0.16], life: [450, 850], type: 'leaf' });
-  toast('<b>Trèfle !</b> Sauvé de justesse', { cls: 'green', ms: 2000 });
+  toast('<b>Trèfle !</b> Sauvé de justesse' + (G.mult > 1 ? ', combo perdu' : ''), { cls: 'green', ms: 2200 });
   uiBump('clover', 'used');
 }
 function fxCloverGain() {
@@ -3378,8 +3803,9 @@ function fxComboDown(hard) {
 /* ---------- Vipères et Lingo ---------- */
 function fxHunterSpawn(h) {
   if (h.kind !== 'dragon') Sfx.play('hiss');
-  if (h.kind === 'viper' && once('viper')) toast('<b>Vipère !</b><small>Elle te coupe la route pendant 10 s. Piège-la pour un bonus.</small>', { cls: 'dark', ms: 3800 });
-  if (h.kind === 'mini' && once('mini')) toast('<b>Un vipéreau</b><small>Petit, rapide, et là pour 5 s seulement.</small>', { cls: 'dark', ms: 3200 });
+  if (h.endless) return;
+  if (h.kind === 'viper' && once('viper')) toast('<b>SNARNAQUE !</b><small>Il te coupe la route pendant 10 s. Piège-le contre un mur ou ton corps : +' + PTS.trap.viper + '.</small>', { cls: 'dark', ms: 3800 });
+  if (h.kind === 'mini' && once('mini')) toast('<b>Un SNARIQUIQUI</b><small>Le petit des SNARNAQUES : rapide, et là pour 5 s seulement. Piégé : +' + PTS.trap.mini + '.</small>', { cls: 'dark', ms: 3600 });
 }
 function fxHunterRefresh(h) {
   Sfx.play('hiss');
@@ -3392,7 +3818,7 @@ function fxHunterDie(h, how) {
     burst(c.x, c.y, 5, { color: ['#33263F', '#FF4257', h.kind === 'dragon' ? '#FFC91F' : '#6B4A85'], sp: [2, 6], size: [0.08, 0.15], life: [300, 650], g: 7, type: 'shard', ink: true });
     ring(c.x, c.y, { color: '#FF4257', r0: 0.2, r1: 0.9, max: 300, w: 0.1, delay: i * 35 });
   });
-  if (how === 'trap' && once('trap')) toast('<b>Piégée !</b><small>Un chasseur coincé disparaît et rapporte des points.</small>', { cls: 'gold', ms: 3200 });
+  if (how === 'trap' && !h.endless && once('trap')) toast('<b>Piégé !</b><small>Un SNARNAQUE coincé disparaît et rapporte des points.</small>', { cls: 'gold', ms: 3200 });
 }
 function fxHunterLeave(h) {
   if (h.kind === 'dragon') Sfx.play('whoosh');
@@ -3435,22 +3861,79 @@ function fxQuizOk() {
 
 /* ---------- Les grands moments ---------- */
 function fxManche(n) {
-  const h = G.snake[0], ti = (n - 1) % THEMES.length;
-  setTheme(ti, true, h);
-  showBanner('Manche ' + n, THEMES[ti].name, 'manche', 1500);
+  const h = G.snake[0], ti = themeIdx(), th = THEMES[ti];
+  if (ti !== V.theme) setTheme(ti, true, h);
+  showBanner('Manche ' + n, themeLabel(), 'manche', 1700, [th.sky, mix(th.sky, '#FFFFFF', 0.38)]);
   Sfx.play('manche'); punch(1); buzz(40);
   ripple(h.x, h.y, 1.5);
   for (let i = 0; i < 4; i++) burst(rnd(1, COLS - 2), -0.5, 6, { color: ['#EF3E36', '#FFC91F', '#19C7B5', '#FF6FAE', CREAM], sp: [2, 7], size: [0.07, 0.13], life: [700, 1300], g: 7, type: 'conf', ang: Math.PI / 2, spread: 1.1 });
 }
 function fxBrunchito() {
-  showBanner('Brunchito !', 'le mineur sort sa pioche', 'brunchito', 1400);
-  Sfx.play('brunchito'); shake(0.55); buzz([40, 60, 40, 60, 40]);
+  showBanner('BRUNCHITO !', 'la Brunch sort sa pioche', 'brunchito', 1700);
+  Sfx.play('brunchito'); shake(0.4); buzz([40, 60, 40, 60, 40]);
   for (let x = 1; x < COLS; x += 3) burst(x, ROWS - 0.6, 5, { color: ['#9A6A3A', '#6F4A26', '#C9A565'], sp: [3, 8], size: [0.07, 0.14], life: [500, 900], g: 13, ang: -Math.PI / 2, spread: 0.6 });
 }
 function fxLingo() {
-  showBanner('Lingo !', 'le dragon du verger', 'lingo', 1500);
-  Sfx.play('lingo'); shake(0.7); flash('#1B1226', 0.5); buzz([120, 60, 200]);
+  showBanner('LINGO !', 'le Roi des SNARNAQUES', 'lingo', 1800);
+  Sfx.play('lingo'); shake(0.5); flash('#1B1226', 0.32); buzz([120, 60, 200]);
   for (let i = 0; i < 5; i++) burst(rnd(1, COLS - 2), rnd(0, ROWS - 1), 5, { color: ['#FF9D2E', '#FFC91F', '#EF3E36'], sp: [1, 4], size: [0.05, 0.1], life: [500, 1000], g: -2 });
+}
+/* La boucle : le verger fait un tour complet et repart au Matin. Seule pause tolérée avec le calcul mental. */
+function fxLoop(n) {
+  const h = G.snake[0];
+  ribClear();
+  Sfx.play('loop'); flash('#FFFFFF', 0.75); punch(1); shake(0.45); buzz([60, 40, 60, 40, 160]);
+  ring(h.x, h.y, { color: '#FFFFFF', r1: 7, max: 900, w: 0.34 });
+  ring(h.x, h.y, { color: '#BFEFFF', r1: 4.5, max: 700, w: 0.22, delay: 120 });
+  burst(h.x, h.y, 34, { color: ['#FFFFFF', '#DFF4FF', '#BFEFFF', '#FFE27A'], sp: [3, 11], size: [0.08, 0.17], life: [600, 1300], type: 'star', ink: true, drag: 1.6 });
+  THEMES.forEach((th, i) => burst(h.x, h.y, 6, { color: th.sky, sp: [4, 9], size: [0.07, 0.13], life: [700, 1300], type: 'conf', ang: i * TAU / THEMES.length, spread: 0.5, delay: 150 + i * 70 }));
+  buildLoopRing();
+  const el = $('loopfx');
+  $('loopWord').textContent = 'Boucle ' + n;
+  $('loopSub').textContent = THEMES[0].name + ' ' + n + ' · vitesse à zéro';
+  el.style.setProperty('--d', T.LOOP + 'ms');
+  el.style.setProperty('--rs', Math.round(Math.min(COLS * V.C / V.dpr * 0.74, ROWS * V.C / V.dpr * 0.7, 430)) + 'px');
+  el.hidden = false;
+  el.classList.remove('go'); void el.offsetWidth; el.classList.add('go');
+}
+/* L'anneau des six décors, construit une fois avec les couleurs des ciels. */
+function buildLoopRing() {
+  const svg = $('loopRing');
+  if (svg.childElementCount) return;
+  const circ = 2 * Math.PI * 78, seg = circ / THEMES.length, len = (seg - 7).toFixed(1);
+  let h = '<circle cx="100" cy="100" r="78" stroke="#2A1B3D" stroke-width="36"/><circle cx="100" cy="100" r="78" stroke="#FFF4D6" stroke-width="27" opacity=".45"/>';
+  THEMES.forEach((t, i) => {
+    h += '<circle class="lf-arc" cx="100" cy="100" r="78" stroke="' + t.sky + '" stroke-width="25" stroke-dasharray="0 490" style="--len:' + len + ';animation-delay:' + i * 90 + 'ms" transform="rotate(' + (-90 + 3.5 + i * 360 / THEMES.length).toFixed(1) + ' 100 100)"/>';
+  });
+  h += '<path d="M93 4l20 18-20 18z" fill="#FFF4D6" stroke="#2A1B3D" stroke-width="4.5" stroke-linejoin="round"/>';
+  svg.innerHTML = h;
+}
+function fxLoopEnd(n) {
+  $('loopfx').hidden = true;
+  const h = G.snake[0];
+  for (let i = 0; i < 6; i++) burst(rnd(1, COLS - 2), -0.5, 6, { color: THEMES.map(t => t.sky).concat([CREAM]), sp: [2, 7], size: [0.07, 0.13], life: [800, 1400], g: 7, type: 'conf', ang: Math.PI / 2, spread: 1.1 });
+  ring(h.x, h.y, { color: CREAM, r1: 2.4, max: 420, w: 0.2 });
+  if (once('loop')) toast('<b>Boucle ' + n + '</b><small>Même taille, mêmes pommes, mais la vitesse repart du début. Prochaine pomme blanche à ' + fmt(PTS.loopEvery * n) + ' pts.</small>', { cls: 'gold', ms: 5200 });
+}
+/* Mort aux SNARNAQUES */
+function fxSnSpawn(h, n) {
+  if (n > 1) showBanner('SNARNAQUE n°' + n, 'tout va ' + (2 * (n - 1)) + ' % plus vite', 'hunt', 1500);
+}
+function fxSnKill(h, pts) {
+  const c0 = h.cells[0];
+  Sfx.play('kill'); flash('#FFE27A', 0.35); punch(1); shake(0.5); buzz([50, 30, 90]);
+  ring(c0.x, c0.y, { color: '#FFE27A', r1: 3.6, max: 560, w: 0.28 });
+  ring(c0.x, c0.y, { color: '#FF4257', r1: 2.2, max: 460, w: 0.18, delay: 90 });
+  h.cells.forEach((c, i) => burst(c.x, c.y, 6, { color: ['#FFE27A', '#FFC91F', '#FFFFFF', '#FF4257'], sp: [3, 9], size: [0.07, 0.14], life: [450, 900], type: 'star', ink: true, delay: i * 40 }));
+  for (let i = 0; i < 3; i++) burst(rnd(1, COLS - 2), -0.5, 6, { color: ['#EF3E36', '#FFC91F', '#19C7B5', CREAM], sp: [2, 7], size: [0.07, 0.13], life: [700, 1200], g: 7, type: 'conf', ang: Math.PI / 2, spread: 1.1 });
+  decal('crack', c0.x, c0.y, 4000);
+  toast('<b>SNARNAQUE piégé !</b> Le suivant arrive, tout va <b>+2 %</b> plus vite', { cls: 'gold', ms: 2200 });
+}
+function fxWave(w) {
+  const h = G.snake[0], ti = themeIdx(), th = THEMES[ti];
+  setTheme(ti, true, h);
+  showBanner('Vague ' + w, th.name, 'manche', 1600, [th.sky, mix(th.sky, '#FFFFFF', 0.38)]);
+  Sfx.play('manche'); ripple(h.x, h.y, 1.5);
 }
 function fxRecord() {
   Sfx.play('record'); flash('#FFE27A', 0.3); punch(0.8);
@@ -3466,21 +3949,27 @@ function fxOvertake(name) {
 /* =====================================================================
    INTERFACE — bandeau de score, écrans, calcul mental, fin de partie.
    ===================================================================== */
-const UIS = { tab: 'all', hud: {}, rivalSig: '', lastOvertake: 0 };
-const bestOf = mode => mode === 'daily' ? dailyBest() : (Save.best.classic || 0);
+const UIS = { lbMode: 'classic', lbPeriod: 'all', hud: {}, rivalSig: '', lastOvertake: 0 };
+const bestOf = mode => Save.best[mode === 'sn' ? 'sn' : 'classic'] || 0;
+/* Tableau du classement : 'all', 'week', 'sn_all', 'sn_week'. */
+const lbTab = (mode, period) => (mode === 'sn' ? 'sn_' : '') + (period || 'all');
 const ordinal = n => n + (n === 1 ? 'er' : 'e');
 const plural = (n, w) => n + ' ' + w + (n > 1 ? 's' : '');
 function useIcon(el, id) { const u = el && el.querySelector('use'); if (u) u.setAttribute('href', '#' + id); }
 
 /* ---------- Bandeau de score ---------- */
 function uiReset() {
-  UIS.hud = { score: -1, apples: -1, mult: 0, p: -1, manche: 0, clover: -1 };
+  UIS.hud = { score: -1, apples: -1, mult: 0, p: -1, label: '', clover: -1 };
   UIS.rivalSig = '';
-  const pips = $('pips');
-  if (pips.children.length !== 10) pips.replaceChildren(...Array.from({ length: 10 }, () => document.createElement('i')));
+  const sn = G.mode === 'sn' && G.state !== 'menu', np = sn ? 3 : 10, pips = $('pips');
+  document.body.classList.toggle('mode-sn', sn);
+  $('applesChip').title = sn ? 'SNARNAQUES piégés' : 'Pommes mangées';
+  pips.title = sn ? 'SNARNAQUES avant la prochaine vague' : 'Pommes avant la prochaine manche';
+  if (pips.children.length !== np) pips.replaceChildren(...Array.from({ length: np }, () => document.createElement('i')));
   $('clover').className = 'clover off';
   $('quiz').hidden = true;
-  $('banner').innerHTML = '';
+  $('loopfx').hidden = true;
+  ribClear();
   toastBox.replaceChildren();
   $('rival').hidden = true;
 }
@@ -3491,16 +3980,20 @@ function uiHud(dt) {
     G.shown = Math.abs(d) <= stepv ? G.score : G.shown + Math.sign(d) * stepv;
   }
   if (G.shown !== h.score) { h.score = G.shown; $('score').textContent = fmt(G.shown); }
-  if (G.apples !== h.apples) {
-    h.apples = G.apples;
-    $('apples').textContent = G.apples;
-    const n = G.apples % 10, kids = $('pips').children;
+  const sn = G.mode === 'sn', count = sn ? G.kills : G.apples;
+  if (count !== h.apples) {
+    h.apples = count;
+    $('apples').textContent = count;
+    const n = sn ? G.kills % 3 : G.mancheIn, kids = $('pips').children;
     for (let i = 0; i < kids.length; i++) kids[i].classList.toggle('on', i < n);
   }
-  if (G.manche !== h.manche) {
-    h.manche = G.manche;
-    $('mancheName').innerHTML = (G.mode === 'daily' ? 'Défi · ' : '') + 'Manche ' + G.manche + '<span class="th"> · ' + esc(THEMES[(G.manche - 1) % THEMES.length].name) + '</span>';
+  const label = sn ? 'Vague ' + G.wave + '|vitesse +' + (2 * G.kills) + ' %' : 'Manche ' + G.manche + '|' + themeLabel();
+  if (label !== h.label) {
+    h.label = label;
+    const parts = label.split('|');
+    $('mancheName').innerHTML = esc(parts[0]) + '<span class="th"> · ' + esc(parts[1]) + '</span>';
   }
+  ribUpdate();
   if (G.mult !== h.mult) { h.mult = G.mult; $('combo').dataset.m = G.mult; $('comboX').textContent = '×' + G.mult; }
   const p = G.comboLeft > 0 ? Math.round(clamp(G.comboLeft / G.comboWin, 0, 1) * 72) / 72 : 0;
   if (p !== h.p) { h.p = p; $('combo').style.setProperty('--p', p); }
@@ -3516,7 +4009,7 @@ function uiScoreChanged() {
 /* Le rival : le prochain score à dépasser au classement, mis à jour en direct. */
 function rivalCheck() {
   if (G.state === 'menu' || G.state === 'over') return;
-  const rows = LB.rows(G.mode === 'daily' ? 'day' : 'all'), el = $('rival');
+  const rows = LB.rows(lbTab(G.mode, 'all')), el = $('rival');
   if (!rows.length) { el.hidden = true; UIS.rivalSig = ''; return; }
   let target = null, rank = 1, passed = null;
   for (const r of rows) {
@@ -3570,20 +4063,21 @@ function uiQuizClose() { $('quiz').hidden = true; FX.veilTo = 0; }
 
 /* ---------- Écrans ---------- */
 function openScreen(id) {
-  if (id === 'lb') { lbRender(); LB.refresh(UIS.tab); }
+  if (id === 'lb') { lbRender(); LB.refresh(lbTab(UIS.lbMode, UIS.lbPeriod), true); }
   else if (id === 'codex') renderCodex();
   else if (id === 'settings') renderProfile();
+  else if (id === 'stats') renderStats();
   $(id).hidden = false;
   Sfx.play('open');
   if (id === 'lb') { const me = $('lbList').querySelector('.me'); if (me) me.scrollIntoView({ block: 'nearest' }); }
 }
 function closeScreen(id) { $(id).hidden = true; Sfx.play('click'); }
-function topScreen() { return ['settings', 'codex', 'lb'].find(id => !$(id).hidden) || null; }
+function topScreen() { return ['settings', 'stats', 'codex', 'lb'].find(id => !$(id).hidden) || null; }
 
 function startGame(mode) {
   Sfx.unlock();
   Sfx.play('click');
-  ['pause', 'over', 'lb', 'codex', 'settings'].forEach(id => { $(id).hidden = true; });
+  ['pause', 'over', 'lb', 'codex', 'settings', 'stats'].forEach(id => { $(id).hidden = true; });
   $('menu').hidden = true;
   FX.parts.length = 0; FX.floats.length = 0; FX.rings.length = 0; FX.ripples.length = 0; FX.decals.length = 0;
   FX.veil = 0; FX.veilTo = 0; FX.flash = 0; FX.trauma = 0;
@@ -3593,10 +4087,10 @@ function startGame(mode) {
   uiReset();
   uiHud(16);
   rivalCheck();
-  LB.refresh(mode === 'daily' ? 'day' : 'all');
+  LB.refresh(lbTab(G.mode, 'all'));
 }
 function toMenu() {
-  ['pause', 'over', 'lb', 'codex', 'settings'].forEach(id => { $(id).hidden = true; });
+  ['pause', 'over', 'lb', 'codex', 'settings', 'stats'].forEach(id => { $(id).hidden = true; });
   setState('menu');
   uiReset();
   menuInit();
@@ -3613,7 +4107,7 @@ function pauseGame() {
 }
 function resumeGame() {
   if (G.state !== 'paused') return;
-  ['pause', 'lb', 'codex', 'settings'].forEach(id => { $(id).hidden = true; });
+  ['pause', 'lb', 'codex', 'settings', 'stats'].forEach(id => { $(id).hidden = true; });
   setState(G.resume || 'play');
   Sfx.play('click');
 }
@@ -3634,24 +4128,55 @@ function syncSound() {
 
 /* ---------- Fin de partie ---------- */
 function finishRun() {
-  const res = { mode: G.mode, day: G.day, score: G.score, apples: G.apples, combo: G.bestMult, manche: G.manche, cause: G.cause || 'mur', skin: skinNow().id };
+  const sn = G.mode === 'sn';
+  const res = { mode: G.mode, day: G.day, score: G.score, apples: sn ? G.kills : G.apples, combo: sn ? 1 : G.bestMult, manche: sn ? G.wave : G.manche, loop: G.loop, cause: G.cause || 'mur', skin: skinNow().id };
   const before = bestOf(G.mode), isPB = res.score > before && res.score > 0;
-  if (G.mode === 'daily') {
-    if (Save.best.dailyDay !== res.day) { Save.best.dailyDay = res.day; Save.best.daily = 0; }
-    Save.best.daily = Math.max(Save.best.daily || 0, res.score);
-  } else Save.best.classic = Math.max(Save.best.classic || 0, res.score);
+  Save.best[sn ? 'sn' : 'classic'] = Math.max(before, res.score);
   store.set('best', Save.best);
   if (isPB) { Save.bestRun[G.mode] = res; store.set('bestRun', Save.bestRun); }
-  const st = Save.stats;
-  st.games = (st.games || 0) + 1;
-  st.apples = (st.apples || 0) + res.apples;
-  st.combo = Math.max(st.combo || 1, res.combo);
-  st.manche = Math.max(st.manche || 1, res.manche);
-  store.set('stats', st);
+  recordStats(res);
   G.result = res;
   setState('over');
   showOver(res, isPB);
-  if (Save.pseudo) LB.submit(res);
+  if (Save.pseudo && res.score > 0) LB.submit(res);
+}
+/* Statistiques du compte, mises à jour à chaque fin de partie. */
+function recordStats(res) {
+  const st = Save.st, m = res.mode === 'sn' ? 'sn' : 'classic', add = (o, k, n) => { o[k] = (o[k] || 0) + n; };
+  add(st.games, m, 1);
+  st.time = (st.time || 0) + Math.round(G.playMs || 0);
+  st.best[m] = Math.max(st.best[m] || 0, res.score);
+  add(st.sum, m, res.score); add(st.counted, m, 1);
+  add(st.deaths, (m === 'sn' ? 'sn_' : '') + res.cause, 1);
+  const day = parisDay();
+  if (st.lastDay !== day) { st.days = (st.days || 0) + 1; st.lastDay = day; }
+  if (m === 'classic') {
+    const r = G.run;
+    st.apples = (st.apples || 0) + res.apples;
+    Object.keys(r.kinds).forEach(k => add(st.kinds, k, r.kinds[k]));
+    st.combo = Math.max(st.combo || 1, res.combo);
+    st.combo5 = (st.combo5 || 0) + r.combo5;
+    st.manche = Math.max(st.manche || 1, res.manche);
+    st.loop = Math.max(st.loop || 1, G.loop);
+    Object.keys(r.traps).forEach(k => add(st.traps, k, r.traps[k]));
+    st.smash = (st.smash || 0) + r.smash;
+    st.quizOk = (st.quizOk || 0) + r.quizOk;
+    st.quizAll = (st.quizAll || 0) + r.quizAll;
+    if (r.quizFast && (!st.quizFast || r.quizFast < st.quizFast)) st.quizFast = r.quizFast;
+    st.clover = (st.clover || 0) + r.clover;
+    st.white = (st.white || 0) + r.white;
+    st.last.push({ s: res.score, t: Date.now() });
+    if (st.last.length > 20) st.last.splice(0, st.last.length - 20);
+  } else {
+    st.kills = (st.kills || 0) + res.apples;
+    st.killsBest = Math.max(st.killsBest || 0, res.apples);
+  }
+  store.set('st2', st);
+  /* Compteurs de la 1.1, gardés pour le profil. */
+  const old = Save.stats;
+  old.games = (old.games || 0) + 1;
+  if (m === 'classic') { old.apples = (old.apples || 0) + res.apples; old.combo = Math.max(old.combo || 1, res.combo); old.manche = Math.max(old.manche || 1, res.manche); }
+  store.set('stats', old);
 }
 function countUp(el, to, ms) {
   const t0 = performance.now();
@@ -3663,13 +4188,15 @@ function countUp(el, to, ms) {
   requestAnimationFrame(tickUp);
 }
 function showOver(res, isPB) {
-  $('overCause').textContent = pick(DEATHS[res.cause] || ['Partie terminée.']);
+  const sn = res.mode === 'sn';
+  $('overCause').textContent = pick((sn && DEATHS['sn_' + res.cause]) || DEATHS[res.cause] || ['Partie terminée.']);
   $('overNew').hidden = !isPB;
-  const chips = [plural(res.apples, 'pomme'), 'Combo ×' + res.combo, 'Manche ' + res.manche];
-  if (res.mode === 'daily') chips.unshift('Défi du jour');
+  const chips = sn ? ['Mort aux SNARNAQUES', plural(res.apples, 'SNARNAQUE') + ' piégé' + (res.apples > 1 ? 's' : ''), 'Vitesse +' + 2 * res.apples + ' %']
+    : [plural(res.apples, 'pomme'), 'Combo ×' + res.combo, 'Manche ' + res.manche].concat(res.loop > 1 ? ['Boucle ' + res.loop] : []);
   $('overChips').innerHTML = chips.map(t => '<span class="chip">' + esc(t) + '</span>').join('');
   const nx = nextRank(res.score);
-  $('overRank').innerHTML = 'Rang : <b>' + rankOf(res.score) + '</b>' + (nx ? ' · ' + esc(nx[1]) + ' à ' + fmt(nx[0]) + ' pts' : '');
+  $('overRank').innerHTML = sn ? 'Record du mode : <b>' + fmt(Save.best.sn || 0) + ' pts</b>'
+    : 'Rang : <b>' + rankOf(res.score) + '</b>' + (nx ? ' · ' + esc(nx[1]) + ' à ' + fmt(nx[0]) + ' pts' : '');
   $('nameForm').hidden = !!Save.pseudo;
   $('nameErr').hidden = true;
   $('btnShare').querySelector('span').textContent = 'Partager';
@@ -3686,11 +4213,11 @@ function showOver(res, isPB) {
 function overPlace() {
   const res = G.result, el = $('overPlace');
   if (!res) return;
-  if (!Save.pseudo) { el.hidden = true; return; }
-  const tab = res.mode === 'daily' ? 'day' : 'all', rows = LB.rows(tab), i = rows.findIndex(r => r.me);
+  if (!Save.pseudo || !res.score) { el.hidden = true; return; }
+  const tab = lbTab(res.mode, 'all'), rows = LB.rows(tab), i = rows.findIndex(r => r.me);
   el.hidden = false;
   if (i < 0) { el.className = 'over-place'; el.textContent = LB.kind === 'local' ? 'Score gardé sur cet appareil.' : 'Envoi du score au classement…'; return; }
-  const where = tab === 'day' ? 'au défi du jour' : 'au classement';
+  const where = res.mode === 'sn' ? 'à Mort aux SNARNAQUES' : 'au classement';
   if (i === 0) {
     el.className = 'over-place top';
     el.textContent = rows.length > 1 ? 'Numéro 1 ' + where + ' !' : 'Premier inscrit ' + where + ' !';
@@ -3713,10 +4240,11 @@ async function shareScore() {
   const r = G.result;
   if (!r) return;
   const url = location.href.split('#')[0].split('?')[0];
-  const text = 'J’ai fait ' + fmt(r.score) + ' pts (' + plural(r.apples, 'pomme') + ') à Pépin' + (r.mode === 'daily' ? ', défi du jour' : '') + '. Tu fais mieux ?';
+  const text = r.mode === 'sn' ? 'J’ai piégé ' + plural(r.apples, 'SNARNAQUE') + ' (' + fmt(r.score) + ' pts) à SNAQUE, mode Mort aux SNARNAQUES. Tu fais mieux ?'
+    : 'J’ai fait ' + fmt(r.score) + ' pts (' + plural(r.apples, 'pomme') + ') à SNAQUE. Tu fais mieux ?';
   const label = $('btnShare').querySelector('span');
   try {
-    if (navigator.share) { await navigator.share({ title: 'Pépin', text, url }); return; }
+    if (navigator.share) { await navigator.share({ title: 'SNAQUE', text, url }); return; }
   } catch (e) { if (e && e.name === 'AbortError') return; }
   try {
     await navigator.clipboard.writeText(text + ' ' + url);
@@ -3739,40 +4267,43 @@ function renderMenu() {
   const st = $('podiumStatus');
   st.textContent = statusText(st, false);
   $('meLine').innerHTML = '<span>' + esc(Save.pseudo || 'Toi') + ' · ' + rankOf(best) + '</span><span>Record : ' + fmt(best) + '</span>';
-  const db = dailyBest();
-  $('dailyInfo').textContent = db ? 'ton score : ' + fmt(db) : 'même verger pour tous';
+  const sb = Save.best.sn || 0;
+  $('snInfo').textContent = sb ? 'record : ' + fmt(sb) : 'nouveau mode';
 }
 
 /* ---------- Classement ---------- */
-function lbRow(r, n) {
+function lbRow(r, n, mode) {
+  const info = mode === 'sn' ? plural(r.apples, 'SNARNAQUE') + ' · vague ' + r.manche : plural(r.apples, 'pomme') + ' · manche ' + r.manche + ' · ' + rankOf(r.score);
   return '<li class="' + (n <= 3 ? 'r' + n : '') + (r.me ? ' me' : '') + '"><span class="lb-rank">' + n + '</span>' +
     '<span class="lb-who"><i style="background:' + (SKINS[r.skin] || SKINS[0]).body + '"></i>' + esc(r.pseudo) +
-    '<small>' + plural(r.apples, 'pomme') + ' · manche ' + r.manche + ' · ' + rankOf(r.score) + '</small></span>' +
+    '<small>' + info + '</small></span>' +
     '<span class="lb-pts">' + fmt(r.score) + '</span></li>';
 }
 function lbRender() {
-  const tab = UIS.tab, rows = LB.rows(tab), ol = $('lbList'), em = $('lbEmpty');
-  document.querySelectorAll('.lb-tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
-  $('lbSub').textContent = tab === 'all' ? 'Les meilleurs serpents du verger' : tab === 'week' ? 'Remis à zéro chaque lundi' : 'Le même verger pour tous, jusqu’à minuit';
+  const mode = UIS.lbMode, per = UIS.lbPeriod, tab = lbTab(mode, per), rows = LB.rows(tab), ol = $('lbList'), em = $('lbEmpty');
+  document.querySelectorAll('.lb-modes button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mode === mode)));
+  document.querySelectorAll('.lb-tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === per)));
+  $('lbSub').textContent = mode === 'sn' ? (per === 'week' ? 'Les chasseurs de la semaine' : 'Les meilleurs chasseurs de SNARNAQUES')
+    : per === 'week' ? 'Remis à zéro chaque lundi' : 'Les meilleurs serpents du verger';
   if (!rows.length) {
     ol.innerHTML = '';
     em.hidden = false;
     em.textContent = !LB.loaded(tab) ? 'Chargement du classement…'
-      : tab === 'day' ? 'Personne n’a encore tenté le défi du jour. À toi d’ouvrir le bal !'
-      : tab === 'week' ? 'Aucun score cette semaine. La première place est à prendre.'
+      : mode === 'sn' ? 'Personne n’a encore piégé de SNARNAQUE ici. À toi de jouer !'
+      : per === 'week' ? 'Aucun score cette semaine. La première place est à prendre.'
       : 'Personne au classement pour l’instant. Sois le premier !';
   } else {
     em.hidden = true;
     const max = 100, mi = rows.findIndex(r => r.me);
     let html = '';
-    rows.slice(0, max).forEach((r, i) => { html += lbRow(r, i + 1); });
-    if (mi >= max) html += '<li class="lb-sep">…</li>' + lbRow(rows[mi], mi + 1);
+    rows.slice(0, max).forEach((r, i) => { html += lbRow(r, i + 1, mode); });
+    if (mi >= max) html += '<li class="lb-sep">…</li>' + lbRow(rows[mi], mi + 1, mode);
     ol.innerHTML = html;
   }
   const st = $('lbStatus'), t = statusText(st, true);
   const code = LB.code();
   st.querySelector('span').textContent = t === 'en direct' ? 'En direct : le même pour tous'
-    : t === 'hors ligne' ? (code === 401 || code === 403 || code === 404 ? 'Base à régler (erreur ' + code + ')' : 'Hors ligne, nouvel essai en cours')
+    : t === 'hors ligne' ? (code === 400 || code === 401 || code === 403 || code === 404 ? 'Base à régler (erreur ' + code + ')' : 'Hors ligne, nouvel essai en cours')
     : LB.secretKey ? 'Clé secrète refusée : mets la clé publique' : 'Classement de cet appareil';
 }
 
@@ -3802,7 +4333,7 @@ function headIcon(kind) {
 }
 const CLOVER_SVG = '<svg viewBox="0 0 24 24" width="38" height="38" aria-hidden="true"><path d="M12 13.5V21" fill="none" stroke="#2A1B3D" stroke-width="2.4" stroke-linecap="round"/><g fill="#4FB83C" stroke="#2A1B3D" stroke-width="2" stroke-linejoin="round"><circle cx="8" cy="7.5" r="4"/><circle cx="16" cy="7.5" r="4"/><circle cx="8" cy="14.5" r="4"/><circle cx="16" cy="14.5" r="4"/></g><circle cx="12" cy="11" r="2.6" fill="#4FB83C"/></svg>';
 function renderCodex() {
-  $('codexGrid').replaceChildren(...ORDER.map(kind => {
+  $('codexGrid').replaceChildren(...CODEX_ORDER.map(kind => {
     const A = APPLES[kind], known = kind === 'red' || !!Save.seen[kind];
     const card = document.createElement('div'), txt = document.createElement('div');
     card.className = 'card' + (known ? '' : ' locked');
@@ -3811,14 +4342,16 @@ function renderCodex() {
     return card;
   }));
   const lore = [
-    [iconCanvas(38, (c, s) => drawSnail(c, s * 0.5, s * 0.52, s * 0.92, 1, 0, 1)), '<b>Escargots.</b> Une fois sur sept, ils encerclent la nouvelle pomme pendant 5 s. On ne passe pas.'],
-    [iconCanvas(38, headIcon('viper')), '<b>Vipère.</b> Elle vise trois cases devant toi. Coince-la contre un obstacle : +50.'],
+    [iconCanvas(38, (c, s) => drawSnail(c, s * 0.5, s * 0.52, s * 0.92, 1, 0, 1)), '<b>ESCARGOTS.</b> Une fois sur sept, ils encerclent la nouvelle pomme pendant 5 s. On ne passe pas.'],
+    [iconCanvas(38, headIcon('viper')), '<b>SNARNAQUE.</b> Il vise trois cases devant toi. Fais-le se cogner contre un mur ou ton corps : +' + PTS.trap.viper + '.'],
+    [iconCanvas(38, headIcon('mini')), '<b>SNARIQUIQUI.</b> Le petit des SNARNAQUES passe à chaque manche, 5 s. Piégé : +' + PTS.trap.mini + '.'],
     [iconCanvas(38, (c, s) => drawRock(c, s * 0.5, s * 0.5, s * 0.95, 4242, 1, 1)), '<b>Rochers.</b> Quatre de plus à chaque manche, pour toute la partie.'],
     [iconCanvas(38, (c, s) => drawBramble(c, s * 0.5, s * 0.5, s * 0.95, 77, 1, 0)), '<b>Ronces.</b> Elles poussent derrière ta queue et fanent au bout de 10 s.'],
-    [iconCanvas(38, minerIcon), '<b>Brunchito.</b> À 6 pommes, puis toutes les 20. Sa pioche coupe la queue… ou la tête.'],
-    [iconCanvas(38, headIcon('dragon')), '<b>Lingo.</b> À 15 pommes, puis toutes les 20. Il vole au-dessus des obstacles.'],
-    [null, '<b>Trèfle.</b> Gagné à chaque manche. Il te sauve une fois, puis te rend invincible 3 s.']
+    [iconCanvas(38, minerIcon), '<b>BRUNCHITO.</b> La Brunch et sa pioche, à 6 pommes puis toutes les 20. Sa pioche coupe la queue… ou la tête. Repartie bredouille : +' + PTS.brunchitoGone + '.'],
+    [iconCanvas(38, headIcon('dragon')), '<b>LINGO.</b> Le Roi des SNARNAQUES, à 15 pommes puis toutes les 20. Il vole au-dessus des obstacles. Piégé : +' + PTS.trap.dragon + ', reparti bredouille : +' + PTS.lingoGone + '.'],
+    [null, '<b>Trèfle.</b> Gagné à chaque manche. Il te sauve une fois, puis te rend invincible 3 s. Ton combo, lui, repart de zéro.']
   ];
+
   $('codexLore').replaceChildren(...lore.map(it => {
     const li = document.createElement('li'), sp = document.createElement('span');
     if (it[0]) li.append(it[0]); else li.insertAdjacentHTML('beforeend', CLOVER_SVG);
@@ -3828,13 +4361,72 @@ function renderCodex() {
   }));
 }
 
+/* ---------- Statistiques ---------- */
+const CAUSES = {
+  mur: 'Le mur', queue: 'Ta propre queue', rocher: 'Un rocher', ronce: 'Les ronces', escargot: 'Un escargot',
+  vipere: 'Un SNARNAQUE', mini: 'Un SNARIQUIQUI', lingo: 'LINGO', brunchito: 'BRUNCHITO', pioche: 'La pioche',
+  quiz: 'Erreur de calcul', temps: 'Calcul trop lent', plein: 'Verger plein',
+  sn_vipere: 'SNARNAQUE (mode)', sn_mur: 'Le mur (mode)', sn_queue: 'Ta queue (mode)'
+};
+function fmtTime(ms) {
+  const min = Math.round(ms / 60000);
+  if (min < 60) return min + ' min';
+  return Math.floor(min / 60) + ' h ' + String(min % 60).padStart(2, '0');
+}
+function sparkSvg(list) {
+  const W = 320, H = 92, pad = 12, n = list.length, max = Math.max(1, ...list.map(o => o.s));
+  const pts = list.map((o, i) => [pad + (W - 2 * pad) * (n > 1 ? i / (n - 1) : 0.5), H - pad - (H - 2 * pad) * o.s / max]);
+  const line = pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+  const best = list.reduce((b, o, i) => (o.s > list[b].s ? i : b), 0);
+  return '<svg class="st-spark" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Tes ' + n + ' dernières parties en classique">' +
+    '<polyline points="' + line + '" fill="none" stroke="#2A1B3D" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>' +
+    '<polyline points="' + line + '" fill="none" stroke="#EF3E36" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>' +
+    pts.map((p, i) => '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="' + (i === best ? 5.5 : 3.2) + '" fill="' + (i === best ? '#FFC91F' : '#FFF4D6') + '" stroke="#2A1B3D" stroke-width="2"/>').join('') +
+    '<text x="' + Math.min(W - 40, Math.max(40, pts[best][0])).toFixed(1) + '" y="' + Math.max(12, pts[best][1] - 9).toFixed(1) + '" text-anchor="middle" font-size="11" font-weight="800" fill="#2A1B3D">' + fmt(list[best].s) + '</text></svg>';
+}
+function renderStats() {
+  const st = Save.st, gc = st.games.classic || 0, gs = st.games.sn || 0, tot = gc + gs;
+  const card = (v, l, hot) => '<div' + (hot ? ' class="hot"' : '') + '><b>' + v + '</b>' + l + '</div>';
+  const avg = st.counted.classic ? Math.round(st.sum.classic / st.counted.classic) : 0;
+  const bestC = Math.max(st.best.classic || 0, Save.best.classic || 0), bestS = Math.max(st.best.sn || 0, Save.best.sn || 0);
+  let h = '';
+  if (!tot) h += '<p class="st-empty">Joue ta première partie : tes statistiques se rempliront ici.</p>';
+  h += '<h3>Ton compte</h3><div class="st-grid">' + card(fmt(tot), tot > 1 ? 'parties' : 'partie') + card(fmtTime(st.time || 0), 'de jeu') + card(fmt(st.days || 0), (st.days || 0) > 1 ? 'jours joués' : 'jour joué') + '</div>';
+  h += '<h3>Classique</h3><div class="st-grid">' + card(fmt(bestC), 'record', true) + card(fmt(avg), 'score moyen') + card(esc(rankOf(bestC)), 'rang') +
+    card(fmt(st.apples || 0), 'pommes') + card('×' + (st.combo || 1), 'meilleur combo') + card(fmt(st.combo5 || 0), 'combos ×5') +
+    card(fmt(st.manche || 1), 'manche max') + card(fmt(st.loop || 1), 'boucle max') + card(fmt(st.white || 0), 'pommes blanches') + '</div>';
+  if (st.last.length >= 2) h += '<h3>Tes ' + st.last.length + ' dernières parties</h3>' + sparkSvg(st.last);
+  h += '<h3>Pommes croquées</h3><div class="st-apples" id="stApples"></div>';
+  const qa = st.quizAll || 0, qr = qa ? Math.round(100 * (st.quizOk || 0) / qa) : 0;
+  h += '<h3>Exploits</h3><div class="st-grid">' + card(qa ? qr + ' %' : '–', 'calculs justes') + card(st.quizFast ? (st.quizFast / 1000).toFixed(1).replace('.', ',') + ' s' : '–', 'calcul le plus rapide') + card(fmt(st.clover || 0), 'trèfles utilisés') +
+    card(fmt(st.traps.viper || 0), 'SNARNAQUES piégés') + card(fmt(st.traps.mini || 0), 'SNARIQUIQUIS piégés') + card(fmt(st.traps.dragon || 0), 'LINGO piégé' + ((st.traps.dragon || 0) > 1 ? 's' : '')) +
+    card(fmt(st.smash || 0), 'obstacles cassés') + '</div>';
+  h += '<h3>Mort aux SNARNAQUES</h3><div class="st-grid">' + card(fmt(bestS), 'record', true) + card(fmt(gs), gs > 1 ? 'parties' : 'partie') + card(fmt(st.killsBest || 0), 'record de prises') +
+    card(fmt(st.kills || 0), 'SNARNAQUES piégés') + card(st.counted.sn ? fmt(Math.round(st.sum.sn / st.counted.sn)) : '–', 'score moyen') + card('+' + 2 * (st.killsBest || 0) + ' %', 'vitesse max') + '</div>';
+  const causes = Object.keys(st.deaths).map(k => [k, st.deaths[k]]).sort((a, b) => b[1] - a[1]).slice(0, 7);
+  if (causes.length) {
+    const top = causes[0][1];
+    h += '<h3>Causes de fin</h3><ul class="st-bars">' + causes.map(c => '<li><span>' + esc(CAUSES[c[0]] || c[0]) + '</span><i style="width:' + Math.max(4, Math.round(100 * c[1] / top)) + '%"></i><em>' + fmt(c[1]) + '</em></li>').join('') + '</ul>';
+  }
+  h += '<p class="st-note">Statistiques de cet appareil, depuis le ' + esc(String(st.since || parisDay()).split('-').reverse().join('/')) + '.</p>';
+  $('statsBody').innerHTML = h;
+  const ap = $('stApples'), total = Math.max(1, CODEX_ORDER.reduce((a, k) => a + (st.kinds[k] || 0), 0));
+  ap.replaceChildren(...CODEX_ORDER.filter(k => k === 'red' || Save.seen[k] || st.kinds[k]).map(k => {
+    const d = document.createElement('div'), t = document.createElement('span'), n = st.kinds[k] || 0;
+    t.innerHTML = fmt(n) + '<small>' + Math.round(100 * n / total) + ' %</small>';
+    d.title = APPLES[k].name;
+    d.append(appleIcon(k, 28), t);
+    return d;
+  }));
+}
+
 /* ---------- Profil et réglages ---------- */
 function renderSkins() {
   const best = Save.best.classic || 0, cur = skinNow().id;
   $('skins').replaceChildren(...SKINS.map(s => {
     const b = document.createElement('button'), ok = best >= s.need;
     b.type = 'button';
-    b.className = 'skin' + (ok ? '' : ' locked');
+    b.className = 'skin' + (s.pat === 'diamond' ? ' diamond' : '') + (ok ? '' : ' locked');
     b.style.setProperty('--c1', s.body);
     b.style.setProperty('--c2', s.light);
     b.dataset.label = ok ? s.name : fmt(s.need) + ' pts';
@@ -3851,17 +4443,17 @@ function renderSkins() {
   }));
 }
 function renderProfile() {
-  const best = Save.best.classic || 0, st = Save.stats;
-  $('profTitle').textContent = rankOf(best);
+  const best = Save.best.classic || 0, st = Save.stats, games = (Save.st.games.classic || 0) + (Save.st.games.sn || 0);
   $('profPseudo').value = Save.pseudo || '';
   $('profErr').hidden = true;
-  $('profStats').innerHTML = '<div><b>' + fmt(best) + '</b>record</div><div><b>' + fmt(st.games || 0) + '</b>' + (st.games > 1 ? 'parties' : 'partie') + '</div><div><b>×' + (st.combo || 1) + '</b>meilleur combo</div>';
+  $('profTitle').textContent = rankOf(best);
+  $('profStats').innerHTML = '<div><b>' + fmt(best) + '</b>record</div><div><b>' + fmt(games) + '</b>' + (games > 1 ? 'parties' : 'partie') + '</div><div><b>×' + (st.combo || 1) + '</b>meilleur combo</div>';
   renderSkins();
   $('setSound').checked = Save.set.sound;
   $('setHaptic').checked = Save.set.haptic;
   $('setPad').checked = Save.set.pad;
   $('setCalm').checked = Save.set.calm;
-  $('footNote').textContent = 'Pépin · ' + fmt(st.apples || 0) + ' pommes croquées · classement ' + (LB.kind === 'local' ? 'local' : 'en ligne');
+  $('footNote').textContent = 'SNAQUE v' + VERSION + ' · ' + fmt(Save.st.apples || 0) + ' pommes croquées · classement ' + (LB.kind === 'local' ? 'local' : 'en ligne');
 }
 function applySettings() {
   document.body.classList.toggle('pad-on', !!Save.set.pad);
@@ -3872,8 +4464,9 @@ function applySettings() {
 function bindUI() {
   const on = (id, fn) => $(id).addEventListener('click', fn);
   on('btnPlay', () => startGame('classic'));
-  on('btnDaily', () => startGame('daily'));
-  on('btnLb', () => openScreen('lb'));
+  on('btnSn', () => startGame('sn'));
+  on('btnLb', () => { UIS.lbMode = 'classic'; openScreen('lb'); });
+  on('btnStats', () => openScreen('stats'));
   on('podium', () => openScreen('lb'));
   on('btnCodex', () => openScreen('codex'));
   on('btnProfile', () => openScreen('settings'));
@@ -3885,24 +4478,21 @@ function bindUI() {
   on('btnPauseSound', toggleSound);
   on('btnPauseMenu', toMenu);
   on('btnAgain', () => startGame(G.mode));
-  on('btnOverLb', () => { UIS.tab = G.mode === 'daily' ? 'day' : 'all'; openScreen('lb'); });
+  on('btnOverLb', () => { UIS.lbMode = G.mode === 'sn' ? 'sn' : 'classic'; UIS.lbPeriod = 'all'; openScreen('lb'); });
   on('btnShare', shareScore);
   on('btnOverMenu', toMenu);
   on('btnRename', () => { openScreen('settings'); setTimeout(() => { try { $('profPseudo').focus(); } catch (e) { /* sans importance */ } }, 80); });
   document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => closeScreen(b.dataset.close)));
-  ['lb', 'codex', 'settings'].forEach(id => $(id).addEventListener('click', e => { if (e.target === $(id)) closeScreen(id); }));
-  document.querySelectorAll('.lb-tabs button').forEach(b => b.addEventListener('click', () => {
-    UIS.tab = b.dataset.tab;
-    Sfx.play('click');
-    lbRender();
-    LB.refresh(UIS.tab);
-  }));
+  ['lb', 'codex', 'settings', 'stats'].forEach(id => $(id).addEventListener('click', e => { if (e.target === $(id)) closeScreen(id); }));
+  const lbSwitch = () => { Sfx.play('click'); lbRender(); LB.refresh(lbTab(UIS.lbMode, UIS.lbPeriod), true); };
+  document.querySelectorAll('.lb-modes button').forEach(b => b.addEventListener('click', () => { UIS.lbMode = b.dataset.mode; lbSwitch(); }));
+  document.querySelectorAll('.lb-tabs button').forEach(b => b.addEventListener('click', () => { UIS.lbPeriod = b.dataset.tab; lbSwitch(); }));
   $('nameForm').addEventListener('submit', e => {
     e.preventDefault();
     if (!savePseudo($('pseudo'), $('nameErr'))) return;
     $('nameForm').hidden = true;
     Sfx.play('quizOk');
-    if (G.result) LB.submit(G.result);
+    if (G.result && G.result.score > 0) LB.submit(G.result);
     overPlace();
     try { $('pseudo').blur(); $('btnAgain').focus({ preventScroll: true }); } catch (err) { /* sans importance */ }
   });
@@ -3943,7 +4533,8 @@ function bindUI() {
 /* =====================================================================
    CLASSEMENT — le même pour tous quand une base est renseignée en haut
    du fichier (Supabase ou Firebase), sinon gardé sur l'appareil.
-   Trois tableaux : depuis toujours, cette semaine, défi du jour.
+   Deux modes (classique, Mort aux SNARNAQUES), chacun « toujours » et
+   « cette semaine ». Les relectures ne téléchargent que ce qui a changé.
    ===================================================================== */
 const LB = (() => {
   const url = String(DB_URL || '').trim().replace(/\/+$/, '').replace(/\.json$/i, '');
@@ -3953,11 +4544,12 @@ const LB = (() => {
     if (/^sb_secret_/i.test(key)) return true;
     try { return /^eyJ/.test(key) && JSON.parse(atob(key.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).role === 'service_role'; } catch (e) { return false; }
   })();
-  if (secretKey) console.error('Pépin : DB_KEY contient une clé SECRÈTE. Retire-la tout de suite de ce fichier, régénère-la dans Supabase, et mets à la place la clé publique (« publishable » ou « anon »).');
+  if (secretKey) console.error('SNAQUE : DB_KEY contient une clé SECRÈTE. Retire-la tout de suite de ce fichier, régénère-la dans Supabase, et mets à la place la clé publique (« publishable » ou « anon »).');
   const kind = secretKey ? 'local'
     : /firebaseio\.com|firebasedatabase\.app/i.test(url) ? 'firebase'
     : (/^https:\/\/[^/]+/i.test(url) && key.length > 20) ? 'supabase' : 'local';
   const TABLE = 'pepin_scores', RPC = 'pepin_submit';
+  const TABS = ['all', 'week', 'sn_all', 'sn_week'];
 
   /* Identité de l'appareil : un secret jamais affiché, qui permet de mettre à jour son propre score. */
   let secret = store.get('secret', '');
@@ -3965,20 +4557,23 @@ const LB = (() => {
   let pid = store.get('pid', '');
   if (!pid && kind !== 'supabase') { pid = 'p' + hash53(secret); store.set('pid', pid); }
 
-  const S = { rows: { all: [], week: [], day: [] }, raw: {}, loaded: {}, at: {}, busy: {}, error: false, code: 0, warned: false, subs: [], lastFlush: 0 };
-  /* Une erreur HTTP garde son numéro : 400 = score refusé par la base, 401/403/404 = base mal réglée. */
+  const S = { rows: {}, raw: {}, loaded: {}, at: {}, full: {}, since: {}, busy: {}, error: false, code: 0, warned: false, subs: [], lastFlush: 0 };
+  /* Une erreur HTTP garde son numéro : 400 = requête refusée par la base, 401/403/404 = base mal réglée. */
   const httpError = status => Object.assign(new Error('HTTP ' + status), { status });
   function failed(e) {
     S.error = true;
     S.code = (e && e.status) || 0;
-    if (!S.warned && (S.code === 401 || S.code === 403 || S.code === 404)) {
+    if (!S.warned && (S.code === 400 || S.code === 401 || S.code === 403 || S.code === 404)) {
       S.warned = true;
-      console.warn('Pépin : la base de données répond ' + S.code + '. ' + (kind === 'supabase'
-        ? 'Vérifie DB_URL et DB_KEY en haut du fichier, et que le script supabase.sql a bien été lancé.'
+      console.warn('SNAQUE : la base de données répond ' + S.code + '. ' + (kind === 'supabase'
+        ? 'Vérifie DB_URL et DB_KEY en haut du fichier, et relance le script supabase.sql de la version ' + VERSION + '.'
         : 'Vérifie DB_URL et les règles de la Realtime Database (lecture et écriture ouvertes sous /pepin).'));
     }
   }
-  const boardKey = tab => tab === 'all' ? 'all' : tab === 'week' ? 'week_' + parisWeek() : 'day_' + parisDay();
+  const boardKey = tab => {
+    const sn = tab.indexOf('sn_') === 0, per = sn ? tab.slice(3) : tab, pre = sn ? 'sn_' : '';
+    return per === 'week' ? pre + 'week_' + parisWeek() : pre + 'all';
+  };
   const emit = () => S.subs.forEach(fn => { try { fn(); } catch (e) { /* un écran absent ne bloque pas les autres */ } });
   /* Supabase : la clé publique voyage dans « apikey ». Les anciennes clés « anon » (des jetons JWT) vont aussi dans Authorization. */
   const headers = () => {
@@ -4013,7 +4608,7 @@ const LB = (() => {
     S.loaded[tab] = true;
     S.at[tab] = Date.now();
   }
-  const renorm = () => ['all', 'week', 'day'].forEach(t => { if (S.raw[t]) S.rows[t] = norm(S.raw[t]); });
+  const renorm = () => TABS.forEach(t => { if (S.raw[t]) S.rows[t] = norm(S.raw[t]); });
 
   /* ----- Stockage local (repli, et mémoire tampon pour un affichage immédiat) ----- */
   const localAll = () => store.get('lbl', {});
@@ -4023,19 +4618,26 @@ const LB = (() => {
     if (!cur || res.score > cur.score) o[k] = { pseudo, score: res.score, apples: res.apples, combo: res.combo, manche: res.manche, skin: res.skin || 0, at: Date.now() };
     else { cur.pseudo = pseudo; cur.skin = res.skin || 0; }
     /* On ne garde que les tableaux du moment. */
-    const keep = { all: 1, ['week_' + parisWeek()]: 1, ['day_' + parisDay()]: 1 };
+    const keep = {};
+    TABS.forEach(t => { keep[boardKey(t)] = 1; });
     Object.keys(all).forEach(kk => { if (!keep[kk]) delete all[kk]; });
     store.set('lbl', all);
   }
-  function cacheSave() { const c = {}; ['all', 'week', 'day'].forEach(t => { if (S.raw[t]) c[boardKey(t)] = S.raw[t].slice(0, 120); }); store.set('lbc', c); }
+  function cacheSave() { const c = {}; TABS.forEach(t => { if (S.raw[t]) c[boardKey(t)] = S.raw[t].slice(0, 120); }); store.set('lbc', c); }
   function cacheLoad() {
     const c = store.get('lbc', {});
-    ['all', 'week', 'day'].forEach(t => { const raw = c[boardKey(t)]; if (Array.isArray(raw)) { S.raw[t] = raw; S.rows[t] = norm(raw); } });
+    TABS.forEach(t => { const raw = c[boardKey(t)]; if (Array.isArray(raw)) { S.raw[t] = raw; S.rows[t] = norm(raw); } });
   }
 
   /* ----- Lecture ----- */
-  async function refresh(tab) {
-    tab = tab || 'all';
+  const sbRow = d => ({ pid: d.pid, pseudo: d.pseudo, score: d.score, apples: d.apples, combo: d.combo, manche: d.manche, skin: d.skin, at: Date.parse(d.updated_at) || 0, ch: d.changed_at || '' });
+  async function sbGet(query) {
+    const r = await fetch(url + '/rest/v1/' + TABLE + '?select=pid,pseudo,score,apples,combo,manche,skin,updated_at,changed_at&' + query, { headers: headers(), cache: 'no-store' });
+    if (!r.ok) throw httpError(r.status);
+    return (await r.json()).map(sbRow);
+  }
+  async function refresh(tab, full) {
+    tab = TABS.indexOf(tab) >= 0 ? tab : 'all';
     const bk = boardKey(tab);
     if (kind === 'local') { setRows(tab, localRows(bk)); emit(); return; }
     if (S.busy[tab]) return;
@@ -4043,9 +4645,23 @@ const LB = (() => {
     try {
       let raw;
       if (kind === 'supabase') {
-        const r = await fetch(url + '/rest/v1/' + TABLE + '?select=pid,pseudo,score,apples,combo,manche,skin,updated_at&board=eq.' + encodeURIComponent(bk) + '&order=score.desc,updated_at.asc&limit=300', { headers: headers(), cache: 'no-store' });
-        if (!r.ok) throw httpError(r.status);
-        raw = (await r.json()).map(d => ({ pid: d.pid, pseudo: d.pseudo, score: d.score, apples: d.apples, combo: d.combo, manche: d.manche, skin: d.skin, at: Date.parse(d.updated_at) || 0 }));
+        const b = 'board=eq.' + encodeURIComponent(bk), prev = S.raw[tab];
+        /* Seulement ce qui a changé depuis la dernière lecture ; tout le top 100 toutes les 10 minutes. */
+        const delta = !full && prev && S.since[tab] && Date.now() - (S.full[tab] || 0) < 600000;
+        let list;
+        if (delta) {
+          list = await sbGet(b + '&changed_at=gt.' + encodeURIComponent(S.since[tab]) + '&order=changed_at.asc&limit=200');
+          const byPid = new Map(prev.map(r => [r.pid, r]));
+          list.forEach(r => byPid.set(r.pid, r));
+          raw = Array.from(byPid.values());
+        } else {
+          list = await sbGet(b + '&order=score.desc,updated_at.asc&limit=100');
+          raw = list;
+          if (pid && !raw.some(r => r.pid === pid)) raw = raw.concat(await sbGet(b + '&pid=eq.' + encodeURIComponent(pid) + '&limit=1'));
+          S.full[tab] = Date.now();
+        }
+        const maxCh = list.reduce((m, r) => (r.ch && r.ch > m ? r.ch : m), delta ? S.since[tab] : '');
+        if (maxCh) S.since[tab] = maxCh;
       } else {
         const r = await fetch(url + '/pepin/' + bk + '.json', { cache: 'no-store' });
         if (!r.ok) throw httpError(r.status);
@@ -4065,22 +4681,22 @@ const LB = (() => {
   }
 
   /* ----- Écriture ----- */
-  const keysFor = res => res.mode === 'daily' ? ['day_' + parisDay()] : ['all', 'week_' + parisWeek()];
-  const tabsFor = res => res.mode === 'daily' ? ['day'] : ['all', 'week'];
+  const modeOf = res => (res && res.mode === 'sn' ? 'sn' : 'classic');
+  const tabsFor = res => modeOf(res) === 'sn' ? ['sn_all', 'sn_week'] : ['all', 'week'];
   async function send(res, pseudo) {
-    if (kind === 'local') { keysFor(res).forEach(bk => localPut(bk, res, pseudo)); return; }
+    if (kind === 'local') { tabsFor(res).forEach(t => localPut(boardKey(t), res, pseudo)); return; }
     if (kind === 'supabase') {
       const r = await fetch(url + '/rest/v1/rpc/' + RPC, {
         method: 'POST', headers: headers(),
-        body: JSON.stringify({ p_secret: secret, p_pseudo: pseudo, p_score: res.score, p_apples: res.apples, p_combo: res.combo, p_manche: res.manche, p_skin: res.skin || 0, p_daily: res.mode === 'daily' })
+        body: JSON.stringify({ p_secret: secret, p_pseudo: pseudo, p_score: res.score, p_apples: res.apples, p_combo: res.combo, p_manche: res.manche, p_skin: res.skin || 0, p_mode: modeOf(res) })
       });
       if (!r.ok) throw httpError(r.status);
       const out = await r.json().catch(() => null);
       if (out && typeof out.pid === 'string' && out.pid !== pid) { pid = out.pid; store.set('pid', pid); }
       return;
     }
-    for (const bk of keysFor(res)) {
-      const base = url + '/pepin/' + bk + '/' + pid + '.json';
+    for (const t of tabsFor(res)) {
+      const base = url + '/pepin/' + boardKey(t) + '/' + pid + '.json';
       const g = await fetch(base, { cache: 'no-store' });
       if (!g.ok) throw httpError(g.status);
       const cur = await g.json();
@@ -4093,20 +4709,17 @@ const LB = (() => {
     }
   }
 
-  /* Les scores pas encore envoyés attendent ici et repartent tout seuls. */
-  const pendGet = () => { const p = store.get('pend', []); return Array.isArray(p) ? p : []; };
+  /* Les scores pas encore envoyés attendent ici et repartent tout seuls (les anciens défis du jour sont abandonnés). */
+  const pendGet = () => { const p = store.get('pend', []); return Array.isArray(p) ? p.filter(x => x && x.mode !== 'daily') : []; };
   function pendAdd(res) {
-    const day = parisDay();
-    let p = pendGet().filter(x => x && (x.mode !== 'daily' || x.day === day));
-    const i = p.findIndex(x => x.mode === res.mode);
+    const p = pendGet(), i = p.findIndex(x => modeOf(x) === modeOf(res));
     if (i < 0) p.push(res); else if (res.score >= p[i].score) p[i] = res;
     store.set('pend', p);
   }
   async function flushNow() {
     const pseudo = Save.pseudo;
     if (!pseudo) return false;
-    const day = parisDay(), fresh = x => x && (x.mode !== 'daily' || x.day === day);
-    const list = pendGet().filter(fresh);
+    const list = pendGet();
     if (!list.length) { store.set('pend', []); return true; }
     S.lastFlush = Date.now();
     let ok = true;
@@ -4120,8 +4733,8 @@ const LB = (() => {
       }
     }
     /* On ne retire que ce qui est parti : un meilleur score arrivé entre-temps reste en attente. */
-    const same = (a, b) => a.mode === b.mode && a.score === b.score && a.day === b.day;
-    store.set('pend', pendGet().filter(x => fresh(x) && !done.some(d => same(d, x))));
+    const same = (a, b) => modeOf(a) === modeOf(b) && a.score === b.score;
+    store.set('pend', pendGet().filter(x => !done.some(d => same(d, x))));
     if (ok) { S.error = false; S.code = 0; }
     const tabs = new Set();
     list.forEach(r => tabsFor(r).forEach(t => tabs.add(t)));
@@ -4141,7 +4754,7 @@ const LB = (() => {
   }
   function submit(res) {
     if (!Save.pseudo || !res) return Promise.resolve(false);
-    pendAdd({ mode: res.mode, day: res.day, score: res.score, apples: res.apples, combo: res.combo, manche: res.manche, skin: res.skin || 0 });
+    pendAdd({ mode: modeOf(res), score: res.score, apples: res.apples, combo: res.combo, manche: res.manche, skin: res.skin || 0 });
     return flush();
   }
   /* Changement de pseudo : les meilleurs scores repartent sous le nouveau nom. */
@@ -4153,29 +4766,29 @@ const LB = (() => {
     }
     renorm();
     const br = Save.bestRun || {};
-    if (br.classic && br.classic.score > 0) pendAdd(Object.assign({}, br.classic, { skin: skinNow().id }));
-    if (br.daily && br.daily.day === parisDay() && br.daily.score > 0) pendAdd(Object.assign({}, br.daily, { skin: skinNow().id }));
-    flush().then(() => { if (kind === 'local') ['all', 'week', 'day'].forEach(t => refresh(t)); });
+    ['classic', 'sn'].forEach(m => { if (br[m] && br[m].score > 0) pendAdd(Object.assign({}, br[m], { mode: m, skin: skinNow().id })); });
+    flush().then(() => { if (kind === 'local') TABS.forEach(t => refresh(t)); });
     emit();
   }
 
-  /* ----- Synchronisation : on relit le tableau regardé toutes les quelques secondes ----- */
+  /* ----- Synchronisation : on relit le tableau regardé de temps en temps ----- */
   function currentTab() {
-    if (!$('lb').hidden) return UIS.tab;
-    return G.mode === 'daily' && G.state !== 'menu' ? 'day' : 'all';
+    if (!$('lb').hidden) return lbTab(UIS.lbMode, UIS.lbPeriod);
+    return G.state !== 'menu' ? lbTab(G.mode, 'all') : 'all';
   }
   function poll() {
     if (document.hidden || kind === 'local') return;
     const now = Date.now(), tab = currentTab();
-    const inGame = G.state === 'play' || G.state === 'ready' || G.state === 'banner' || G.state === 'quiz' || G.state === 'paused' || G.state === 'dying';
-    const every = !$('lb').hidden ? 8000 : inGame ? 30000 : 12000;
+    const inGame = G.state === 'play' || G.state === 'ready' || G.state === 'banner' || G.state === 'quiz' || G.state === 'paused' || G.state === 'dying' || G.state === 'loop';
+    const fb = kind === 'firebase' ? 1.6 : 1;
+    const every = (!$('lb').hidden ? 8000 : inGame ? 30000 : 20000) * fb;
     if (now - (S.at[tab] || 0) >= every) refresh(tab);
     if (Save.pseudo && pendGet().length && now - S.lastFlush > 15000) flush();
   }
   function init() {
     cacheLoad();
-    if (kind === 'local') ['all', 'week', 'day'].forEach(t => setRows(t, localRows(boardKey(t))));
-    else { refresh('all'); flush(); }
+    if (kind === 'local') TABS.forEach(t => setRows(t, localRows(boardKey(t))));
+    else { refresh('all', true); flush(); }
     setInterval(poll, 2500);
     document.addEventListener('visibilitychange', () => { if (!document.hidden && kind !== 'local') refresh(currentTab()); });
     window.addEventListener('online', () => { if (kind !== 'local') { refresh(currentTab()); flush(); } });
@@ -4239,6 +4852,15 @@ function resize() {
   V.cache = {};
   V.flip = null;
   V.layer = getLayer(V.theme);
+  fitLogo();
+}
+/* Le logo SNAQUE tient toujours dans la largeur, quelle que soit la police. */
+function fitLogo() {
+  const lw = document.querySelector('.logo-word');
+  if (!lw) return;
+  lw.style.fontSize = '';
+  const max = Math.min(window.innerWidth - 24, 640), w = lw.offsetWidth;
+  if (w > max) lw.style.fontSize = (parseFloat(getComputedStyle(lw).fontSize) * max / w).toFixed(1) + 'px';
 }
 
 /* Le grand soleil derrière le plateau : dessiné une fois, puis il tourne tout seul. */
@@ -4270,7 +4892,7 @@ function onKey(e) {
     return;
   }
   const dir = KEYMAP[e.code];
-  if (dir && (st === 'play' || st === 'ready' || st === 'banner')) { e.preventDefault(); turn(dir); return; }
+  if (dir && (st === 'play' || st === 'ready' || st === 'banner' || st === 'loop')) { e.preventDefault(); turn(dir); return; }
   if (e.code === 'Escape' || e.code === 'KeyP') {
     if (st === 'paused') { e.preventDefault(); resumeGame(); }
     else if (st === 'play' || st === 'ready') { e.preventDefault(); pauseGame(); }
@@ -4291,7 +4913,7 @@ function onKey(e) {
    Tout l'écran répond pendant la partie, sauf les flèches et les boutons.
    Un geste = un seul virage, et seulement haut, bas, gauche ou droite. */
 const SWIPE_MIN = 10;
-const swipeable = () => G.state === 'ready' || G.state === 'play' || G.state === 'banner';
+const swipeable = () => G.state === 'ready' || G.state === 'play' || G.state === 'banner' || G.state === 'loop';
 let swipe = null;
 function swipeStart(x, y, target) {
   swipe = null;
@@ -4399,6 +5021,7 @@ function boot() {
   const touch = (window.matchMedia && matchMedia('(pointer: coarse)').matches) || 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   document.body.classList.toggle('touch', !!touch);
   applySettings();
+  $('verN').textContent = 'v' + VERSION;
   drawRays();
   setState('menu');
   resize();
@@ -4412,7 +5035,7 @@ function boot() {
   renderMenu();
   /* Les lettrages dessinés sur le plateau (÷2, ×2, ?) sont refaits quand la police d'affichage est arrivée. */
   if (document.fonts && document.fonts.load) {
-    document.fonts.load('400 20px Caprasimo').then(() => { V.cache = {}; }).catch(() => {});
+    document.fonts.load('400 20px Caprasimo').then(() => { V.cache = {}; fitLogo(); }).catch(() => {});
   }
   requestAnimationFrame(t => { lastFrame = t; requestAnimationFrame(frame); });
 
@@ -4423,10 +5046,12 @@ function boot() {
     window.PEPIN = {
       G, V, FX, Save, LB, Effects, APPLES, turn, startGame, toMenu, pauseGame, resumeGame, spawnHunter, spawnMiner, addRocks,
       surroundWithSnails, occSet, setTheme, startEvent, die, fatal, hitAt, interval, finishRun, addScore, uiScoreChanged,
+      snSpawn, startLoop, safeSpot, spawnApple, Rib, PTS, THEMES, themeIdx,
       force(...kinds) { G.force.push(...kinds); },
       quality: () => QUALITY,
       speed(n) { DEBUG_SPEED = n; }
     };
+    window.SNAQUE = window.PEPIN;
   }
 }
 boot();
