@@ -413,8 +413,6 @@ body.land .podium{display:none}
 }
 body.calm #rays{animation:none}
 /* ---------- 1.2 : accueil à quatre boutons, mode SNARNAQUES, statistiques, version ---------- */
-#btnSn{font-size:18px}
-@media (max-width:430px){#btnSn small{display:none}#btnSn{font-size:16.5px;padding-left:12px;padding-right:12px}}
 .menu-row.four{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
 .menu-row.four .btn.small{flex-direction:column;gap:3px;padding:7px 2px 6px;font-size:clamp(10px,3.2vw,12px);line-height:1.05;letter-spacing:-.01em;white-space:nowrap}
 .menu-row.four .btn.small svg.ic{width:20px;height:20px}
@@ -422,8 +420,8 @@ body.mode-sn #combo,body.mode-sn #clover{display:none}
 .apples-chip .ic-sn{display:none}
 body.mode-sn .apples-chip .ic-apple{display:none}
 body.mode-sn .apples-chip .ic-sn{display:block}
-.lb-modes{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:4px 0 8px}
-.lb-modes button{font-family:var(--display);font-size:14.5px;line-height:1.05;padding:9px 6px 10px;border:3px solid var(--ink);border-radius:16px;background:transparent;box-shadow:0 3px 0 var(--ink)}
+.lb-modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:4px 0 8px}
+.lb-modes button{font-family:var(--display);font-size:clamp(12px,3.5vw,14.5px);line-height:1.05;padding:9px 6px 10px;border:3px solid var(--ink);border-radius:16px;background:transparent;box-shadow:0 3px 0 var(--ink)}
 .lb-modes button[aria-selected="true"]{background:var(--gold)}
 .lb-modes button:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
 .skin.diamond{background:conic-gradient(from 30deg,#FFFFFF,#CFEFFF,#E9DBFF,#FFFFFF,#C9F5EE,#FFFFFF);box-shadow:0 4px 0 var(--ink),0 0 14px rgba(159,230,255,.9)}
@@ -446,6 +444,139 @@ body.mode-sn .apples-chip .ic-sn{display:block}
 .st-bars i{display:block;height:12px;border-radius:999px;background:var(--red);border:2px solid var(--ink);min-width:6px}
 .st-bars em{font-style:normal;text-align:right;font-weight:800}
 .st-empty{text-align:center;font-weight:700;opacity:.65;padding:18px 0}
+
+/* ---------- 1v1 classé ---------- */
+.menu-row.modes{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.menu-row.modes .btn{justify-content:flex-start;text-align:left;font-size:clamp(14px,4.2vw,17.5px);line-height:1.02;padding:10px 10px 11px 12px;gap:8px;white-space:normal;min-width:0}
+.menu-row.modes .btn .lbl{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0}
+.menu-row.modes .btn small{max-width:100%;white-space:nowrap}
+.btn.duel{background:#B79CFF}
+.btn .dot{position:absolute;top:-9px;right:-6px;min-width:23px;height:23px;padding:0 5px;border-radius:12px;display:grid;place-items:center;font-style:normal;font-family:var(--ui);font-weight:800;font-size:12px;line-height:1;background:var(--red);color:var(--cream);border:2.5px solid var(--ink);animation:bump 1.1s ease-in-out infinite}
+.btn .dot[hidden]{display:none}
+body.mode-duel .hud-sub{flex:none}
+#mancheName .tm{flex:none;font-family:var(--display);font-weight:400;font-size:13.5px;letter-spacing:.03em;margin-left:7px;padding:2px 8px 3px;border-radius:999px;background:var(--ink);color:var(--cream)}
+#mancheName .tm.hurry{background:var(--red);animation:hurry .5s ease-in-out infinite alternate}
+@keyframes hurry{to{transform:scale(1.14)}}
+@media (max-width:520px){#mancheName .rd .w{display:none}}
+.rival.behind{background:#FFC9C2}
+body.mode-duel #btnRestart,body.mode-duel #btnPauseMenu{display:none}
+#btnForfeit{display:none}
+body.mode-duel #btnForfeit{display:inline-flex}
+.rib.duelrib{--c1:#C4AEFF;--c2:#A98BFF}.rib.duelrib .rib-sub{background:#5B3CC4}
+.duel-panel{width:min(460px,100%)}
+.du-card{display:flex;align-items:center;gap:12px;padding:11px 14px 12px;margin:6px 0 4px;border:3px solid var(--ink);border-radius:22px;background:var(--white);box-shadow:0 5px 0 var(--ink);position:relative;overflow:hidden;text-align:left}
+.du-card::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 150% at 0% 0%,var(--tc) 0%,transparent 60%);opacity:.6}
+.du-badge{position:relative;flex:none;display:grid;place-items:center;filter:drop-shadow(0 3px 0 rgba(42,27,61,.3))}
+.du-badge.promo{animation:badgeUp .9s cubic-bezier(.2,1.6,.4,1)}
+.du-badge.demo{animation:badgeDown .7s ease-in-out}
+@keyframes badgeUp{0%{transform:scale(.3) rotate(-30deg)}60%{transform:scale(1.35) rotate(8deg)}100%{transform:none}}
+@keyframes badgeDown{0%,100%{transform:none}20%{transform:translateX(-6px) rotate(-6deg)}40%{transform:translateX(6px) rotate(6deg)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.du-main{position:relative;flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.du-name{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.05}
+.lpbar{height:13px;border:2.5px solid var(--ink);border-radius:999px;background:rgba(42,27,61,.12);overflow:hidden}
+.lpbar i{display:block;height:100%;width:0;background:var(--tc);box-shadow:inset 0 3px 0 rgba(255,255,255,.55);border-right:2.5px solid var(--ink);border-radius:0 999px 999px 0}
+.du-lp{font-weight:800;font-size:12.5px}
+.du-rec{font-weight:700;font-size:12px;opacity:.75}
+.du-place,.du-streak{align-self:flex-start;font-weight:800;font-size:11px;padding:2px 8px;border-radius:999px;background:var(--ink);color:var(--cream)}
+.du-streak{background:var(--red)}
+.du-go{width:100%;margin-top:12px;font-size:25px}
+.du-go svg.ic{width:.95em;height:.95em}
+.du-warn,.du-wait{text-align:center;font-weight:700;font-size:13px;margin-top:9px}
+.du-warn{color:var(--red-d)}
+.du-info{text-align:center;font-weight:700;font-size:14px;line-height:1.45;padding:12px;border-radius:16px;background:rgba(42,27,61,.07);margin:6px 0 10px}
+.du-load{display:flex;align-items:center;justify-content:center;gap:9px;font-weight:800;padding:26px 0}
+.du-load i{width:18px;height:18px;border-radius:50%;border:3px solid var(--ink);border-top-color:transparent;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.panel h3.du-h{margin-top:14px}
+.du-hist{list-style:none;display:flex;flex-direction:column;gap:5px}
+.du-hist li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;align-items:center;gap:8px;padding:5px 12px 5px 5px;border-radius:16px;background:rgba(42,27,61,.07)}
+.du-hist li.new{animation:pop .45s cubic-bezier(.2,1.4,.4,1) both;box-shadow:inset 0 0 0 2.5px var(--ink);background:var(--white)}
+.du-r{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:400;font-size:14px;border:2.5px solid var(--ink);background:var(--cream)}
+.du-hist li.win .du-r{background:#7EDB6B}.du-hist li.loss .du-r{background:#FF8A7E}.du-hist li.draw .du-r{background:var(--gold)}
+.du-vs{display:flex;align-items:center;gap:7px;min-width:0;font-weight:800;font-size:14px;line-height:1.15}
+.du-vs>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.du-vs small{display:block;font-weight:700;font-size:11px;opacity:.75}
+.du-vs small span{margin-right:6px}.du-vs small span.w{color:#1E7A2E}.du-vs small span.l{color:var(--red-d)}
+.du-hist em{font-style:normal;font-family:var(--display);font-size:16px}
+.du-hist em.up{color:#1E7A2E}.du-hist em.down{color:var(--red-d)}
+.du-rules{margin-top:14px;font-size:13px;line-height:1.45}
+.du-rules summary{cursor:pointer;font-weight:800;text-align:center;list-style:none;padding:7px;border-radius:999px;background:rgba(42,27,61,.07)}
+.du-rules summary::-webkit-details-marker{display:none}
+.du-rules ul{margin:8px 4px 0 18px;display:flex;flex-direction:column;gap:5px}
+.du-who{display:flex;align-items:center;gap:8px}
+.du-who>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.lb-pts small{font-family:var(--ui);font-weight:800;font-size:11px}
+.du-nameform{margin-top:4px}
+#duelfx{z-index:24;background:rgba(42,27,61,.6);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.dfx-box{position:relative;width:min(420px,100%);max-height:100%;overflow-y:auto;padding:20px 18px 18px;border:3.5px solid var(--ink);border-radius:28px;background:var(--cream);box-shadow:0 8px 0 var(--ink);text-align:center;animation:pop .35s cubic-bezier(.2,1.4,.4,1) both}
+.dfx-title{font-family:var(--display);font-weight:400;font-size:27px;line-height:1.08;margin:6px 0 4px}
+.dfx-p{font-weight:700;font-size:14px;line-height:1.45;margin-top:6px}
+.dfx-p.big{font-size:16px;margin:8px 0 4px}
+.dfx-small{font-weight:700;font-size:11.5px;opacity:.6}
+.dfx-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.dfx-actions .menu-row{grid-template-columns:1fr 1fr}
+.dfx-actions .btn.primary svg.ic{width:.9em;height:.9em}
+.btn.wait{opacity:.6;pointer-events:none}
+.radar{position:relative;width:150px;height:150px;margin:4px auto 6px;display:grid;place-items:center}
+.radar.small{width:96px;height:96px}
+.radar i{position:absolute;inset:0;border-radius:50%;border:3px solid var(--ink);opacity:0;animation:radar 1.8s cubic-bezier(.2,.6,.4,1) infinite}
+.radar i:nth-child(2){animation-delay:.6s}.radar i:nth-child(3){animation-delay:1.2s}
+.radar b{position:relative;animation:bob 1.2s ease-in-out infinite alternate}
+@keyframes radar{0%{transform:scale(.25);opacity:.9}100%{transform:scale(1);opacity:0}}
+@keyframes bob{to{transform:translateY(-6px) rotate(4deg)}}
+.dfx-box.vsbox{background:linear-gradient(180deg,#FFF4D6 0%,#FFE3A6 100%);animation:pop .35s cubic-bezier(.2,1.4,.4,1) both,shake .35s ease-out .52s}
+@keyframes shake{0%,100%{translate:0}25%{translate:-6px 2px}50%{translate:5px -3px}75%{translate:-2px 1px}}
+.vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;margin-top:4px}
+.vs-card{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 6px 11px;border:3px solid var(--ink);border-radius:20px;background:var(--white);box-shadow:0 5px 0 var(--ink);min-width:0;position:relative;overflow:hidden}
+.vs-card::before{content:"";position:absolute;inset:0;background:radial-gradient(100% 80% at 50% 0%,var(--tc),transparent 72%);opacity:.65}
+.vs-card>*{position:relative}
+.vs-card b{font-family:var(--display);font-weight:400;font-size:18px;line-height:1.05;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vs-card small{font-weight:800;font-size:11px;opacity:.75;line-height:1.2}
+.vs-me{animation:vsL .55s cubic-bezier(.2,1.3,.4,1) both}
+.vs-op{animation:vsR .55s cubic-bezier(.2,1.3,.4,1) .12s both}
+.vs-op.mystery{--tc:#CBBFE0}
+.vs-op .q{width:50px;height:54px;display:grid;place-items:center;font-family:var(--display);font-size:32px;border:3px solid var(--ink);border-radius:16px;background:#E6DDF5;animation:bob 1s ease-in-out infinite alternate}
+.vs-x{font-family:var(--display);font-size:36px;line-height:1;color:var(--red);animation:vsX .5s cubic-bezier(.2,2,.4,1) .5s both}
+.vs-x span{display:inline-block;padding:6px 2px;-webkit-text-stroke:3px var(--ink);paint-order:stroke fill}
+@keyframes vsL{from{transform:translateX(-120%) rotate(-8deg);opacity:0}}
+@keyframes vsR{from{transform:translateX(120%) rotate(8deg);opacity:0}}
+@keyframes vsX{0%{transform:scale(4) rotate(-20deg);opacity:0}100%{transform:none;opacity:1}}
+.vs-info{font-weight:700;font-size:13.5px;line-height:1.4;margin-top:14px}
+.vs-round{display:inline-block;margin-top:8px;font-weight:800;font-size:12.5px;padding:3px 12px;border-radius:999px;background:var(--ink);color:var(--cream)}
+.rd-kicker{font-family:var(--display);font-size:16px;letter-spacing:.04em;text-transform:uppercase;opacity:.75}
+.rd-score b{display:block;font-family:var(--display);font-weight:400;font-size:56px;line-height:1;margin-top:4px}
+.rd-score small{font-weight:800;font-size:13px}
+.rd-stamp{display:inline-block;margin:10px 0 6px;padding:8px 20px 10px;font-family:var(--display);font-size:38px;line-height:1;border:3.5px solid var(--ink);border-radius:18px;box-shadow:0 5px 0 var(--ink);transform:rotate(-4deg);animation:stampIn .5s cubic-bezier(.2,1.9,.4,1) both}
+.rd-stamp.win{background:#7EDB6B}.rd-stamp.loss{background:#FF8A7E}.rd-stamp.draw{background:var(--gold)}
+@keyframes stampIn{0%{transform:rotate(-4deg) scale(2.6);opacity:0}100%{transform:rotate(-4deg) scale(1);opacity:1}}
+.rd-vs{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:8px}
+.rd-vs div{display:flex;flex-direction:column;align-items:center;min-width:0}
+.rd-vs small{font-weight:800;font-size:12px;opacity:.7;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rd-vs b{font-family:var(--display);font-weight:400;font-size:34px;line-height:1.05}
+.rd-vs i{font-family:var(--display);font-style:normal;font-size:24px;opacity:.5}
+.du-pips{display:flex;justify-content:center;gap:8px;margin-top:10px}
+.du-pips i{width:16px;height:16px;border-radius:50%;border:2.5px solid var(--ink);background:rgba(42,27,61,.12)}
+.du-pips i.w{background:#4FC23D}.du-pips i.l{background:var(--red)}.du-pips i.d{background:var(--gold)}
+.end-stamp{display:inline-block;margin:2px 0 4px;padding:10px 24px 13px;font-family:var(--display);font-size:clamp(38px,12vw,54px);line-height:1;border:4px solid var(--ink);border-radius:20px;box-shadow:0 6px 0 var(--ink);transform:rotate(-5deg);animation:stampIn2 .6s cubic-bezier(.2,1.9,.4,1) both}
+.end-stamp.win{background:var(--gold)}.end-stamp.loss{background:#FF8A7E}.end-stamp.draw{background:#CBD5E1}
+@keyframes stampIn2{0%{transform:rotate(-5deg) scale(3);opacity:0}100%{transform:rotate(-5deg) scale(1);opacity:1}}
+.end-vs{font-weight:700;font-size:14px;margin-top:6px}
+.end-rounds{list-style:none;display:flex;flex-direction:column;gap:4px;margin:10px auto 6px;max-width:270px}
+.end-rounds li{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:8px;padding:4px 12px;border-radius:999px;background:rgba(42,27,61,.07);font-weight:800;font-size:13px}
+.end-rounds li b{font-family:var(--display);font-weight:400;font-size:17px;min-width:44px}
+.end-rounds li b:first-of-type{text-align:right}
+.end-rounds li i{font-style:normal;opacity:.5}
+.end-rounds li.w{background:rgba(79,194,61,.25)}.end-rounds li.l{background:rgba(239,62,54,.18)}
+.endbox .du-card{margin-top:12px}
+.lp-delta{align-self:flex-start;font-family:var(--display);font-weight:400;font-size:20px;line-height:1}
+.lp-delta.up{color:#1E7A2E}.lp-delta.down{color:var(--red-d)}
+.end-note{min-height:1.4em;font-family:var(--display);font-size:20px;margin-top:10px}
+.end-note.up{color:#1E7A2E;animation:pop .5s cubic-bezier(.2,1.6,.4,1) both}.end-note.down{color:var(--red-d)}
+.sent-ghost{display:grid;place-items:center;margin:4px auto 0;animation:bob 1.2s ease-in-out infinite alternate}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:5}
+.confetti i{position:absolute;top:-14px;left:var(--x);width:9px;height:14px;background:var(--c);border:1.5px solid var(--ink);border-radius:2px;animation:confetti 2.3s cubic-bezier(.3,.6,.5,1) var(--d) both}
+@keyframes confetti{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(var(--dx),110vh) rotate(var(--r))}}
+@media (prefers-reduced-motion:reduce){.vs-me,.vs-op,.vs-x,.dfx-box,.rd-stamp,.end-stamp,.radar i,.radar b,.du-badge,.btn .dot,#mancheName .tm.hurry{animation:none!important}}
 </style>
 </head>
 <body data-state="menu">
@@ -510,7 +641,10 @@ body.mode-sn .apples-chip .ic-sn{display:block}
     </h1>
     <div class="menu-card">
       <button class="btn primary big" id="btnPlay"><svg class="ic fill" viewBox="0 0 24 24"><use href="#i-play"/></svg>Jouer</button>
-      <button class="btn gold" id="btnSn"><svg class="ic" viewBox="0 0 24 24"><use href="#i-target"/></svg>Mort aux SNARNAQUES<small id="snInfo">nouveau mode</small></button>
+      <div class="menu-row modes">
+        <button class="btn gold" id="btnSn"><svg class="ic" viewBox="0 0 24 24"><use href="#i-target"/></svg><span class="lbl">Mort aux SNARNAQUES<small id="snInfo">nouveau mode</small></span></button>
+        <button class="btn duel" id="btnDuel"><svg class="ic" viewBox="0 0 24 24"><use href="#i-vs"/></svg><span class="lbl">1v1 classé<small id="duelInfo">nouveau mode</small></span><i class="dot" id="duelDot" hidden></i></button>
+      </div>
       <div class="menu-row four">
         <button class="btn small" id="btnLb"><svg class="ic" viewBox="0 0 24 24"><use href="#i-trophy"/></svg>Classement</button>
         <button class="btn small" id="btnStats"><svg class="ic" viewBox="0 0 24 24"><use href="#i-chart"/></svg>Stats</button>
@@ -533,6 +667,7 @@ body.mode-sn .apples-chip .ic-sn{display:block}
       <div class="col">
         <button class="btn primary" id="btnResume"><svg class="ic fill" viewBox="0 0 24 24"><use href="#i-play"/></svg>Reprendre</button>
         <button class="btn" id="btnRestart"><svg class="ic" viewBox="0 0 24 24"><use href="#i-replay"/></svg>Recommencer</button>
+        <button class="btn" id="btnForfeit"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg>Abandonner le round</button>
         <div class="menu-row">
           <button class="btn small" id="btnPauseCodex"><svg class="ic" viewBox="0 0 24 24"><use href="#i-apple"/></svg>Pommes</button>
           <button class="btn small" id="btnPauseSound"><svg class="ic" viewBox="0 0 24 24"><use href="#i-sound"/></svg><span>Son</span></button>
@@ -581,6 +716,7 @@ body.mode-sn .apples-chip .ic-sn{display:block}
       <div class="lb-modes" role="tablist" aria-label="Mode de jeu">
         <button role="tab" data-mode="classic" aria-selected="true">Classique</button>
         <button role="tab" data-mode="sn" aria-selected="false">Mort aux SNARNAQUES</button>
+        <button role="tab" data-mode="duel" aria-selected="false">1v1 classé</button>
       </div>
       <div class="lb-tabs" role="tablist" aria-label="Période">
         <button role="tab" data-tab="all" aria-selected="true">Toujours</button>
@@ -615,6 +751,17 @@ body.mode-sn .apples-chip .ic-sn{display:block}
       </ul>
     </div>
   </section>
+
+  <!-- 1v1 classé -->
+  <section id="duel" class="screen" hidden>
+    <div class="panel duel-panel">
+      <button class="iconbtn close" data-close="duel" aria-label="Fermer"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
+      <h2>1v1 classé</h2>
+      <p class="sub">Duel fantôme · 3 rounds de 2 minutes</p>
+      <div id="duelBody"></div>
+    </div>
+  </section>
+  <section id="duelfx" class="screen" hidden aria-live="polite"><div class="dfx-box" id="dfxBox"></div></section>
 
   <!-- Statistiques -->
   <section id="stats" class="screen" hidden>
@@ -670,6 +817,7 @@ body.mode-sn .apples-chip .ic-sn{display:block}
     <symbol id="i-replay" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 0 2.300-5.200M5 4.500v4.300h4.300"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.500 6.500l11 11M17.500 6.500l-11 11"/></symbol>
     <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="3"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4"/></symbol>
+    <symbol id="i-vs" viewBox="0 0 24 24"><path d="M4.5 4.5 15 15M12.5 17.5l5-5M16.5 16.5l3 3M19.5 4.5 9 15M6.5 12.5l5 5M7.5 16.5l-3 3"/></symbol>
     <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4.5 20h15M7 16.5v-5M12 16.5V6M17 16.5v-8"/></symbol>
     <symbol id="i-crown" viewBox="0 0 24 24"><path d="M4 18.500h16M4.500 15.500l-1-8.500 5 4 3.500-6 3.500 6 5-4-1 8.500z"/></symbol>
   </defs>
@@ -694,8 +842,8 @@ body.mode-sn .apples-chip .ic-sn{display:block}
 
    Laisse les deux vides : le classement reste alors sur l'appareil du joueur.
    ===================================================================== */
-const DB_URL = '';
-const DB_KEY = '';
+const DB_URL = 'https://lglcqyieykdjhtvedsto.supabase.co';
+const DB_KEY = 'sb_publishable_sLrr5HP0pl28iTeo7l1itA_VDQ7Qy7Y';
 
 (() => {
 'use strict';
@@ -880,13 +1028,24 @@ Save.st = (() => {
     best: { classic: Save.best.classic || 0, sn: 0 }, sum: { classic: 0, sn: 0 }, counted: { classic: 0, sn: 0 },
     combo: o.combo || 1, combo5: 0, manche: o.manche || 1, loop: 1, deaths: {},
     traps: { viper: 0, mini: 0, dragon: 0 }, smash: 0, quizOk: 0, quizAll: 0, quizFast: 0, clover: 0, white: 0,
-    kills: 0, killsBest: 0, last: [], days: 0, lastDay: '', since: parisDay()
+    kills: 0, killsBest: 0, last: [], days: 0, lastDay: '', since: parisDay(),
+    duel: null
   }, d && typeof d === 'object' ? d : {});
+  st.duel = Object.assign({ n: 0, w: 0, l: 0, d: 0, a: 0, r: 0, rw: 0, best: -1, bs: 0, s: 0, top: 0, ids: [] }, st.duel && typeof st.duel === 'object' ? st.duel : {});
+  if (!Array.isArray(st.duel.ids)) st.duel.ids = [];
   ['games', 'best', 'sum', 'counted', 'traps'].forEach(k => { if (!st[k] || typeof st[k] !== 'object') st[k] = {}; });
   if (!st.kinds || typeof st.kinds !== 'object') st.kinds = {};
   if (!st.deaths || typeof st.deaths !== 'object') st.deaths = {};
   if (!Array.isArray(st.last)) st.last = [];
   return st;
+})();
+/* 1v1 classé : les divisions, de Bronze 1 à Légende (Maître et Légende partagent leurs PL : Légende à 400). */
+const TIERS = (() => {
+  const L = [['Bronze', '#E09A5B'], ['Argent', '#CBD5E1'], ['Or', '#FFCF3F'], ['Platine', '#6FE3D2'], ['Diamant', '#9CC4FF']], out = [];
+  L.forEach((l, i) => { for (let dv = 1; dv <= 3; dv++) out.push({ name: l[0] + ' ' + dv, league: l[0], div: dv, lg: i, c: l[1] }); });
+  out.push({ name: 'Maître', league: 'Maître', div: 0, lg: 5, c: '#C59BFF' });
+  out.push({ name: 'Légende', league: 'Légende', div: 0, lg: 6, c: '#FF7A93' });
+  return out;
 })();
 function skinNow() { const s = SKINS[Save.skin] || SKINS[0]; return (Save.best.classic || 0) >= s.need ? s : SKINS[0]; }
 function buzz(ms) { if (!Save.set.haptic) return; try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* pas de vibreur */ } }
@@ -1013,7 +1172,12 @@ const Sfx = (() => {
       seq([784, 988, 1319, 1568], 0.12, 0.055, { type: 'triangle', v: 0.13 });
       noise(0.25, { f: 1800, to: 500, v: 0.12 });
     },
-    ribbon() { noise(0.22, { f: 900, to: 3200, v: 0.07, a: 0.06 }); }
+    ribbon() { noise(0.22, { f: 900, to: 3200, v: 0.07, a: 0.06 }); },
+    go() { tone(523, 0.08, { type: 'square', v: 0.07 }); tone(1047, 0.2, { type: 'square', v: 0.07, at: 0.09 }); },
+    vs() { tone(110, 0.4, { to: 50, type: 'square', v: 0.15 }); noise(0.3, { f: 500, to: 120, v: 0.24 }); tone(880, 0.14, { type: 'triangle', v: 0.08, at: 0.04 }); },
+    win() { seq([523, 659, 784, 1047], 0.16, 0.09, { type: 'triangle', v: 0.15 }); tone(1047, 0.7, { type: 'sine', v: 0.08, at: 0.38, vib: 5 }); tone(1568, 0.5, { type: 'triangle', v: 0.05, at: 0.42 }); },
+    lose() { seq([392, 330, 262], 0.22, 0.15, { type: 'triangle', v: 0.12 }); tone(196, 0.55, { type: 'sine', v: 0.08, at: 0.42 }); },
+    promo() { seq([523, 784, 1047, 1319, 1568, 2093], 0.15, 0.065, { type: 'triangle', v: 0.14 }); noise(0.9, { f: 3000, to: 9000, v: 0.04, a: 0.3 }); tone(2093, 0.9, { type: 'sine', v: 0.06, at: 0.4, vib: 6 }); }
   };
 
   function play(name, a) {
@@ -1221,7 +1385,7 @@ let R = { kind: Math.random, pos: Math.random, misc: Math.random };
 function setState(s) {
   G.state = s;
   document.body.dataset.state = s;
-  document.body.classList.toggle('playing', s === 'play' || s === 'ready' || s === 'banner' || s === 'quiz' || s === 'dying' || s === 'loop');
+  document.body.classList.toggle('playing', s === 'play' || s === 'ready' || s === 'banner' || s === 'quiz' || s === 'dying' || s === 'loop' || s === 'timeup');
 }
 function comboWindow(m) { return 7000 - 400 * (m - 1); }
 /* Vitesse : en classique elle repart de zéro à chaque boucle ; dans Mort aux SNARNAQUES, +2 % par SNARNAQUE piégé. */
@@ -1251,8 +1415,9 @@ function themeIdx() {
 }
 function themeLabel() { return THEMES[themeIdx()].name + (G.mode === 'classic' && G.loop > 1 ? ' ' + G.loop : ''); }
 
-function newRun(mode) {
-  mode = mode === 'sn' ? 'sn' : 'classic';
+/* opt (1v1 classé) : { seed, round, ghost, oppName, oppSkin }. */
+function newRun(mode, opt) {
+  mode = mode === 'sn' || mode === 'duel' ? mode : 'classic';
   R = { kind: Math.random, pos: Math.random, misc: Math.random };
   const r = Math.floor(ROWS / 2), sn = mode === 'sn';
   /* Mort aux SNARNAQUES : un serpent de 10 cases sur un plateau vide. */
@@ -1269,10 +1434,12 @@ function newRun(mode) {
     passed: {}, pbDone: false, startedAt: 0, playMs: 0,
     loop: 1, loopApples: 0, loopStart: 1, mancheIn: 0, loopFx: null,
     kills: 0, wave: 1, snNext: 0,
+    seed: 0, kinds: null, rec: null, ghost: null, round: 0, moves: 0, revs: 0, lastMove: null, quizN: 0, huntN: 0, tu: 0, lastSec: 99,
     run: { kinds: {}, traps: { viper: 0, mini: 0, dragon: 0 }, smash: 0, quizOk: 0, quizAll: 0, quizFast: 0, clover: 0, white: 0, combo5: 0 },
     apple: sn ? null : { x: 12, y: r, kind: 'red', born: NOW }
   });
   G.prev = cp(G.snake);
+  if (mode === 'duel') duelSetup(opt || {});
   setState('ready');
 }
 
@@ -1330,6 +1497,7 @@ function step() {
   G.grace = false;
   G.prev = cp(G.snake);
   G.snake.unshift(head);
+  G.moves++; G.lastMove = head;
   const keepTail = () => G.prev.push({ x: G.prev[G.prev.length - 1].x, y: G.prev[G.prev.length - 1].y });
   if (growing) { keepTail(); eat(); return; }
   if (G.grow > 0) {
@@ -1375,12 +1543,14 @@ function die(cause) {
 function addScore(pts, x, y, color, label) {
   if (!pts) return;
   G.score += pts;
+  if (G.rec) recScore();
   floater(x, y - 0.5, label || ('+' + pts), color || CREAM, pts >= 50 ? 0.78 : 0.6);
   uiScoreChanged();
 }
 
 function eat() {
   const a = G.apple, kind = a.kind, head = G.snake[0];
+  if (G.mode === 'duel') R.misc = dr('eat', G.apples);
   G.apples++;
   G.run.kinds[kind] = (G.run.kinds[kind] || 0) + 1;
   if (kind === 'white') {
@@ -1436,7 +1606,8 @@ function spawnApple() {
   if (G.mode === 'sn') { G.apple = null; return; }
   /* Tous les 5 000 points, la pomme suivante est la pomme blanche. */
   const white = G.score >= PTS.loopEvery * G.loop;
-  let snails = !white && G.apples >= 5 && R.misc() < 1 / 7;
+  const duel = G.mode === 'duel';
+  let snails = !white && G.apples >= 5 && (duel ? dr('snail', G.apples)() : R.misc()) < 1 / 7;
   const taken = occSet(false), head = G.snake[0];
   const wall = new Set();
   for (const r of G.rocks) wall.add(KEY(r.x, r.y));
@@ -1457,7 +1628,8 @@ function spawnApple() {
     const far = list.filter(c => safeSpot(c.x, c.y) && Math.abs(c.x - head.x) + Math.abs(c.y - head.y) >= SAFE_R + 1);
     if (far.length) list = far; else snails = false;
   }
-  const p = list[Math.floor(R.pos() * list.length)];
+  const p = duel ? duelCell(list, dr('pos', G.apples)) : list[Math.floor(R.pos() * list.length)];
+  if (duel) R.misc = dr('ring', G.apples);
   G.apple = { x: p.x, y: p.y, kind: white ? 'white' : pickKind(), born: NOW };
   fxAppleSpawn(G.apple);
   if (snails) surroundWithSnails(taken);
@@ -1466,6 +1638,7 @@ function spawnApple() {
 function pickKind() {
   if (G.force && G.force.length) return G.force.shift();
   const n = G.apples;
+  if (G.mode === 'duel') { const k = (G.kinds && G.kinds[n]) || 'red'; G.spawned[k] = 1; return k; }
   /* Découverte guidée : la première fois qu'une pomme devient possible, elle vient à coup sûr. */
   const intro = ORDER.find(k => APPLES[k].at > 0 && n >= APPLES[k].at && !G.spawned[k] && !Save.seen[k]);
   if (intro) { G.spawned[intro] = 1; return intro; }
@@ -1510,6 +1683,7 @@ function surroundWithSnails(taken) {
 
 /* ---------- Pouvoirs des pommes ---------- */
 function reverseSnake() {
+  G.revs++;
   G.snake.reverse();
   G.prev = cp(G.snake);
   let d = unitStep(G.snake[0], G.snake[1]);
@@ -1591,7 +1765,7 @@ function spawnHunter(kind, endless) {
       else if (endless) backup.push({ cells, dir: d, far: Math.min(...cells.map(c => Math.abs(c.x - head.x) + Math.abs(c.y - head.y))) });
     }
   }
-  let s = spots.length ? spots[Math.floor(R.misc() * spots.length)] : null;
+  let s = !spots.length ? null : G.mode === 'duel' ? duelSpot(spots, dr('hunter:' + kind, G.huntN++)) : spots[Math.floor(R.misc() * spots.length)];
   if (!s && backup.length) { backup.sort((a, b) => b.far - a.far); s = backup[0]; }
   if (!s) return null;
   const h = { id: ++G.seq, kind, cells: s.cells, prev: cp(s.cells), dir: s.dir, acc: 0, left: endless ? Infinity : life, total: endless ? Infinity : life, state: 'spawn', t: 0, endless: !!endless };
@@ -1782,6 +1956,7 @@ function minerStrikeCheck() {
     const cut = G.snake.splice(keep);
     G.prev.splice(keep);
     G.sheds.push({ cells: [{ x: G.snake[keep - 1].x, y: G.snake[keep - 1].y }].concat(cut), t: 0, max: 650, tint: 'cut' });
+    if (G.rec) recCut();
   }
   G.grow = 0;
   if (G.mult > 1) { G.mult = 1; G.comboLeft = 0; fxComboDown(true); }
@@ -1830,8 +2005,9 @@ function addRocks(n) {
     cand.push({ x, y });
   }
   let placed = 0;
+  const take = G.mode === 'duel' ? duelTaker(cand, dr('rocks', G.manche + ':' + G.loop)) : () => cand.splice(Math.floor(R.misc() * cand.length), 1)[0];
   while (placed < n && cand.length) {
-    const c = cand.splice(Math.floor(R.misc() * cand.length), 1)[0];
+    const c = take();
     wall.add(KEY(c.x, c.y));
     /* Un rocher ne doit jamais transformer une case voisine en cul-de-sac. */
     let bad = false;
@@ -1867,6 +2043,7 @@ function makeChoices(answer) {
   return sh(Array.from(set).slice(0, 5));
 }
 function startQuiz() {
+  if (G.mode === 'duel') R.misc = dr('quiz', ++G.quizN);
   const q = makeQuestion();
   G.quiz = { text: q.text, answer: q.answer, choices: makeChoices(q.answer), left: T.QUIZ, end: NOW + T.QUIZ, locked: false, lastTick: 4 };
   G.queue = [];
@@ -1909,6 +2086,7 @@ function quizFail(cause) {
 /* ---------- Manches, Brunchito, Lingo : les grands moments, sans jamais figer le jeu ---------- */
 function startEvent(ev) {
   const h = G.snake[0];
+  if (G.mode === 'duel') R.misc = dr('ev:' + ev, G.apples);
   if (ev === 'manche') {
     G.manche++;
     fxManche(G.manche);
@@ -2007,6 +2185,7 @@ function update(dt) {
     while (G.events.length && G.state === 'play') startEvent(G.events.shift());
     G.clock += dt;
     G.playMs += dt;
+    if (G.mode === 'duel' && duelTick()) return;
     tick(dt);
     if (G.mode === 'sn' && G.snNext > 0) { G.snNext -= dt; if (G.snNext <= 0) snSpawn(); }
     if (G.hunters.length) updateHunters(dt);
@@ -2014,7 +2193,7 @@ function update(dt) {
     if (G.state !== 'play') return;
     G.acc += dt;
     let guard = 0;
-    while (G.state === 'play' && G.acc >= interval() && guard++ < 4) { G.acc -= interval(); step(); }
+    while (G.state === 'play' && G.acc >= interval() && guard++ < 4) { G.acc -= interval(); step(); if (G.rec) recStep(G.playMs); }
   } else if (st === 'loop') {
     const L = G.loopFx;
     L.t += dt;
@@ -2031,6 +2210,9 @@ function update(dt) {
     }
   } else if (st === 'dying') {
     updateDeath(dt);
+  } else if (st === 'timeup') {
+    G.tu += dt;
+    if (G.tu > 1500) finishRun();
   }
 }
 
@@ -2049,6 +2231,199 @@ function turn(name) {
   if (G.queue.length < 3) G.queue.push(d);
   /* Un virage demandé en fin de déplacement part tout de suite. */
   if (G.state === 'play' && G.queue.length === 1 && G.acc > interval() * 0.45) G.acc = interval();
+}
+
+/* =====================================================================
+   1v1 CLASSÉ — le duel fantôme (moteur).
+   Les deux joueurs jouent le même verger : chaque tirage au sort du round
+   est refait à l'identique à partir de sa graine (la n-ième pomme, le
+   n-ième quiz, les rochers de la manche…). Le premier joueur enregistre
+   son trajet ; le second affronte ce fantôme, qui rejoue le trajet au
+   même rythme que lui. Règles du jeu classique, rounds de 2 minutes.
+   ===================================================================== */
+const DUEL_MS = 120000;
+
+/* Un tirage au sort propre à chaque décision du round, identique chez les deux joueurs. */
+function dr(tag, n) { return mulberry32(hashStr(G.seed + ':' + tag + ':' + n)); }
+
+/* La suite des pommes du round, tirée une fois pour toutes : la n-ième pomme est la même pour les deux.
+   Mêmes poids que le classique, sans ce qui dépend de la partie de chacun. */
+function duelKinds(seed) {
+  const rng = mulberry32(hashStr(seed + ':kinds')), out = ['red'], last = [];
+  for (let n = 1; n <= 600; n++) {
+    const len = 4 + n, prev = last[last.length - 1], nastyRun = last.slice(-2).filter(k => NASTY[k]).length;
+    let total = 0;
+    const list = [];
+    for (const k of ORDER) {
+      const A = APPLES[k];
+      if (n < A.at) continue;
+      let w = A.w;
+      if (k === 'green') w *= len >= 28 ? 2.4 : len >= 16 ? 1.4 : len < 8 ? 0.25 : 1;
+      if (k === 'orange') w *= len >= 28 ? 0.2 : len >= 18 ? 0.55 : 1;
+      if (k !== 'red' && k === prev) w *= 0.12;
+      if (NASTY[k] && nastyRun >= 2) w *= 0.15;
+      total += w;
+      list.push([k, w]);
+    }
+    let r = rng() * total, kind = 'red';
+    for (const kw of list) { if ((r -= kw[1]) < 0) { kind = kw[0]; break; } }
+    out.push(kind);
+    last.push(kind);
+    if (last.length > 3) last.shift();
+  }
+  return out;
+}
+
+/* Une case au sort parmi celles permises : les deux joueurs essaient les mêmes cases dans le même ordre,
+   donc tant que la case n'est pas prise par leur serpent, ils ont la même. */
+function duelCell(list, rng) {
+  const ok = new Set(list.map(c => KEY(c.x, c.y)));
+  for (let i = 0; i < 500; i++) {
+    const x = Math.floor(rng() * COLS), y = Math.floor(rng() * ROWS);
+    if (ok.has(KEY(x, y))) return { x, y };
+  }
+  return list[Math.floor(rng() * list.length)];
+}
+function duelTaker(cand, rng) {
+  return () => {
+    for (let i = 0; i < 300; i++) {
+      const x = Math.floor(rng() * COLS), y = Math.floor(rng() * ROWS);
+      const j = cand.findIndex(c => c.x === x && c.y === y);
+      if (j >= 0) return cand.splice(j, 1)[0];
+    }
+    return cand.splice(Math.floor(rng() * cand.length), 1)[0];
+  };
+}
+/* L'entrée d'un ennemi : la plus proche d'un point tiré au sort. */
+function duelSpot(spots, rng) {
+  const tx = rng() * COLS, ty = rng() * ROWS, want = DIR4[Math.floor(rng() * 4)];
+  let best = null, bd = 1e9;
+  for (const s of spots) {
+    const h = s.cells[0], d = Math.abs(h.x - tx) + Math.abs(h.y - ty) + (s.dir === want ? 0 : 0.5);
+    if (d < bd) { bd = d; best = s; }
+  }
+  return best;
+}
+
+function duelSetup(opt) {
+  G.seed = opt.seed >>> 0;
+  G.kinds = duelKinds(G.seed);
+  R = { kind: dr('kind', 0), pos: dr('pos', 0), misc: dr('misc', 0) };
+  G.rec = recNew();
+  G.ghost = opt.ghost ? ghostInit(opt.ghost) : null;
+  G.oppName = opt.oppName || '';
+  G.oppSkin = opt.oppSkin || 0;
+  G.round = opt.round || 1;
+}
+
+/* ---------- Le trajet enregistré (le futur fantôme) ----------
+   « v1| », puis à chaque pas : 2 caractères de durée (base 36, en ms) + colonne + ligne.
+   « ! » : le serpent s'est retourné (pomme bleue). « ~xx » : sa nouvelle longueur.
+   « #ddxx » : coup de pioche entre deux pas (durée, puis longueur restante).
+   Puis « | » + les changements de score « temps,score » séparés par « ; »,
+   « | » + la durée tenue, « | » + la fin (M : mort, T : temps écoulé). */
+const b36 = (n, w) => { let s = Math.max(0, Math.round(n)).toString(36); while (s.length < (w || 1)) s = '0' + s; return s; };
+function recNew() { return { out: ['v1|'], t: 0, len: G.snake.length, moves: G.moves, revs: G.revs, sc: [] }; }
+function recStep(at) {
+  const r = G.rec;
+  if (!r) return;
+  if (G.moves !== r.moves && G.lastMove) {
+    const dt = Math.min(1295, Math.max(0, Math.round(at - r.t)));
+    r.t += dt;
+    r.out.push(b36(dt, 2) + G.lastMove.x.toString(36) + G.lastMove.y.toString(36));
+    r.moves = G.moves;
+  }
+  if (G.revs !== r.revs) { r.out.push('!'); r.revs = G.revs; }
+  if (G.snake.length !== r.len) { r.len = G.snake.length; r.out.push('~' + b36(Math.min(1295, r.len), 2)); }
+}
+function recCut() {
+  const r = G.rec, dt = Math.min(1295, Math.max(0, Math.round(G.playMs - r.t)));
+  r.t += dt;
+  r.len = G.snake.length;
+  r.out.push('#' + b36(dt, 2) + b36(Math.min(1295, r.len), 2));
+}
+function recScore() { if (G.rec) G.rec.sc.push(b36(G.playMs) + ',' + b36(G.score)); }
+function recEnd(died) {
+  const r = G.rec;
+  if (!r) return '';
+  return r.out.join('') + '|' + r.sc.join(';') + '|' + b36(Math.min(DUEL_MS, G.playMs)) + '|' + (died ? 'M' : 'T');
+}
+
+/* ---------- Le fantôme ---------- */
+function ghostParse(str) {
+  if (typeof str !== 'string' || str.slice(0, 3) !== 'v1|') return null;
+  const parts = str.split('|'), s = parts[1] || '', g = { steps: [], sc: [], ms: parseInt(parts[3] || '0', 36) || 0, died: parts[4] === 'M' };
+  let t = 0, i = 0;
+  while (i < s.length) {
+    const ch = s[i];
+    if (ch === '!') { g.steps.push({ rev: 1 }); i++; continue; }
+    if (ch === '~') { g.steps.push({ len: parseInt(s.substr(i + 1, 2), 36) || 1 }); i += 3; continue; }
+    if (ch === '#') { t += parseInt(s.substr(i + 1, 2), 36) || 0; g.steps.push({ t, cut: parseInt(s.substr(i + 3, 2), 36) || 2 }); i += 5; continue; }
+    const dt = parseInt(s.substr(i, 2), 36), x = parseInt(s[i + 2], 36), y = parseInt(s[i + 3], 36);
+    if (!(dt >= 0) || !(x >= 0) || !(y >= 0)) break;
+    t += dt;
+    g.steps.push({ t, x, y });
+    i += 4;
+  }
+  for (const p of (parts[2] || '').split(';')) {
+    const q = p.split(',');
+    if (q.length === 2) g.sc.push([parseInt(q[0], 36) || 0, parseInt(q[1], 36) || 0]);
+  }
+  return g;
+}
+function ghostInit(g) {
+  const r = Math.floor(ROWS / 2), body = [{ x: 4, y: r }, { x: 3, y: r }, { x: 2, y: r }, { x: 1, y: r }];
+  return { g, i: 0, body, prev: cp(body), t0: 0, t1: g.steps.length && g.steps[0].t !== undefined ? g.steps[0].t : 1, score: 0, si: 0, fade: 0, poof: false };
+}
+/* Le fantôme rejoue tous les pas faits avant l'instant t (le temps de jeu du round). */
+function ghostUpdate(gh, t) {
+  const st = gh.g.steps;
+  while (gh.i < st.length) {
+    const s = st[gh.i];
+    if (s.t === undefined) { gh.i++; continue; }
+    if (s.t > t) break;
+    if (s.cut !== undefined) { gh.body = gh.body.slice(0, s.cut); gh.prev = gh.prev.slice(0, s.cut); gh.i++; continue; }
+    let j = gh.i + 1, len = null, rev = false;
+    while (j < st.length && st[j].t === undefined) { if (st[j].rev) rev = true; else len = st[j].len; j++; }
+    const before = gh.body;
+    gh.prev = cp(before);
+    const body = [{ x: s.x, y: s.y }].concat(before);
+    const want = len || before.length;
+    while (body.length > want) body.pop();
+    while (body.length < want) body.push({ x: body[body.length - 1].x, y: body[body.length - 1].y });
+    while (gh.prev.length < body.length) gh.prev.push({ x: gh.prev[gh.prev.length - 1].x, y: gh.prev[gh.prev.length - 1].y });
+    if (gh.prev.length > body.length) gh.prev.length = body.length;
+    if (rev) { body.reverse(); gh.prev = cp(body); }
+    gh.body = body;
+    gh.t0 = s.t;
+    gh.i = j;
+    let k = j;
+    while (k < st.length && (st[k].t === undefined || st[k].cut !== undefined)) k++;
+    gh.t1 = k < st.length ? st[k].t : s.t + 120;
+  }
+  while (gh.si < gh.g.sc.length && gh.g.sc[gh.si][0] <= t) { gh.score = gh.g.sc[gh.si][1]; gh.si++; }
+  gh.done = t >= gh.g.ms && gh.i >= st.length;
+}
+const ghostFrac = (gh, t) => clamp((t - gh.t0) / Math.max(1, gh.t1 - gh.t0), 0, 1);
+/* Score du fantôme : à la fin de son round, son score final. */
+function ghostScore() { return G.ghost ? G.ghost.score : 0; }
+
+/* ---------- Le temps du round ---------- */
+function duelTick() {
+  const left = DUEL_MS - G.playMs;
+  if (G.ghost) ghostUpdate(G.ghost, G.playMs);
+  if (left <= 0) { duelTimeUp(); return true; }
+  const sec = Math.ceil(left / 1000);
+  if (sec <= 5 && sec < (G.lastSec || 99)) { G.lastSec = sec; Sfx.play('tick'); buzz(12); }
+  return false;
+}
+function duelTimeUp() {
+  G.playMs = DUEL_MS;
+  G.cause = 'chrono';
+  G.tu = 0;
+  G.turbo = 0; G.quake = 0;
+  setState('timeup');
+  fxTimeUp();
 }
 
 
@@ -3156,6 +3531,49 @@ function drawSheds(c) {
     }
   }
 }
+/* ---------- Le fantôme de l'adversaire (1v1 classé) ----------
+   Translucide, sous les pommes, avec son pseudo au-dessus de la tête. Il ne bloque rien. */
+function drawGhost(c) {
+  const gh = G.ghost;
+  if (!gh || G.mode !== 'duel' || gh.body.length < 2) return;
+  let alpha = 0.44;
+  if (gh.done && gh.g.died) {
+    if (!gh.poof) {
+      gh.poof = true;
+      const h = gh.body[0];
+      burst(h.x, h.y, 16, { color: ['#FFFFFF', '#D9D2E6', '#B9AFCB'], sp: [1.5, 4.5], size: [0.06, 0.13], life: [400, 900], type: 'star' });
+    }
+    gh.fade = Math.min(1, gh.fade + V.dt / 650);
+    alpha *= 1 - gh.fade;
+    if (alpha <= 0.01) return;
+  }
+  const C = V.C, sk = SKINS[G.oppSkin] || SKINS[0];
+  const pts = movingPts(gh.body, gh.prev, ghostFrac(gh, G.playMs));
+  const sm = buildSamples(pts, 0.22);
+  const u = unitStep(gh.body[0], gh.body[1]);
+  gh.ang = gh.ang === undefined ? Math.atan2(u.y, u.x) : angLerp(gh.ang, Math.atan2(u.y, u.x), Math.min(1, V.dt * 0.026));
+  const g = glassCtx(c);
+  drawTube(g, sm, sk, { shadow: false });
+  drawHead(g, X(pts[0].x), Y(pts[0].y), gh.ang, sk, { face: gh.done && gh.g.died ? 'dead' : 'idle', mouth: 0, look: null, blink: (NOW % 4100) < 130, tongue: 0, scale: 1, rimColor: sk.rim });
+  glassFlush(c, g, alpha);
+  /* L'étiquette : le pseudo de l'adversaire. */
+  const name = G.oppName || 'Fantôme';
+  c.save();
+  c.globalAlpha = Math.min(0.92, alpha * 2.1);
+  const fs = Math.max(9, Math.round(C * 0.4));
+  c.font = '800 ' + fs + 'px system-ui, -apple-system, "Segoe UI", sans-serif';
+  const w = c.measureText(name).width + fs * 1.1, h = fs * 1.5;
+  const hx = clamp(X(pts[0].x), V.ox + w / 2, V.ox + COLS * C - w / 2), hy = Math.max(V.oy + h / 2 + 2, Y(pts[0].y) - C * 0.98);
+  c.beginPath();
+  rr(c, hx - w / 2, hy - h / 2, w, h, h / 2);
+  c.fillStyle = 'rgba(42,27,61,.8)';
+  c.fill();
+  c.fillStyle = '#FFF4D6';
+  c.textAlign = 'center';
+  c.textBaseline = 'middle';
+  c.fillText(name, hx, hy + fs * 0.06);
+  c.restore();
+}
 /* ---------- Le joueur ---------- */
 const ICE_WINGS = { fill: '#EAF8FF', vein: '#7FCFF5', speed: 60, rim: '#D9F6FF' };
 function drawPlayer(c) {
@@ -3519,6 +3937,7 @@ function render(dt) {
     drawSheds(c);
     drawBrambles(c);
     drawSnails(c);
+    drawGhost(c);
     drawApple(c);
     drawHunters(c, false);
     drawPlayer(c);
@@ -3623,7 +4042,17 @@ function fxStart() {
   if (G.mode === 'sn') {
     showBanner('Mort aux SNARNAQUES !', 'piège-le contre un mur ou ton corps', 'hunt', 2000);
     if (once('snmode')) toast('<b>Mort aux SNARNAQUES</b><small>Fais-le se cogner contre un mur ou contre ton corps. Chaque prise : plus de points, et tout va 2 % plus vite.</small>', { cls: 'dark', ms: 5200 });
+  } else if (G.mode === 'duel') {
+    Sfx.play('go');
+    showBanner('Round ' + G.round, G.vsGhost ? 'bats le fantôme de ' + (G.oppName || 'ton adversaire') : 'ton fantôme s’enregistre', 'duelrib', 1500);
   }
+}
+/* 1v1 : la fin du chrono fige le verger. */
+function fxTimeUp() {
+  Sfx.play('whoosh');
+  buzz(40);
+  FX.trauma = Math.max(FX.trauma, 0.25);
+  showBanner('Temps !', 'fin du round', 'hunt', 1400);
 }
 function fxAppleSpawn(a) {
   const col = APPLES[a.kind].c;
@@ -3963,6 +4392,8 @@ function uiReset() {
   UIS.rivalSig = '';
   const sn = G.mode === 'sn' && G.state !== 'menu', np = sn ? 3 : 10, pips = $('pips');
   document.body.classList.toggle('mode-sn', sn);
+  document.body.classList.toggle('mode-duel', G.mode === 'duel' && G.state !== 'menu');
+  $('rival').classList.remove('lead', 'behind');
   $('applesChip').title = sn ? 'SNARNAQUES piégés' : 'Pommes mangées';
   pips.title = sn ? 'SNARNAQUES avant la prochaine vague' : 'Pommes avant la prochaine manche';
   if (pips.children.length !== np) pips.replaceChildren(...Array.from({ length: np }, () => document.createElement('i')));
@@ -3987,11 +4418,14 @@ function uiHud(dt) {
     const n = sn ? G.kills % 3 : G.mancheIn, kids = $('pips').children;
     for (let i = 0; i < kids.length; i++) kids[i].classList.toggle('on', i < n);
   }
-  const label = sn ? 'Vague ' + G.wave + '|vitesse +' + (2 * G.kills) + ' %' : 'Manche ' + G.manche + '|' + themeLabel();
-  if (label !== h.label) {
-    h.label = label;
-    const parts = label.split('|');
-    $('mancheName').innerHTML = esc(parts[0]) + '<span class="th"> · ' + esc(parts[1]) + '</span>';
+  if (G.mode === 'duel') duelHud();
+  else {
+    const label = sn ? 'Vague ' + G.wave + '|vitesse +' + (2 * G.kills) + ' %' : 'Manche ' + G.manche + '|' + themeLabel();
+    if (label !== h.label) {
+      h.label = label;
+      const parts = label.split('|');
+      $('mancheName').innerHTML = esc(parts[0]) + '<span class="th"> · ' + esc(parts[1]) + '</span>';
+    }
   }
   ribUpdate();
   if (G.mult !== h.mult) { h.mult = G.mult; $('combo').dataset.m = G.mult; $('comboX').textContent = '×' + G.mult; }
@@ -4001,14 +4435,14 @@ function uiHud(dt) {
 }
 function uiScoreChanged() {
   uiBump('score');
-  const pb = bestOf(G.mode);
+  const pb = G.mode === 'duel' ? 0 : bestOf(G.mode);
   if (!G.pbDone && pb > 0 && G.score > pb) { G.pbDone = true; fxRecord(); }
   rivalCheck();
 }
 
 /* Le rival : le prochain score à dépasser au classement, mis à jour en direct. */
 function rivalCheck() {
-  if (G.state === 'menu' || G.state === 'over') return;
+  if (G.state === 'menu' || G.state === 'over' || G.mode === 'duel') return;
   const rows = LB.rows(lbTab(G.mode, 'all')), el = $('rival');
   if (!rows.length) { el.hidden = true; UIS.rivalSig = ''; return; }
   let target = null, rank = 1, passed = null;
@@ -4063,7 +4497,8 @@ function uiQuizClose() { $('quiz').hidden = true; FX.veilTo = 0; }
 
 /* ---------- Écrans ---------- */
 function openScreen(id) {
-  if (id === 'lb') { lbRender(); LB.refresh(lbTab(UIS.lbMode, UIS.lbPeriod), true); }
+  if (id === 'lb') { lbRender(); if (UIS.lbMode === 'duel') duelLadder(true); else LB.refresh(lbTab(UIS.lbMode, UIS.lbPeriod), true); }
+  else if (id === 'duel') renderDuel();
   else if (id === 'codex') renderCodex();
   else if (id === 'settings') renderProfile();
   else if (id === 'stats') renderStats();
@@ -4072,25 +4507,25 @@ function openScreen(id) {
   if (id === 'lb') { const me = $('lbList').querySelector('.me'); if (me) me.scrollIntoView({ block: 'nearest' }); }
 }
 function closeScreen(id) { $(id).hidden = true; Sfx.play('click'); }
-function topScreen() { return ['settings', 'stats', 'codex', 'lb'].find(id => !$(id).hidden) || null; }
+function topScreen() { return ['settings', 'stats', 'codex', 'lb', 'duel'].find(id => !$(id).hidden) || null; }
 
-function startGame(mode) {
+function startGame(mode, opt) {
   Sfx.unlock();
   Sfx.play('click');
-  ['pause', 'over', 'lb', 'codex', 'settings', 'stats'].forEach(id => { $(id).hidden = true; });
+  ['pause', 'over', 'lb', 'codex', 'settings', 'stats', 'duel', 'duelfx'].forEach(id => { $(id).hidden = true; });
   $('menu').hidden = true;
   FX.parts.length = 0; FX.floats.length = 0; FX.rings.length = 0; FX.ripples.length = 0; FX.decals.length = 0;
   FX.veil = 0; FX.veilTo = 0; FX.flash = 0; FX.trauma = 0;
-  newRun(mode);
+  newRun(mode, opt);
   setTheme(0, true, G.snake[0]);
   V.headAng = 0;
   uiReset();
   uiHud(16);
   rivalCheck();
-  LB.refresh(lbTab(G.mode, 'all'));
+  if (G.mode !== 'duel') LB.refresh(lbTab(G.mode, 'all'));
 }
 function toMenu() {
-  ['pause', 'over', 'lb', 'codex', 'settings', 'stats'].forEach(id => { $(id).hidden = true; });
+  ['pause', 'over', 'lb', 'codex', 'settings', 'stats', 'duel', 'duelfx'].forEach(id => { $(id).hidden = true; });
   setState('menu');
   uiReset();
   menuInit();
@@ -4128,6 +4563,7 @@ function syncSound() {
 
 /* ---------- Fin de partie ---------- */
 function finishRun() {
+  if (G.mode === 'duel') { duelRoundOver(); return; }
   const sn = G.mode === 'sn';
   const res = { mode: G.mode, day: G.day, score: G.score, apples: sn ? G.kills : G.apples, combo: sn ? 1 : G.bestMult, manche: sn ? G.wave : G.manche, loop: G.loop, cause: G.cause || 'mur', skin: skinNow().id };
   const before = bestOf(G.mode), isPB = res.score > before && res.score > 0;
@@ -4269,6 +4705,7 @@ function renderMenu() {
   $('meLine').innerHTML = '<span>' + esc(Save.pseudo || 'Toi') + ' · ' + rankOf(best) + '</span><span>Record : ' + fmt(best) + '</span>';
   const sb = Save.best.sn || 0;
   $('snInfo').textContent = sb ? 'record : ' + fmt(sb) : 'nouveau mode';
+  duelMenuInfo();
 }
 
 /* ---------- Classement ---------- */
@@ -4282,6 +4719,9 @@ function lbRow(r, n, mode) {
 function lbRender() {
   const mode = UIS.lbMode, per = UIS.lbPeriod, tab = lbTab(mode, per), rows = LB.rows(tab), ol = $('lbList'), em = $('lbEmpty');
   document.querySelectorAll('.lb-modes button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mode === mode)));
+  document.querySelector('.lb-tabs').hidden = mode === 'duel';
+  $('btnRename').hidden = mode === 'duel';
+  if (mode === 'duel') { duelLbRender(); return; }
   document.querySelectorAll('.lb-tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === per)));
   $('lbSub').textContent = mode === 'sn' ? (per === 'week' ? 'Les chasseurs de la semaine' : 'Les meilleurs chasseurs de SNARNAQUES')
     : per === 'week' ? 'Remis à zéro chaque lundi' : 'Les meilleurs serpents du verger';
@@ -4385,7 +4825,7 @@ function sparkSvg(list) {
     '<text x="' + Math.min(W - 40, Math.max(40, pts[best][0])).toFixed(1) + '" y="' + Math.max(12, pts[best][1] - 9).toFixed(1) + '" text-anchor="middle" font-size="11" font-weight="800" fill="#2A1B3D">' + fmt(list[best].s) + '</text></svg>';
 }
 function renderStats() {
-  const st = Save.st, gc = st.games.classic || 0, gs = st.games.sn || 0, tot = gc + gs;
+  const st = Save.st, gc = st.games.classic || 0, gs = st.games.sn || 0, tot = gc + gs + (st.duel.n || 0);
   const card = (v, l, hot) => '<div' + (hot ? ' class="hot"' : '') + '><b>' + v + '</b>' + l + '</div>';
   const avg = st.counted.classic ? Math.round(st.sum.classic / st.counted.classic) : 0;
   const bestC = Math.max(st.best.classic || 0, Save.best.classic || 0), bestS = Math.max(st.best.sn || 0, Save.best.sn || 0);
@@ -4403,6 +4843,12 @@ function renderStats() {
     card(fmt(st.smash || 0), 'obstacles cassés') + '</div>';
   h += '<h3>Mort aux SNARNAQUES</h3><div class="st-grid">' + card(fmt(bestS), 'record', true) + card(fmt(gs), gs > 1 ? 'parties' : 'partie') + card(fmt(st.killsBest || 0), 'record de prises') +
     card(fmt(st.kills || 0), 'SNARNAQUES piégés') + card(st.counted.sn ? fmt(Math.round(st.sum.sn / st.counted.sn)) : '–', 'score moyen') + card('+' + 2 * (st.killsBest || 0) + ' %', 'vitesse max') + '</div>';
+  const du = st.duel;
+  if (du.n || store.get('duelSeen', 0)) {
+    h += '<h3>1v1 classé</h3><div class="st-grid">' + card(du.best >= 0 ? esc(tierOf(du.best).name) : '–', 'meilleure division', true) + card(fmt(du.n), du.n > 1 ? 'duels' : 'duel') +
+      card(du.n ? Math.round(100 * du.w / du.n) + ' %' : '–', 'de victoires') + card(fmt(du.w) + ' / ' + fmt(du.l) + (du.d ? ' / ' + fmt(du.d) : ''), du.d ? 'V / D / N' : 'V / D') +
+      card(du.r ? fmt(du.rw) + ' / ' + fmt(du.r) : '–', 'rounds gagnés') + card(fmt(du.bs), 'meilleure série') + '</div>';
+  }
   const causes = Object.keys(st.deaths).map(k => [k, st.deaths[k]]).sort((a, b) => b[1] - a[1]).slice(0, 7);
   if (causes.length) {
     const top = causes[0][1];
@@ -4465,6 +4911,8 @@ function bindUI() {
   const on = (id, fn) => $(id).addEventListener('click', fn);
   on('btnPlay', () => startGame('classic'));
   on('btnSn', () => startGame('sn'));
+  on('btnDuel', openDuel);
+  on('btnForfeit', duelForfeitNow);
   on('btnLb', () => { UIS.lbMode = 'classic'; openScreen('lb'); });
   on('btnStats', () => openScreen('stats'));
   on('podium', () => openScreen('lb'));
@@ -4483,8 +4931,8 @@ function bindUI() {
   on('btnOverMenu', toMenu);
   on('btnRename', () => { openScreen('settings'); setTimeout(() => { try { $('profPseudo').focus(); } catch (e) { /* sans importance */ } }, 80); });
   document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => closeScreen(b.dataset.close)));
-  ['lb', 'codex', 'settings', 'stats'].forEach(id => $(id).addEventListener('click', e => { if (e.target === $(id)) closeScreen(id); }));
-  const lbSwitch = () => { Sfx.play('click'); lbRender(); LB.refresh(lbTab(UIS.lbMode, UIS.lbPeriod), true); };
+  ['lb', 'codex', 'settings', 'stats', 'duel'].forEach(id => $(id).addEventListener('click', e => { if (e.target === $(id)) closeScreen(id); }));
+  const lbSwitch = () => { Sfx.play('click'); lbRender(); if (UIS.lbMode === 'duel') duelLadder(true); else LB.refresh(lbTab(UIS.lbMode, UIS.lbPeriod), true); };
   document.querySelectorAll('.lb-modes button').forEach(b => b.addEventListener('click', () => { UIS.lbMode = b.dataset.mode; lbSwitch(); }));
   document.querySelectorAll('.lb-tabs button').forEach(b => b.addEventListener('click', () => { UIS.lbPeriod = b.dataset.tab; lbSwitch(); }));
   $('nameForm').addEventListener('submit', e => {
@@ -4527,6 +4975,504 @@ function bindUI() {
     if (G.state === 'over') overPlace();
     else rivalCheck();
   });
+}
+
+/* =====================================================================
+   1v1 CLASSÉ — l'écran du mode, l'enchaînement des rounds, les animations.
+   Un duel : 3 rounds de 2 minutes, 2 rounds gagnants, contre le fantôme
+   d'un joueur de ton niveau. Si personne n'attend, c'est ton fantôme qui
+   attend le suivant, et le résultat t'attend ici.
+   ===================================================================== */
+const DU = { me: null, at: 0, loadingMe: false, err: null, busy: false, match: null, rounds: [], ladder: null, ladderAt: 0, ladderErr: 0, news: {} };
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const tierOf = t => TIERS[clamp(t | 0, 0, TIERS.length - 1)];
+const tierPct = (t, lp) => t >= 16 ? 100 : t === 15 ? clamp(lp / 4, 0, 100) : clamp(lp, 0, 100);
+const lpText = (t, lp) => t >= 15 ? fmt(lp) + ' PL' : lp + ' / 100 PL';
+const signed = n => (n > 0 ? '+' : n < 0 ? '−' : '±') + fmt(Math.abs(n));
+
+/* ---------- L'insigne de division ---------- */
+const SHIELD = 'M20 2.5 35.5 8v13.2c0 9.6-6.4 16.8-15.5 20.3C10.9 38 4.5 30.8 4.5 21.2V8Z';
+function tierBadge(t, size, cls) {
+  const T = tierOf(t), s = size || 40;
+  let inner;
+  if (T.div) inner = '<text x="20" y="28.6" text-anchor="middle" font-family="Caprasimo,Cooper Black,Georgia,serif" font-size="18" fill="#2A1B3D">' + T.div + '</text>';
+  else if (T.lg === 5) inner = '<path d="M11.5 27V16.5l4.6 4 3.9-7 3.9 7 4.6-4V27Z" fill="#FFF4D6" stroke="#2A1B3D" stroke-width="2.2" stroke-linejoin="round"/>';
+  else inner = '<path d="m20 11.2 2.8 5.8 6.4.8-4.7 4.4 1.2 6.3L20 25.4l-5.7 3.1 1.2-6.3-4.7-4.4 6.4-.8Z" fill="#FFF4D6" stroke="#2A1B3D" stroke-width="2.2" stroke-linejoin="round"/>';
+  const wings = T.lg >= 2 ? '<path d="M5.5 11.5 0 9.2l1.3 8.6 4.4 1.6M34.5 11.5 40 9.2l-1.3 8.6-4.4 1.6" fill="' + T.c + '" stroke="#2A1B3D" stroke-width="2.2" stroke-linejoin="round"/>' : '';
+  const gem = T.lg >= 3 ? '<path d="m20 0 3.4 3.6L20 7.2l-3.4-3.6Z" fill="#FFFDF6" stroke="#2A1B3D" stroke-width="1.8" stroke-linejoin="round"/>' : '';
+  return '<svg class="tb' + (cls ? ' ' + cls : '') + '" viewBox="-1.5 -1.5 43 46" width="' + s + '" height="' + Math.round(s * 46 / 43) + '" aria-hidden="true">' + wings +
+    '<path d="' + SHIELD + '" fill="' + T.c + '" stroke="#2A1B3D" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M20 7.6 30.6 11.5v9.7c0 6.6-4 11.9-10.6 14.9" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2.6" stroke-linecap="round"/>' +
+    gem + inner + '</svg>';
+}
+
+/* ---------- Données ---------- */
+async function duelRefreshMe() {
+  if (!LB.duel.ok || !Save.pseudo || DU.loadingMe) return;
+  DU.loadingMe = true;
+  try { DU.me = await LB.duel.me(); DU.err = null; } catch (e) { DU.err = e; }
+  DU.at = Date.now();
+  DU.loadingMe = false;
+  duelMenuInfo();
+  if (!$('duel').hidden) renderDuel();
+}
+function duelMenuInfo() {
+  const el = $('duelInfo'), dot = $('duelDot');
+  if (!LB.duel.ok) { el.textContent = 'en ligne'; dot.hidden = true; return; }
+  const D0 = DU.me;
+  if (!D0) { el.textContent = Save.st.duel.n ? 'ta division…' : 'nouveau mode'; dot.hidden = true; return; }
+  const me = D0.me;
+  el.textContent = !me.played ? 'placement' : tierOf(me.tier).name + ' · ' + fmt(me.lp) + ' PL';
+  const n = (D0.history || []).filter(x => !x.seen).length;
+  dot.hidden = !n && !D0.active;
+  dot.textContent = n ? n : '!';
+}
+/* Statistiques locales du 1v1 (une seule fois par duel). */
+function duelStat(id, res, rw, rp, tier) {
+  const d = Save.st.duel;
+  if (id && d.ids.indexOf(id) >= 0) return;
+  if (id) { d.ids.push(id); if (d.ids.length > 80) d.ids.splice(0, d.ids.length - 80); }
+  d.n++;
+  if (res === 'V') { d.w++; d.s = Math.max(0, d.s) + 1; d.bs = Math.max(d.bs, d.s); }
+  else if (res === 'N') { d.d++; d.s = 0; }
+  else { d.l++; d.s = 0; if (res === 'A') d.a++; }
+  d.r += rp; d.rw += rw;
+  if (tier !== undefined && tier !== null) d.best = Math.max(d.best, tier);
+  store.set('st2', Save.st);
+}
+const roundsWon = (my, op) => (my || []).filter((s, i) => op && op[i] !== undefined && s > op[i]).length;
+
+/* ---------- L'écran 1v1 ---------- */
+const DU_RULES = '<details class="du-rules"><summary>Comment ça marche</summary><ul>' +
+  '<li><b>Duel fantôme</b> : tu affrontes le fantôme d’un joueur de ton niveau, sur le même verger : mêmes pommes, mêmes rochers, mêmes calculs.</li>' +
+  '<li><b>3 rounds de 2 minutes</b>, 2 rounds gagnants. Un round se gagne aux points, puis aux pommes, puis au temps tenu.</li>' +
+  '<li>Si personne n’attend, c’est toi qui ouvres le duel : ton fantôme attend le prochain joueur, et le résultat t’attendra ici.</li>' +
+  '<li>Un round quitté en cours compte 0. 20 minutes sans jouer : abandon.</li>' +
+  '<li><b>Divisions</b> : Bronze, Argent, Or, Platine et Diamant (1, 2 puis 3), puis Maître et Légende (400 PL en Maître). 100 PL pour monter.</li>' +
+  '<li>Victoire : environ +20 PL (davantage si tu es classé sous ton vrai niveau, +5 en série de 3). Défaite : environ −20 PL. Les 5 premiers duels comptent double.</li>' +
+  '</ul></details>';
+function histRow(x) {
+  const R = { V: ['V', 'win', 'Victoire'], D: ['D', 'loss', 'Défaite'], N: ['N', 'draw', 'Égalité'], A: ['A', 'loss', 'Abandon'] }[x.result] || ['?', '', ''];
+  const my = x.my_scores || [], op = x.opp_scores || [];
+  const sc = my.map((s, i) => '<span class="' + (op[i] === undefined ? '' : s > op[i] ? 'w' : s < op[i] ? 'l' : '') + '">' + fmt(s) + '–' + (op[i] === undefined ? '?' : fmt(op[i])) + '</span>').join('');
+  return '<li class="' + R[1] + (x.seen ? '' : ' new') + '"><b class="du-r" title="' + R[2] + '">' + R[0] + '</b>' +
+    '<span class="du-vs">' + tierBadge(x.opp_tier || 0, 18) + '<span>' + esc(x.opp_pseudo || '?') + '<small>' + (x.result === 'A' ? 'abandon · ' : '') + (sc || R[2]) + '</small></span></span>' +
+    '<em class="' + (x.delta >= 0 ? 'up' : 'down') + '">' + signed(x.delta) + '</em></li>';
+}
+function duelCard(t, lp, played, extra) {
+  const T = tierOf(t);
+  return '<div class="du-card" style="--tc:' + T.c + '"><div class="du-badge">' + tierBadge(t, 64) + '</div>' +
+    '<div class="du-main"><b class="du-name">' + (played ? esc(T.name) : 'Non classé') + '</b>' +
+    '<div class="lpbar"><i style="width:' + tierPct(t, lp) + '%"></i></div>' +
+    '<span class="du-lp">' + lpText(t, lp) + '</span>' + (extra || '') + '</div></div>';
+}
+function renderDuel() {
+  const box = $('duelBody');
+  if (!LB.duel.ok) {
+    box.innerHTML = '<p class="du-info">Le 1v1 classé se joue en ligne : il a besoin de la base Supabase (adresse et clé publique en haut du fichier, puis le script supabase.sql).</p>' + DU_RULES;
+    return;
+  }
+  if (!Save.pseudo) {
+    box.innerHTML = '<form class="name-form du-nameform" id="duelName" novalidate><label for="duelPseudo">Choisis ton pseudo pour le 1v1</label>' +
+      '<div class="name-row"><input id="duelPseudo" maxlength="16" autocomplete="nickname" autocapitalize="words" spellcheck="false" placeholder="Mamba42" enterkeyhint="done">' +
+      '<button class="btn small primary" type="submit">Valider</button></div><p class="err" id="duelErr" hidden>Il faut au moins 2 caractères.</p></form>' + DU_RULES;
+    $('duelName').addEventListener('submit', e => {
+      e.preventDefault();
+      if (!savePseudo($('duelPseudo'), $('duelErr'))) return;
+      Sfx.play('quizOk');
+      renderDuel();
+      duelRefreshMe();
+    });
+    return;
+  }
+  const D0 = DU.me;
+  if (!D0) {
+    box.innerHTML = DU.err && !DU.loadingMe
+      ? '<p class="du-info">Impossible de joindre la base pour l’instant.</p><button class="btn primary" id="btnDuelRetry">Réessayer</button>'
+      : '<p class="du-load"><i></i>Chargement de ta division…</p>';
+    if ($('btnDuelRetry')) $('btnDuelRetry').onclick = () => { DU.err = null; renderDuel(); duelRefreshMe(); };
+    return;
+  }
+  /* Les résultats arrivés pendant l'absence : animés une fois, puis gardés en tête tant que l'écran reste ouvert. */
+  const me = D0.me, hist = D0.history || [], fresh = hist.filter(x => !x.seen && !DU.news[x.id]);
+  fresh.forEach(x => { DU.news[x.id] = 'open'; });
+  const unseen = hist.filter(x => DU.news[x.id] === 'open');
+  const extra = '<span class="du-rec">' + me.wins + ' V · ' + me.losses + ' D' + (me.draws ? ' · ' + me.draws + ' N' : '') +
+    (D0.rank ? ' · ' + ordinal(D0.rank) + ' sur ' + D0.players : '') + '</span>' +
+    (me.placement > 0 ? '<span class="du-place">Placement : ' + plural(me.placement, 'duel') + ' à PL ×2</span>' : '') +
+    (me.streak >= 2 ? '<span class="du-streak">Série de ' + me.streak + ' victoires</span>' : '');
+  /* La barre part d'où le joueur en était avant ces résultats. */
+  const from = fresh.length ? fresh[fresh.length - 1] : null;
+  let h = from ? duelCard(from.tier_before, from.lp_before, from.tier_before > 0 || from.lp_before > 0 || me.played, extra) : duelCard(me.tier, me.lp, me.played, extra);
+  if (unseen.length) h += '<h3 class="du-h">' + (unseen.length > 1 ? unseen.length + ' résultats t’attendaient' : 'Un résultat t’attendait') + '</h3><ol class="du-hist news">' + unseen.map(histRow).join('') + '</ol>';
+  const act = D0.active;
+  h += '<button class="btn primary big du-go" id="btnDuelGo"><svg class="ic" viewBox="0 0 24 24"><use href="#i-vs"/></svg>' + (act ? 'Reprendre le duel · round ' + act.round : 'Lancer un duel') + '</button>';
+  if (act && act.started >= act.round) h += '<p class="du-warn">Le round ' + act.round + ' a été quitté en cours : il comptera 0.</p>';
+  if (D0.waiting) h += '<p class="du-wait">' + (D0.waiting > 1 ? D0.waiting + ' de tes fantômes attendent' : 'Ton fantôme attend') + ' un adversaire.</p>';
+  const old = hist.filter(x => DU.news[x.id] !== 'open');
+  if (old.length) h += '<h3 class="du-h">Derniers duels</h3><ol class="du-hist">' + old.slice(0, 10).map(histRow).join('') + '</ol>';
+  h += DU_RULES;
+  box.innerHTML = h;
+  $('btnDuelGo').onclick = duelGo;
+  if (fresh.length) duelNews(fresh, me);
+}
+function duelNews(list, me) {
+  list.forEach(x => { duelStat(x.match_id, x.result, roundsWon(x.my_scores, x.opp_scores), (x.my_scores || []).length, x.tier_after); });
+  const last = list[0], from = list[list.length - 1];
+  setTimeout(() => {
+    Sfx.play(last.result === 'V' ? 'win' : last.result === 'N' ? 'click' : 'lose');
+    const card = $('duelBody').querySelector('.du-card');
+    if (card) animLp(card, from.tier_before, from.lp_before, me.tier, me.lp, true);
+  }, 450);
+  LB.duel.ack().then(() => { (DU.me && DU.me.history || []).forEach(x => { x.seen = true; }); duelMenuInfo(); }).catch(() => { /* réessayé à la prochaine visite */ });
+}
+function openDuel() {
+  store.set('duelSeen', 1);
+  Object.keys(DU.news).forEach(k => { DU.news[k] = 'old'; });
+  openScreen('duel');
+  duelRefreshMe();
+}
+
+/* ---------- La barre de PL qui bouge, promotion et rétrogradation ---------- */
+function animLp(card, t0, lp0, t1, lp1, played) {
+  const bar = card.querySelector('.lpbar i'), badge = card.querySelector('.du-badge'), name = card.querySelector('.du-name'), txt = card.querySelector('.du-lp');
+  const set = (t, lp, ms) => { bar.style.transition = ms ? 'width ' + ms + 'ms cubic-bezier(.3,.9,.3,1)' : 'none'; bar.style.width = tierPct(t, lp) + '%'; };
+  const show = (t, lp) => { card.style.setProperty('--tc', tierOf(t).c); badge.innerHTML = tierBadge(t, 64); name.textContent = played === false ? 'Non classé' : tierOf(t).name; txt.textContent = lpText(t, lp); };
+  show(t0, lp0);
+  set(t0, lp0, 0);
+  void bar.offsetWidth;
+  if (t1 === t0) { setTimeout(() => { set(t1, lp1, 900); txt.textContent = lpText(t1, lp1); }, 80); return; }
+  const up = t1 > t0;
+  setTimeout(() => set(up ? (t0 >= 15 ? 16 : t0) : t0, up ? (t0 === 15 ? 400 : 100) : 0, 650), 80);
+  setTimeout(() => {
+    show(t1, lp1);
+    set(t1, up ? 0 : (t1 === 15 ? 399 : 100), 0);
+    void bar.offsetWidth;
+    badge.classList.remove('promo', 'demo');
+    void badge.offsetWidth;
+    badge.classList.add(up ? 'promo' : 'demo');
+    set(t1, lp1, 800);
+    const note = card.parentNode && card.parentNode.querySelector('.end-note');
+    if (note) { note.textContent = up ? 'Promotion : ' + tierOf(t1).name + ' !' : 'Rétrogradation en ' + tierOf(t1).name; note.className = 'end-note ' + (up ? 'up' : 'down'); }
+    if (up) { Sfx.play('promo'); confetti(card.closest('.dfx-box') || card.parentNode, 34); buzz([20, 40, 20]); }
+    else Sfx.play('lose');
+  }, 820);
+}
+function confetti(box, n) {
+  if (!box || REDUCED) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'confetti';
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement('i');
+    s.style.cssText = '--x:' + rnd(2, 98).toFixed(1) + '%;--d:' + rnd(0, 0.45).toFixed(2) + 's;--r:' + Math.round(rnd(-600, 600)) + 'deg;--dx:' + Math.round(rnd(-70, 70)) + 'px;--c:' + pick(['#FFC91F', '#EF3E36', '#19C7B5', '#FF6FAE', '#3D7BFF', '#59C247', '#FFF4D6']);
+    wrap.append(s);
+  }
+  box.append(wrap);
+  setTimeout(() => wrap.remove(), 2800);
+}
+function countSigned(el, to, ms) {
+  const t0 = performance.now();
+  const f = now => {
+    const k = clamp((now - t0) / ms, 0, 1), v = Math.round(to * ease.out(k));
+    el.textContent = signed(v === 0 && to !== 0 ? 0 : v) + ' PL';
+    if (k < 1) requestAnimationFrame(f);
+  };
+  requestAnimationFrame(f);
+}
+
+/* ---------- Le voile du duel : recherche, face-à-face, résultats ---------- */
+function dfx(html, cls) {
+  const b = $('dfxBox');
+  b.className = 'dfx-box ' + (cls || '');
+  b.innerHTML = html;
+  $('duelfx').hidden = false;
+  return b;
+}
+function dfxHide() { $('duelfx').hidden = true; $('dfxBox').innerHTML = ''; }
+const dfxOn = (id, fn) => { const b = $(id); if (b) b.onclick = () => { Sfx.play('click'); fn(); }; };
+function dfxError(e, retry) {
+  const msg = e && e.msg || '';
+  const txt = /Trop de duels/.test(msg) ? 'Tu as déjà 10 fantômes en attente : laisse d’autres joueurs les affronter avant d’en ouvrir un nouveau.'
+    : /Pseudo/.test(msg) ? 'Choisis d’abord un pseudo dans l’écran 1v1.'
+    : e && e.status ? 'La base a refusé la demande (' + esc(msg || 'erreur ' + e.status) + ').'
+    : 'Connexion perdue. Vérifie le réseau et réessaie.';
+  dfx('<h2 class="dfx-title">Oups</h2><p class="dfx-p">' + txt + '</p><div class="dfx-actions">' + (retry && !/Trop de duels|Pseudo/.test(msg) ? '<button class="btn primary" id="btnDfxRetry">Réessayer</button>' : '') +
+    '<div class="menu-row"><button class="btn small" id="btnDfxScreen">1v1</button><button class="btn small" id="btnDfxMenu">Menu</button></div></div>', 'err');
+  dfxOn('btnDfxRetry', retry);
+  dfxOn('btnDfxScreen', duelBackToScreen);
+  dfxOn('btnDfxMenu', duelToMenu);
+}
+function duelToMenu() { dfxHide(); toMenu(); }
+function duelBackToScreen() { dfxHide(); toMenu(); openDuel(); }
+
+/* ---------- Lancer un duel ---------- */
+async function duelGo() {
+  if (DU.busy || !LB.duel.ok) return;
+  if (!Save.pseudo) { renderDuel(); return; }
+  DU.busy = true;
+  Sfx.unlock();
+  Sfx.play('click');
+  dfx('<div class="radar"><i></i><i></i><i></i><b>' + tierBadge(DU.me ? DU.me.me.tier : 0, 46) + '</b></div><h2 class="dfx-title">Recherche d’un adversaire…</h2><p class="dfx-p">un joueur de ton niveau</p>', 'search');
+  const t0 = performance.now();
+  try {
+    const m = await LB.duel.find();
+    await wait(Math.max(0, 1200 - (performance.now() - t0)));
+    DU.match = m;
+    DU.rounds = [];
+    if (m.role === 2 && m.ghost) for (let i = 0; i < (m.mine || []).length; i++) DU.rounds.push({ me: m.mine[i], opp: m.ghost.score[i], r: (m.rounds || '')[i] || '0' });
+    dfxVs();
+  } catch (e) { dfxError(e, duelGo); }
+  DU.busy = false;
+}
+function dfxVs() {
+  const m = DU.match, me = DU.me ? DU.me.me : { tier: 0, played: false }, op = m.opp;
+  const card = (name, t, sub, cls) => '<div class="vs-card ' + cls + '" style="--tc:' + tierOf(t).c + '">' + tierBadge(t, 52) + '<b>' + esc(name) + '</b><small>' + sub + '</small></div>';
+  const mine = card(Save.pseudo, me.tier, me.played ? tierOf(me.tier).name : 'Non classé', 'vs-me');
+  const theirs = op ? card(op.pseudo, op.tier, tierOf(op.tier).name + (op.placement > 0 ? ' · placement' : ''), 'vs-op')
+    : '<div class="vs-card vs-op mystery"><div class="q">?</div><b>Mystère</b><small>le prochain joueur de ton niveau</small></div>';
+  const info = m.role === 2 ? 'Bats son fantôme : même verger, mêmes pommes, mêmes calculs.' : 'Personne n’attend : c’est ton fantôme qui ouvre le duel.';
+  const resumed = m.round > 1 || m.started >= m.round;
+  dfx('<div class="vs">' + mine + '<div class="vs-x"><span>VS</span></div>' + theirs + '</div>' +
+    '<p class="vs-info">' + info + '</p>' +
+    '<p class="vs-round">' + (resumed ? 'Reprise · ' : '') + 'Round ' + m.round + ' sur 3 · 2 minutes</p>' +
+    '<div class="dfx-actions"><button class="btn primary" id="btnVsGo"><svg class="ic fill" viewBox="0 0 24 24"><use href="#i-play"/></svg>Jouer le round ' + m.round + '</button></div>', 'vsbox');
+  Sfx.play('whoosh');
+  setTimeout(() => { if (!$('duelfx').hidden) { Sfx.play('vs'); buzz(30); } }, 560);
+  dfxOn('btnVsGo', duelNextRound);
+}
+/* Le round suivant : la base note qu'il commence (un round quitté en cours compte 0). */
+async function duelNextRound() {
+  const m = DU.match;
+  if (!m || DU.busy) return;
+  DU.busy = true;
+  const btn = document.querySelector('#dfxBox .btn.primary');
+  if (btn) { btn.disabled = true; btn.classList.add('wait'); }
+  try {
+    const r = await LB.duel.start(m.id);
+    DU.busy = false;
+    if (r.forfeit) {
+      const fr = r.result || {};
+      if (m.role === 2) { DU.rounds.push({ me: 0, opp: fr.opp_score || 0, r: fr.result || '1' }); m.rounds = fr.rounds || m.rounds; }
+      else if (!r.over) (m.mine = m.mine || []).push(0);
+      toast('<b>Round ' + r.forfeit + ' quitté en cours</b><small>Il compte 0.</small>', { cls: 'dark', ms: 3600 });
+      if (r.over) { duelAfter(fr, { score: 0, apples: 0, ms: 0 }, r.forfeit); return; }
+    }
+    m.round = r.round;
+    launchRound();
+  } catch (e) {
+    DU.busy = false;
+    if (e.status === 400) { duelReconcile(null); return; }
+    dfxError(e, duelNextRound);
+  }
+}
+function launchRound() {
+  const m = DU.match, n = m.round;
+  const gs = m.role === 2 && m.ghost ? m.ghost : null;
+  const gh = gs ? ghostParse((gs.replay || [])[n - 1]) : null;
+  dfxHide();
+  startGame('duel', { seed: m.seeds[n - 1], round: n, ghost: gh, oppName: m.opp ? m.opp.pseudo : '', oppSkin: m.opp ? m.opp.skin : 0 });
+  G.ghostFinal = gs ? (gs.score || [])[n - 1] || 0 : 0;
+  G.vsGhost = !!gs;
+  uiHud(16);
+}
+
+/* ---------- Fin d'un round ---------- */
+function duelRoundOver() {
+  const m = DU.match;
+  if (!m) { toMenu(); return; }
+  const died = G.cause !== 'chrono';
+  const res = { score: G.score, apples: G.apples, ms: Math.min(DUEL_MS, Math.round(G.playMs)), replay: m.role === 1 ? recEnd(died) : '' };
+  Save.st.time = (Save.st.time || 0) + res.ms;
+  store.set('st2', Save.st);
+  setState('between');
+  duelSubmit(res, 0);
+}
+async function duelSubmit(res, tries) {
+  const m = DU.match, n = m.round;
+  store.set('duelPend', { id: m.id, n, res });
+  if (!tries) dfx('<div class="radar small"><i></i><i></i><b>' + tierBadge(DU.me ? DU.me.me.tier : 0, 36) + '</b></div><h2 class="dfx-title">Round ' + n + ' : ' + fmt(res.score) + ' pts</h2><p class="dfx-p">Envoi du résultat…</p>', 'search');
+  try {
+    const r = await LB.duel.round(m.id, n, res);
+    store.set('duelPend', null);
+    duelAfter(r, res, n);
+  } catch (e) {
+    if (!e.status && tries < 3) { await wait(1200 * (tries + 1)); duelSubmit(res, tries + 1); return; }
+    if (e.status === 400) { store.set('duelPend', null); duelReconcile(res); return; }
+    dfxError(e, () => duelSubmit(res, 0));
+  }
+}
+/* Une réponse perdue en route : la base dit où en est le duel. */
+async function duelReconcile(res) {
+  const m = DU.match, n = m.round;
+  try {
+    DU.me = await LB.duel.me();
+    DU.at = Date.now();
+    const act = DU.me.active, h = (DU.me.history || []).find(x => x.match_id === m.id);
+    if (act && act.id === m.id) {
+      const done = (act.mine || []).length >= n;
+      Object.assign(m, act);
+      if (done && res) {
+        if (m.role === 2) DU.rounds.push({ me: res.score, opp: (m.ghost.score || [])[n - 1] || 0, r: (act.rounds || '')[n - 1] || '0' });
+        dfxRound(n, res);
+      } else dfxNotice('Le round ' + n + ' n’a pas pu être enregistré.', 'Continuer', dfxVs);
+    } else if (h) {
+      dfxEndFrom(h);
+    } else if (m.role === 1 && n >= 3) {
+      dfxSent();
+    } else {
+      dfxNotice('Ce duel a expiré (20 minutes sans jouer).', '1v1', duelBackToScreen);
+    }
+  } catch (e) { dfxError(e, () => duelReconcile(res)); }
+}
+function dfxNotice(text, label, fn) {
+  dfx('<p class="dfx-p big">' + text + '</p><div class="dfx-actions"><button class="btn primary" id="btnDfxOk">' + label + '</button><div class="menu-row"><button class="btn small" id="btnDfxMenu">Menu</button></div></div>', 'err');
+  dfxOn('btnDfxOk', fn);
+  dfxOn('btnDfxMenu', duelToMenu);
+}
+function duelAfter(r, res, n) {
+  const m = DU.match;
+  m.round = (n || m.round) + 1;
+  if (r.role === 1) {
+    (m.mine = m.mine || []).push(res.score);
+    if (r.over) dfxSent(); else dfxRound(n, res);
+    return;
+  }
+  if (n && !(DU.rounds.length >= n)) DU.rounds.push({ me: res.score, opp: r.opp_score || 0, r: r.result || '0' });
+  m.rounds = r.rounds || m.rounds;
+  if (r.over) {
+    const win = r.winner === 2 ? 'V' : r.winner === 1 ? 'D' : 'N';
+    duelStat(m.id, win, DU.rounds.filter(x => x.r === '2').length, DU.rounds.length, r.tier);
+    dfxEnd({ result: win, opp: m.opp ? m.opp.pseudo : '?', my: DU.rounds.map(x => x.me), their: DU.rounds.map(x => x.opp), delta: r.delta || 0, t0: r.tier_before, lp0: r.lp_before, t1: r.tier, lp1: r.lp, total: [r.my_total, r.opp_total] });
+    duelRefreshMe();
+  } else dfxRound(n, res);
+}
+function pipsHtml() {
+  const rs = DU.rounds;
+  let h = '<div class="du-pips">';
+  for (let i = 0; i < 3; i++) { const x = rs[i]; h += '<i class="' + (!x ? '' : x.r === '2' ? 'w' : x.r === '1' ? 'l' : 'd') + '"></i>'; }
+  return h + '</div>';
+}
+function dfxRound(n, res) {
+  const m = DU.match, next = m.round;
+  let h;
+  if (m.role === 1) {
+    h = '<p class="rd-kicker">Round ' + n + ' terminé</p><div class="rd-score"><b>' + fmt(res.score) + '</b><small>pts · ' + plural(res.apples, 'pomme') + '</small></div>' +
+      '<p class="dfx-p">Ton fantôme est enregistré. ' + (next <= 3 ? 'Encore ' + plural(4 - next, 'round') + ' à jouer.' : '') + '</p>';
+  } else {
+    const x = DU.rounds[DU.rounds.length - 1] || { me: res.score, opp: 0, r: '0' };
+    const R = x.r === '2' ? ['Gagné !', 'win'] : x.r === '1' ? ['Perdu', 'loss'] : ['Égalité', 'draw'];
+    h = '<p class="rd-kicker">Round ' + n + '</p><div class="rd-stamp ' + R[1] + '"><span>' + R[0] + '</span></div>' +
+      '<div class="rd-vs"><div><small>Toi</small><b>' + fmt(x.me) + '</b></div><i>–</i><div><small>' + esc(m.opp ? m.opp.pseudo : '?') + '</small><b>' + fmt(x.opp) + '</b></div></div>' + pipsHtml();
+  }
+  dfx(h + '<div class="dfx-actions"><button class="btn primary" id="btnRdNext"><svg class="ic fill" viewBox="0 0 24 24"><use href="#i-play"/></svg>Round ' + next + (next === 3 && m.role === 2 ? ' · décisif' : '') + '</button>' +
+    '<p class="dfx-small">Reviens dans les 20 minutes, sinon le duel est perdu par abandon.</p><div class="menu-row"><button class="btn small" id="btnRdMenu">Plus tard</button></div></div>', 'roundbox');
+  Sfx.play(m.role === 1 ? 'record' : DU.rounds.length && DU.rounds[DU.rounds.length - 1].r === '2' ? 'win' : 'click');
+  dfxOn('btnRdNext', duelNextRound);
+  dfxOn('btnRdMenu', duelToMenu);
+}
+function dfxSent() {
+  const m = DU.match, sc = (m.mine || []).slice(0, 3);
+  dfx('<div class="sent-ghost">' + tierBadge(DU.me ? DU.me.me.tier : 0, 58) + '</div><h2 class="dfx-title">Duel envoyé !</h2>' +
+    '<p class="dfx-p">Tes 3 rounds : <b>' + sc.map(fmt).join(' · ') + '</b></p>' +
+    '<p class="dfx-p">Ton fantôme attend un adversaire de ton niveau. Le résultat t’attendra dans l’écran 1v1.</p>' +
+    '<div class="dfx-actions"><button class="btn primary" id="btnSentAgain">Nouveau duel</button><div class="menu-row"><button class="btn small" id="btnSentScreen">1v1</button><button class="btn small" id="btnSentMenu">Menu</button></div></div>', 'sentbox');
+  Sfx.play('record');
+  dfxOn('btnSentAgain', () => { dfxHide(); duelGo(); });
+  dfxOn('btnSentScreen', duelBackToScreen);
+  dfxOn('btnSentMenu', duelToMenu);
+  duelRefreshMe();
+}
+function dfxEndFrom(h) {
+  DU.news[h.id] = 'old';
+  duelStat(h.match_id, h.result, roundsWon(h.my_scores, h.opp_scores), (h.my_scores || []).length, h.tier_after);
+  dfxEnd({ result: h.result === 'A' ? 'D' : h.result, opp: h.opp_pseudo || '?', my: h.my_scores || [], their: h.opp_scores || [], delta: h.delta, t0: h.tier_before, lp0: h.lp_before, t1: h.tier_after, lp1: h.lp_after });
+  LB.duel.ack().catch(() => { /* plus tard */ });
+}
+function dfxEnd(o) {
+  const R = { V: ['Victoire', 'win'], D: ['Défaite', 'loss'], N: ['Égalité', 'draw'] }[o.result] || ['Fin', 'draw'];
+  const rows = o.my.map((s, i) => { const t = o.their[i]; return '<li class="' + (t === undefined ? '' : s > t ? 'w' : s < t ? 'l' : 'd') + '"><span>Round ' + (i + 1) + '</span><b>' + fmt(s) + '</b><i>–</i><b>' + (t === undefined ? '?' : fmt(t)) + '</b></li>'; }).join('');
+  const box = dfx('<div class="end-stamp ' + R[1] + '"><span>' + R[0] + '</span></div>' +
+    '<p class="end-vs">contre <b>' + esc(o.opp) + '</b></p><ol class="end-rounds">' + rows + '</ol>' +
+    duelCard(o.t0, o.lp0, true, '<b class="lp-delta ' + (o.delta >= 0 ? 'up' : 'down') + '">±0 PL</b>') +
+    '<p class="end-note"></p>' +
+    '<div class="dfx-actions"><button class="btn primary" id="btnEndAgain">Nouveau duel</button><div class="menu-row"><button class="btn small" id="btnEndScreen">1v1</button><button class="btn small" id="btnEndMenu">Menu</button></div></div>', 'endbox ' + R[1]);
+  Sfx.play(o.result === 'V' ? 'win' : o.result === 'D' ? 'lose' : 'click');
+  buzz(o.result === 'V' ? [30, 50, 30] : 40);
+  if (o.result === 'V') setTimeout(() => confetti(box, 46), 250);
+  setTimeout(() => {
+    const d = box.querySelector('.lp-delta');
+    if (d) countSigned(d, o.delta || 0, 900);
+    const card = box.querySelector('.du-card');
+    if (card) animLp(card, o.t0, o.lp0, o.t1, o.lp1, true);
+  }, 700);
+  dfxOn('btnEndAgain', () => { dfxHide(); duelGo(); });
+  dfxOn('btnEndScreen', duelBackToScreen);
+  dfxOn('btnEndMenu', duelToMenu);
+}
+
+/* ---------- Pendant le round : chrono, fantôme, abandon ---------- */
+function duelHud() {
+  const left = Math.max(0, DUEL_MS - G.playMs), sec = Math.ceil(left / 1000);
+  const label = G.round + '|' + Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0') + (sec <= 10 ? '!' : '');
+  if (label !== UIS.hud.label) {
+    UIS.hud.label = label;
+    const p = label.split('|');
+    $('mancheName').innerHTML = '<span class="rd"><span class="w">Round </span>' + esc(p[0]) + '/3</span><span class="tm' + (sec <= 10 ? ' hurry' : '') + '">' + esc(p[1].replace('!', '')) + '</span>';
+  }
+  if (!G.vsGhost) return;
+  const gs = G.ghost ? G.ghost.score : G.ghostFinal || 0, d = G.score - gs, sig = gs + '|' + G.score, el = $('rival');
+  if (sig === UIS.rivalSig) return;
+  UIS.rivalSig = sig;
+  $('rivalRank').textContent = signed(d);
+  $('rivalText').textContent = (G.oppName || 'Fantôme') + ' · ' + fmt(gs);
+  el.classList.toggle('lead', d > 0);
+  el.classList.toggle('behind', d < 0);
+  el.hidden = false;
+}
+function duelForfeitNow() {
+  if (G.mode !== 'duel' || G.state !== 'paused') return;
+  $('pause').hidden = true;
+  G.cause = 'abandon';
+  finishRun();
+}
+
+/* ---------- Le classement 1v1 (par division, puis PL) ---------- */
+async function duelLadder(force) {
+  if (!LB.duel.ok) return;
+  if (!force && Date.now() - DU.ladderAt < 8000) return;
+  DU.ladderAt = Date.now();
+  try { DU.ladder = await LB.duel.ladder(); DU.ladderErr = 0; } catch (e) { DU.ladderErr = e.status || 1; }
+  if (!$('lb').hidden && UIS.lbMode === 'duel') lbRender();
+}
+function duelLbRender() {
+  const ol = $('lbList'), em = $('lbEmpty'), rows = DU.ladder || [], mine = DU.me ? DU.me.me.pid : '';
+  $('lbSub').textContent = 'Classé par division, puis par PL';
+  if (!LB.duel.ok) { ol.innerHTML = ''; em.hidden = false; em.textContent = 'Le 1v1 classé a besoin de la base Supabase.'; }
+  else if (!rows.length) { ol.innerHTML = ''; em.hidden = false; em.textContent = DU.ladder ? 'Personne n’a encore joué de duel. La première place est à prendre !' : DU.ladderErr ? 'Classement injoignable pour l’instant.' : 'Chargement du classement…'; }
+  else {
+    em.hidden = true;
+    ol.innerHTML = rows.map((r, i) => '<li class="' + (i < 3 ? 'r' + (i + 1) : '') + (r.pid === mine ? ' me' : '') + '"><span class="lb-rank">' + (i + 1) + '</span>' +
+      '<span class="lb-who du-who">' + tierBadge(r.tier, 24) + '<span>' + esc(r.pseudo) + '<small>' + esc(tierOf(r.tier).name) + ' · ' + r.wins + ' V · ' + r.losses + ' D' + (r.streak >= 3 ? ' · série de ' + r.streak : '') + '</small></span></span>' +
+      '<span class="lb-pts">' + fmt(r.lp) + '<small> PL</small></span></li>').join('');
+  }
+  const st = $('lbStatus');
+  st.classList.toggle('live', LB.duel.ok && !DU.ladderErr); st.classList.toggle('err', LB.duel.ok && !!DU.ladderErr);
+  st.querySelector('span').textContent = !LB.duel.ok ? 'Classement local' : DU.ladderErr ? 'Hors ligne, nouvel essai en cours' : 'En direct : le même pour tous';
+}
+
+/* ---------- Au démarrage : un round resté en route, l'état du 1v1 ---------- */
+function duelInit() {
+  if (!LB.duel.ok) { duelMenuInfo(); return; }
+  const p = store.get('duelPend', null);
+  if (p && p.id && p.n && p.res) LB.duel.round(p.id, p.n, p.res).then(() => store.set('duelPend', null), e => { if (e.status) store.set('duelPend', null); });
+  if (Save.pseudo && (store.get('duelSeen', 0) || Save.st.duel.n)) setTimeout(duelRefreshMe, 1500);
+  else duelMenuInfo();
+  setInterval(() => {
+    if (document.hidden) return;
+    if (!$('lb').hidden && UIS.lbMode === 'duel') duelLadder();
+    else if (!$('duel').hidden && Date.now() - DU.at > 20000) duelRefreshMe();
+    else if (G.state === 'menu' && Save.pseudo && store.get('duelSeen', 0) && Date.now() - DU.at > 90000) duelRefreshMe();
+  }, 4000);
 }
 
 
@@ -4794,8 +5740,36 @@ const LB = (() => {
     window.addEventListener('online', () => { if (kind !== 'local') { refresh(currentTab()); flush(); } });
   }
 
+  /* ----- 1v1 classé : le jeu ne passe que par les fonctions duel_… de la base ----- */
+  async function rpc(fn, body) {
+    const r = await fetch(url + '/rest/v1/rpc/' + fn, { method: 'POST', headers: headers(), body: JSON.stringify(body), cache: 'no-store' });
+    const txt = await r.text();
+    let data = null;
+    try { data = txt ? JSON.parse(txt) : null; } catch (e) { data = null; }
+    if (!r.ok) {
+      const msg = (data && data.message) || '';
+      if (r.status === 401 || r.status === 403 || r.status === 404) failed(httpError(r.status));
+      throw Object.assign(new Error(msg || 'HTTP ' + r.status), { status: r.status, msg });
+    }
+    return data;
+  }
+  const who = () => ({ p_secret: secret, p_pseudo: Save.pseudo || '', p_skin: skinNow().id });
+  const duel = {
+    ok: kind === 'supabase',
+    me: () => rpc('duel_me', who()),
+    find: () => rpc('duel_find', who()),
+    start: id => rpc('duel_start', { p_secret: secret, p_match: id }),
+    round: (id, n, res) => rpc('duel_round', { p_secret: secret, p_match: id, p_round: n, p_score: res.score, p_apples: res.apples, p_ms: res.ms, p_replay: res.replay || '' }),
+    ack: () => rpc('duel_ack', { p_secret: secret }),
+    async ladder() {
+      const r = await fetch(url + '/rest/v1/duel_players?select=pid,pseudo,skin,tier,lp,wins,losses,draws,streak&played_at=not.is.null&order=tier.desc,lp.desc,wins.desc&limit=100', { headers: headers(), cache: 'no-store' });
+      if (!r.ok) throw httpError(r.status);
+      return r.json();
+    }
+  };
+
   return {
-    kind, secretKey, init, refresh, submit, renamed,
+    kind, secretKey, init, refresh, submit, renamed, duel,
     rows: tab => S.rows[tab] || [],
     loaded: tab => !!S.loaded[tab],
     error: () => S.error,
@@ -4900,8 +5874,11 @@ function onKey(e) {
   }
   if (e.code === 'KeyM') { toggleSound(); return; }
   if (e.code === 'Space' || e.code === 'Enter') {
-    if (tag === 'BUTTON' || tag === 'A') return;
+    if (tag === 'BUTTON' || tag === 'A' || tag === 'INPUT' || tag === 'SUMMARY') return;
     e.preventDefault();
+    /* Le voile du 1v1 (recherche, face-à-face, résultats) : Entrée = son bouton principal. */
+    if (!$('duelfx').hidden) { const b = document.querySelector('#duelfx .btn.primary:not(:disabled)'); if (b) b.click(); return; }
+    if (!$('duel').hidden) return;
     if (st === 'ready') turn('right');
     else if (st === 'paused') resumeGame();
     else if (st === 'over') startGame(G.mode);
@@ -5032,6 +6009,7 @@ function boot() {
   bindInput();
   syncSound();
   LB.init();
+  duelInit();
   renderMenu();
   /* Les lettrages dessinés sur le plateau (÷2, ×2, ?) sont refaits quand la police d'affichage est arrivée. */
   if (document.fonts && document.fonts.load) {
@@ -5047,6 +6025,8 @@ function boot() {
       G, V, FX, Save, LB, Effects, APPLES, turn, startGame, toMenu, pauseGame, resumeGame, spawnHunter, spawnMiner, addRocks,
       surroundWithSnails, occSet, setTheme, startEvent, die, fatal, hitAt, interval, finishRun, addScore, uiScoreChanged,
       snSpawn, startLoop, safeSpot, spawnApple, Rib, PTS, THEMES, themeIdx,
+      DU, TIERS, duelGo, duelNextRound, duelRefreshMe, openDuel, duelKinds, ghostParse, ghostInit, ghostUpdate, recEnd, dfxEnd, tierBadge, duelForfeitNow,
+      get R() { return R; },
       force(...kinds) { G.force.push(...kinds); },
       quality: () => QUALITY,
       speed(n) { DEBUG_SPEED = n; }
